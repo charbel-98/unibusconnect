@@ -1,0 +1,31 @@
+const express = require("express");
+const router = express.Router();
+const Journey = require("../models/Journey");
+const ServiceProvider = require("../models/ServiceProvider");
+
+router.get("/", async (req, res) => {
+  try {
+    const regions = await ServiceProvider.find(
+      {},
+      {
+        _id: 0,
+        region: 1,
+      }
+    );
+    const cities = [];
+    const universities = [];
+
+    regions.forEach((region) => {
+      cities.push(region.region.cities);
+      universities.push(region.region.universities);
+    });
+    console.log("regions" + regions);
+    console.log(cities, universities);
+    res.status(200).json({ success: true, cities, universities });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+module.exports = router;
