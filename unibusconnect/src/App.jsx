@@ -21,6 +21,7 @@ import { setAuth } from "./redux/auth/authSlice";
 function App() {
   const status = useSelector((state) => state.auth.status);
   const dispatch = useDispatch();
+  //google auth fetching user
   useEffect(() => {
     const fetchAuthUser = async () => {
       const response = await axios
