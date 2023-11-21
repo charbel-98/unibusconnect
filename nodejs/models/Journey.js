@@ -19,7 +19,7 @@ const JourneySchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ["Pending", "Confirmed", "Concelled"],
+    enum: ["Pending", "Confirmed", "Cancelled"],
     default: "Pending",
   },
   departingPassengers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
