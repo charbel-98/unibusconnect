@@ -18,7 +18,7 @@ const authenticateJWT = require("./middleware/authenticateJWT");
 
 const app = express();
 app.use(credentials);
-require("./models/Bus");
+
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 app.use(express.json());
