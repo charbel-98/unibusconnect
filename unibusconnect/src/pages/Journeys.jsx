@@ -8,11 +8,13 @@ export const Journeys = () => {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
   const [journeys, setJourneys] = useState([]);
+  //getting filter from local storage which was set in the home page
   const storedFilter = localStorage.getItem("filter");
 
   const { from, to, date } = JSON.parse(storedFilter);
 
   console.log(from, to, date);
+  //requesting the journeys data from the server
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -38,8 +40,6 @@ export const Journeys = () => {
     };
     getJourneys();
 
-    // getInputData();
-
     return () => {
       isMounted = false;
       setIsLoading(false);
@@ -50,7 +50,7 @@ export const Journeys = () => {
   return (
     <div className="osahan-listing p-0 m-0 row border-top">
       <FromToTextBox from={from} to={to}></FromToTextBox>
-
+      {/* {load the journey for going to university ot coming back based on the existance of the from in the cities array} */}
       {!isLoading &&
         journeys?.map((journey) => {
           console.log(journey.serviceProvider.region.cities.includes(from));
