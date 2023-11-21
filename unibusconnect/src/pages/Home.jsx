@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate } from "../redux/filterSlice";
+// this is a home pge component
 const Home = () => {
   const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();
