@@ -28,12 +28,13 @@ async function reservation(req, res) {
   }
   //change journey status to confirmed if 10 seats were reserved
   if (
-    journey.departingPassengers.length == 10 ||
-    journey.returningPassengers.length == 10
+    journey.departingPassengers.length == 2 ||
+    journey.returningPassengers.length == 2
   ) {
-    journey.status = true;
-    journey.save();
+    journey.status = "Confirmed";
   }
+  await journey.save();
+
   res
     .status(200)
     .json({ message: "Reservation successful", status: journey.status });
