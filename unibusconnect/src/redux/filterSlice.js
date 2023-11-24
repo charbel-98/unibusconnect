@@ -19,7 +19,7 @@ const filterSlice = createSlice({
       state.date = action.payload;
     },
     setIsDeparting: (state, action) => {
-      state.homeToUni = action.payload;
+      state.isDeparting = action.payload;
     },
   },
 });

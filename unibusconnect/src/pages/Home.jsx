@@ -84,6 +84,7 @@ const Home = () => {
       return;
     }
     dispatch(setIsDeparting(homeToUni));
+    console.log(filter);
     localStorage.setItem("filter", JSON.stringify(filter));
     navigate("/journeys");
   };

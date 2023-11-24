@@ -6,5 +6,5 @@ const ServiceProvider = require("../models/ServiceProvider");
 const { BadRequestError } = require("../errors");
 const reservation = require("../controllers/reservation");
 
-router.get("/register/:id", reservation);
+router.post("/register/:id", reservation);
 module.exports = router;

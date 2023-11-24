@@ -63,10 +63,8 @@ const JourneyDetails = () => {
 
   const reserve = async () => {
     try {
-      const response = await axiosPrivate.get(`/reservation/register/${id}`, {
-        params: {
-          id,
-        },
+      const response = await axiosPrivate.post(`/reservation/register/${id}`, {
+        isDeparting,
       });
       console.log(response.data);
     } catch (err) {
