@@ -1,7 +1,7 @@
 import Select from "react-select";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setFrom } from "../../redux/filterSlice";
+import { setFrom, setIsDeparting } from "../../redux/filterSlice";
 import { set } from "date-fns";
 function SelectCity({
   loading,
@@ -45,11 +45,14 @@ function SelectCity({
   const options = getOptions();
   const departureChangeHandler = (departure) => {
     !departure && setHomeToUni(null);
-    citiesOptions.includes(departure) && setHomeToUni(true);
+    const isDeparting = !departure ? null : citiesOptions.includes(departure);
+    isDeparting && setHomeToUni(true);
     universitiesOptions.includes(departure) && setHomeToUni(false);
 
     departure ? setCity(departure.value) : setCity(null);
     dispatch(setFrom(departure ? departure.value : null));
+    dispatch(setIsDeparting(isDeparting));
+    console.log(isDeparting);
     setValidation(true);
   };
   return (

@@ -35,7 +35,7 @@ app.use("/api/v1/logout", require("./routes/logout"));
 //protected routes
 app.use(authenticateJWT);
 app.use("/api/v1/journeys", require("./routes/journeys"));
-app.use("/api/v1/journeys/:id", require("./routes/journeys"));
+app.use("/api/v1/reservation", require("./routes/reservation"));
 app.use("/api/v1/regions/supported", require("./routes/regions"));
 //error handlers
 app.use(notFoundMiddleware);

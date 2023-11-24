@@ -5,9 +5,11 @@ import { close } from "../../redux/sideBarSlice";
 function NavItem(props) {
   const dispatch = useDispatch();
   const logoutHandler = () => {
+    localStorage.removeItem("filter");
+    localStorage.removeItem("universities");
+    localStorage.removeItem("cities");
     dispatch(logout());
     dispatch(close());
-    console.log(0);
   };
   const closeHandler = () => {
     dispatch(close());
