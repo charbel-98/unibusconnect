@@ -40,7 +40,7 @@ const journeys = async (req, res) => {
 const journeyById = async (req, res) => {
   try {
     console.log(req.params.id);
-    const journey = await Journey.findById(req.params.id.split(":")[2])
+    const journey = await Journey.findById(req.params.id)
       .populate("bus serviceProvider")
       .exec();
 

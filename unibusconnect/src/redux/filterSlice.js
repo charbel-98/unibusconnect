@@ -5,6 +5,7 @@ const filterSlice = createSlice({
   initialState: {
     from: "",
     to: "",
+    isDeparting: null,
     date: "",
   },
   reducers: {
@@ -17,9 +18,12 @@ const filterSlice = createSlice({
     setDate: (state, action) => {
       state.date = action.payload;
     },
+    setIsDeparting: (state, action) => {
+      state.homeToUni = action.payload;
+    },
   },
 });
 
-export const { setFrom, setTo, setDate } = filterSlice.actions;
+export const { setFrom, setTo, setDate, setIsDeparting } = filterSlice.actions;
 
 export default filterSlice.reducer;

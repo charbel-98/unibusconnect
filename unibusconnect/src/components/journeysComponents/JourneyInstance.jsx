@@ -35,7 +35,7 @@ function JourneyInstance({
       ? "success"
       : "danger";
   return (
-    <Link to={`/journeys/:${id}`} className="text-dark col-6 px-0 " key={id}>
+    <Link to={`/journeys/${id}`} className="text-dark col-6 px-0 " key={id}>
       <div className="list_item_gird m-0 bg-white shadow-sm listing-item border-bottom border-right">
         <div className="px-3 pt-3 tic-div">
           <div className="list-item-img">

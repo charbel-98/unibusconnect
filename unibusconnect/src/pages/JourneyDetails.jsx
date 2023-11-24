@@ -16,10 +16,13 @@ const JourneyDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [journey, setJourney] = useState([]);
+  const [reservationClicked, setReseravtionClicked] = useState(null);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
-  const { from, to, date } = JSON.parse(localStorage.getItem("filter"));
+  const { from, to, date, isDeparting } = JSON.parse(
+    localStorage.getItem("filter")
+  );
   const activeButtonhandler = (e) => {
     setActive((prev) => {
       console.log([e.target.id]);
@@ -32,7 +35,7 @@ const JourneyDetails = () => {
     setIsLoading(true);
     const getJourney = async () => {
       try {
-        const response = await axiosPrivate.get(`/journeys/:${id}`, {
+        const response = await axiosPrivate.get(`/journeys/${id}`, {
           params: {
             id,
           },
@@ -57,6 +60,22 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
+
+  const reserve = async () => {
+    try {
+      const response = await axiosPrivate.get(`/reservation/register/${id}`, {
+        params: {
+          id,
+        },
+      });
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+      navigate("/login", { state: { from: location }, replace: true });
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="list_item m-0 bg-white">
@@ -67,11 +86,9 @@ const JourneyDetails = () => {
         />
         <JourneyInfo
           time={
-            journey?.serviceProvider?.region?.cities?.includes(from)
+            isDeparting
               ? ["Arriving Time", journey.arrivalTimeToUniversity]
-              : journey?.serviceProvider?.region?.universities?.includes(from)
-              ? ["Departing Time", journey.departureTimeFromUniversity]
-              : []
+              : ["Departing Time", journey.departureTimeFromUniversity]
           }
           AC={journey?.bus?.AC}
           status={journey?.status}
@@ -91,8 +108,8 @@ const JourneyDetails = () => {
       </div>
       <div class="fixed-bottom view-seatbt p-3">
         <a
-          href="select-seat.html"
-          class="btn btn-danger btn-block osahanbus-btn rounded-1"
+          onClick={reserve}
+          className="btn btn-danger btn-block osahanbus-btn rounded-1"
         >
           Book Your Seats Now
         </a>

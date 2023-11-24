@@ -4,14 +4,15 @@ import JourneyInstance from "../components/journeysComponents/JourneyInstance";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 export const Journeys = () => {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
   const [journeys, setJourneys] = useState([]);
   //getting filter from local storage which was set in the home page
   const storedFilter = localStorage.getItem("filter");
-
-  const { from, to, date } = JSON.parse(storedFilter);
+  const navigate = useNavigate();
+  const { from, to, date, isDeparting } = JSON.parse(storedFilter);
 
   console.log(from, to, date);
   //requesting the journeys data from the server
@@ -57,7 +58,7 @@ export const Journeys = () => {
           return (
             <JourneyInstance
               nbPassengers={
-                journey?.serviceProvider?.region.cities?.includes(from)
+                isDeparting
                   ? journey.departingPassengers.length
                   : journey.returningPassengers.length
               }
@@ -67,13 +68,9 @@ export const Journeys = () => {
               rating={4}
               date={journey.date}
               time={
-                journey?.serviceProvider?.region?.cities?.includes(from)
+                isDeparting
                   ? ["Arriving Time", journey.arrivalTimeToUniversity]
-                  : journey?.serviceProvider?.region?.universities?.includes(
-                      from
-                    )
-                  ? ["Departing Time", journey.departureTimeFromUniversity]
-                  : []
+                  : ["Departing Time", journey.departureTimeFromUniversity]
               }
               status={journey.status}
               providerName={journey.serviceProvider.businessName}
