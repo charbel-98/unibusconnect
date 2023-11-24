@@ -4,7 +4,7 @@ import JourneyInstance from "../components/journeysComponents/JourneyInstance";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 export const Journeys = () => {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +13,7 @@ export const Journeys = () => {
   const storedFilter = localStorage.getItem("filter");
   const navigate = useNavigate();
   const { from, to, date, isDeparting } = JSON.parse(storedFilter);
-
+  const location = useLocation();
   console.log(from, to, date);
   //requesting the journeys data from the server
   useEffect(() => {

@@ -10,7 +10,6 @@ function NavItem(props) {
     localStorage.removeItem("cities");
     dispatch(logout());
     dispatch(close());
-    console.log();
   };
   const closeHandler = () => {
     dispatch(close());

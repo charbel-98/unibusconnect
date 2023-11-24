@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Info from "../components/journeyDetailsComponents/Info";
 import Review from "../components/journeyDetailsComponents/Review";
 import Pickup from "../components/journeyDetailsComponents/Pickup";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 const JourneyDetails = () => {
   const [active, setActive] = useState({
@@ -16,10 +16,9 @@ const JourneyDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [journey, setJourney] = useState([]);
-  const [reservationClicked, setReseravtionClicked] = useState(null);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { from, to, date, isDeparting } = JSON.parse(
     localStorage.getItem("filter")
   );
@@ -104,7 +103,7 @@ const JourneyDetails = () => {
           {active.pickup && <Pickup></Pickup>}
         </div>
       </div>
-      <div class="fixed-bottom view-seatbt p-3">
+      <div className="fixed-bottom view-seatbt p-3">
         <a
           onClick={reserve}
           className="btn btn-danger btn-block osahanbus-btn rounded-1"
