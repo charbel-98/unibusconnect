@@ -17,14 +17,14 @@ async function reservation(req, res) {
     }
     //reserve
     await journey.departingPassengers.push(userId);
-    journey.save();
+    // journey.save();
   } else {
     if (journey.returningPassengers.includes(userId)) {
       res.status(400).json({ message: "You already reserved" });
       return;
     }
     await journey.returningPassengers.push(userId);
-    journey.save();
+    // journey.save();
   }
   //change journey status to confirmed if 10 seats were reserved
   if (

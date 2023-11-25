@@ -44,8 +44,10 @@ const JourneyDetails = () => {
         isMounted && setJourney(response.data.journey);
         setIsLoading(false);
       } catch (err) {
-        console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
+        if (err.response.status == 403) {
+          console.error(err, err.response);
+          navigate("/login", { state: { from: location }, replace: true });
+        }
         setIsLoading(false);
       }
     };
@@ -67,10 +69,14 @@ const JourneyDetails = () => {
       });
       console.log(response.data);
     } catch (err) {
-      console.error(err);
-      navigate("/login", { state: { from: location }, replace: true });
-      setIsLoading(false);
+      // will be edited later
+      alert(err.response.data.message);
+      if (err.response.status == 403) {
+        console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     }
+    setIsLoading(false);
   };
 
   return (
