@@ -6,7 +6,7 @@ const {
 } = require("../errors/forbidden-error");
 const refreshToken = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies.jwt) { 
+  if (!cookies.jwt) {
     return res.status(403).json({ message: "invalid refresh token" });
   }
 
