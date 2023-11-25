@@ -35,14 +35,14 @@ function MainNavigation() {
   );
   const journeysAndDetails = (pathname === "/journeys" ||
     pathname === "/journeys/details" ||
-    pathname === "/notification" ||
+    pathname === "/notifications" ||
     pathname === "/tickets" ||
     pathname === "/support" ||
     pathname === "profile") && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
       {(pathname === "/journeys/details" ||
-        pathname === "/notification" ||
+        pathname === "/notifications" ||
         pathname === "/tickets" ||
         pathname === "/support" ||
         pathname === "/profile") && (
@@ -51,7 +51,7 @@ function MainNavigation() {
           className="fw-normal mb-0 text-white "
         >
           {pathname === "/journeys/details" && "Bus Details"}
-          {pathname === "/notification" && "Notification"}
+          {pathname === "/notifications" && "Notification"}
           {pathname === "/tickets" && "Your Bookings"}
           {pathname === "/profile" && "Profile"}
           {pathname === "/support" && "Support"}
@@ -67,7 +67,7 @@ function MainNavigation() {
       {(pathname === "/" ||
         pathname === "/journeys" ||
         pathname === "/journeys/details" ||
-        pathname === "/notification" ||
+        pathname === "/notifications" ||
         pathname === "/tickets" ||
         pathname === "/support" ||
         pathname === "/profile") && (

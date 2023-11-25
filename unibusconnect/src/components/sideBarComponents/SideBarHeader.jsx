@@ -17,7 +17,9 @@ function SideBarHeader() {
           />
           <div className="text-white">
             <h6 className="mb-0">{user.name}</h6>
-            <small>{`+961 ${user.mobile}`}</small>
+            <small>
+              {user?.mobile ? `+961 ${user.mobile}` : `${user.email}`}
+            </small>
             <br />
             <span className="f-10 text-white-50">Version 1.32</span>
           </div>
