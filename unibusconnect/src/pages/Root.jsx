@@ -12,10 +12,10 @@ const Root = () => {
       <main>
         <Outlet></Outlet>
 
-        {location.pathname === "/home" &&
-          location.pathname === "/tickets" &&
-          location.pathname === "/notifications" &&
-          location.pathname === "/profile" && <BottomNavigator />}
+        {(location.pathname === "/" ||
+          location.pathname === "/tickets" ||
+          location.pathname === "/notifications" ||
+          location.pathname === "/profile") && <BottomNavigator />}
       </main>
     </>
   );
