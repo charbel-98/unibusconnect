@@ -8,7 +8,7 @@ import { Journeys } from "./pages/Journeys";
 import JourneyDetails from "./pages/JourneyDetails";
 import Notification from "./pages/Notification";
 import Tickets from "./pages/Tickets";
-import axios from "axios";
+import axios from "./api/axios";
 import Profile from "./pages/Profile";
 import { useState, useEffect } from "react";
 import Support from "./pages/Support";
@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const fetchAuthUser = async () => {
       const response = await axios
-        .get("http://localhost:3000/api/v1/auth/login/success", {
+        .get("/api/v1/auth/login/success", {
           withCredentials: true,
         })
         .catch((err) => {
