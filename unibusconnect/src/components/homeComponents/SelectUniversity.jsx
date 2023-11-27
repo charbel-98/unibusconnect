@@ -66,6 +66,15 @@ function SelectUniversity({
         name="university"
         options={options}
         onChange={destinationChangeHandler}
+        defaultValue={
+          options[
+            options.findIndex(
+              (selectedOption) =>
+                selectedOption.value ==
+                JSON.parse(localStorage?.getItem("filter"))?.to
+            )
+          ]
+        }
         theme={(theme) => ({
           ...theme,
           colors: {

@@ -12,12 +12,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
-import { setDate, setIsDeparting } from "../redux/filterSlice";
+import { setDate, setFilter, setIsDeparting } from "../redux/filterSlice";
 // this is a home pge component
 const Home = () => {
   const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(JSON.parse(localStorage?.getItem("filter"))?.date)
+  );
   const [cities, setCities] = useState(null);
   const [universities, setUniversities] = useState(null);
   const [homeToUni, setHomeToUni] = useState(null);
@@ -34,6 +36,10 @@ const Home = () => {
     setCities(JSON.parse(localStorage.getItem("cities")));
     setUniversities(JSON.parse(localStorage.getItem("universities")));
   }
+
+  useEffect(() => {
+    dispatch(setFilter(JSON.parse(localStorage.getItem("filter"))));
+  }, []);
   //getting from to data from server
   useEffect(() => {
     if (!cities || !universities) {
