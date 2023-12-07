@@ -255,6 +255,7 @@ input {
 .map-container {
   height: 100vh;
   width: 100%;
+  position: relative;
 }
 .status-element {
   display: flex;
@@ -270,4 +271,18 @@ input {
 }
 .img-shadow {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.controls {
+  width: 100%;
+  position: absolute;
+  top: 20px; /* Adjust the top position */
+  padding: 10px;
+  z-index: 999;
+}
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0 0 0 0;
+  border-radius: 5px;
+  z-index: 1;
 }
