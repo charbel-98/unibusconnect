@@ -22,10 +22,10 @@ const filterSlice = createSlice({
       state.isDeparting = action.payload;
     },
     setFilter: (state, action) => {
-      state.from = action.payload.from;
-      state.to = action.payload.to;
-      state.date = action.payload.date;
-      state.isDeparting = action.payload.isDeparting;
+      state.from = action.payload?.from;
+      state.to = action.payload?.to;
+      state.date = action.payload?.date;
+      state.isDeparting = action.payload?.isDeparting;
     },
   },
 });

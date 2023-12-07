@@ -67,8 +67,9 @@ function SelectUniversity({
         options={options}
         onChange={destinationChangeHandler}
         defaultValue={
+          options &&
           options[
-            options.findIndex(
+            options?.findIndex(
               (selectedOption) =>
                 selectedOption.value ==
                 JSON.parse(localStorage?.getItem("filter"))?.to

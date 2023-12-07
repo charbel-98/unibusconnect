@@ -71,8 +71,9 @@ function SelectCity({
         name="city"
         options={options}
         defaultValue={
+          options &&
           options[
-            options.findIndex(
+            options?.findIndex(
               (selectedOption) =>
                 selectedOption.value ==
                 JSON.parse(localStorage?.getItem("filter"))?.from
