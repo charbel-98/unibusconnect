@@ -38,12 +38,22 @@ function MainNavigation() {
     "/notifications": "Notification",
     "/tickets": "Your Bookings",
     "/profile": "Profile",
-    "/support": "Support"
-  }
-  const journeysAndDetails = (["/journeys", "/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
+    "/support": "Support",
+  };
+  const journeysAndDetails = ([
+    "/journeys",
+    "/notifications",
+    "/tickets",
+    "/support",
+    "/profile",
+  ].includes(pathname) ||
+    pathname.startsWith("/journeys/")) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
-      {(["/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
+      {(["/notifications", "/tickets", "/support", "/profile"].includes(
+        pathname
+      ) ||
+        pathname.startsWith("/journeys/")) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
@@ -58,7 +68,15 @@ function MainNavigation() {
     <>
       {sidebar}
       {authenticationHeader}
-      {(["/", "/journeys", "/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
+      {([
+        "/",
+        "/journeys",
+        "/notifications",
+        "/tickets",
+        "/support",
+        "/profile",
+      ].includes(pathname) ||
+        pathname.startsWith("/journeys/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
           <div className="font-weight-normal mb-0 d-flex align-items-center">
             {homeLogo}

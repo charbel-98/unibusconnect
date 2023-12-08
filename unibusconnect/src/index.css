@@ -96,19 +96,27 @@ body {
   transform: translate3d(0, 790px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(-40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(0, -40px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(0, 40px, 0);
 }
 
@@ -143,7 +151,7 @@ small {
   font-size: 10px;
 }
 
-div.star-rating>* {
+div.star-rating > * {
   margin-right: 3px;
 }
 
@@ -154,7 +162,7 @@ div.star-rating>* {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.nav-pills .show > .nav-link {
   color: #fff;
   background-color: #dd3444;
 }
@@ -207,18 +215,18 @@ input {
 
 .btn-success:not(:disabled):not(.disabled).active,
 .btn-success:not(:disabled):not(.disabled):active,
-.show>.btn-success.dropdown-toggle {
+.show > .btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
 }
 
-.btn-group-vertical>.btn.active,
-.btn-group-vertical>.btn:active,
-.btn-group-vertical>.btn:focus,
-.btn-group>.btn.active,
-.btn-group>.btn:active,
-.btn-group>.btn:focus {
+.btn-group-vertical > .btn.active,
+.btn-group-vertical > .btn:active,
+.btn-group-vertical > .btn:focus,
+.btn-group > .btn.active,
+.btn-group > .btn:active,
+.btn-group > .btn:focus {
   z-index: 1;
 }
 
@@ -255,10 +263,10 @@ input {
     inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
-.btn-group-toggle>.btn input[type="checkbox"],
-.btn-group-toggle>.btn input[type="radio"],
-.btn-group-toggle>.btn-group>.btn input[type="checkbox"],
-.btn-group-toggle>.btn-group>.btn input[type="radio"] {
+.btn-group-toggle > .btn input[type="checkbox"],
+.btn-group-toggle > .btn input[type="radio"],
+.btn-group-toggle > .btn-group > .btn input[type="checkbox"],
+.btn-group-toggle > .btn-group > .btn input[type="radio"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -380,10 +388,10 @@ li.notify::after {
 
 @keyframes bounce {
   from {
-    transform:scale(1.01)
+    transform: scale(1.01);
   }
 
   to {
-    transform:scale(0.9)
+    transform: scale(0.9);
   }
 }

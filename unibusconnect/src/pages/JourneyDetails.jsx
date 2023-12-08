@@ -110,12 +110,12 @@ const JourneyDetails = () => {
         </div>
       </div>
       <div className="fixed-bottom view-seatbt p-3">
-        <a
+        <button
           onClick={reserve}
           className="btn btn-danger btn-block osahanbus-btn rounded-1"
         >
           Book Your Seats Now
-        </a>
+        </button>
       </div>
     </>
   );

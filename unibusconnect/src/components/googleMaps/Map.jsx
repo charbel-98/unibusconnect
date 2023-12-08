@@ -33,9 +33,9 @@ const Map = ({ withDirection }) => {
 
     console.log(
       "Latitude: " +
-      position?.coords?.latitude +
-      "Longitude: " +
-      position?.coords?.longitude
+        position?.coords?.latitude +
+        "Longitude: " +
+        position?.coords?.longitude
     );
   }
 
@@ -133,7 +133,9 @@ const Map = ({ withDirection }) => {
         )}
         <button onClick={getLocation}>get current location</button>
         {home?.lat && home?.lng && <Marker position={center}></Marker>}
-        {withDirection && <Marker position={{ lat: 34.396663, lng: 35.8426649 }}></Marker>}
+        {withDirection && (
+          <Marker position={{ lat: 34.396663, lng: 35.8426649 }}></Marker>
+        )}
       </GoogleMap>
     </>
   );
