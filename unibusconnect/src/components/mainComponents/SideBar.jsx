@@ -69,6 +69,12 @@ const navItems = [
     isParentItem: true,
   },
   {
+    title: "Admin",
+    icon: <PersonFill className="me-3" />,
+
+    isParentItem: true,
+  },
+  {
     title: "Contact US",
     icon: <ChatRightDotsFill className="me-3" />,
 

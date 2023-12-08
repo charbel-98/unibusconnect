@@ -25,36 +25,30 @@ function MainNavigation() {
     <img src={logo} className="img-fluid osahan-nav-logo " />
   );
   const homeProfile = pathname === "/" && (
-    <a href="profile.html" className="me-3">
+    <Link to="profile" clLinkssName="me-3">
       {console.log(user?.avatar)}
       <img
         src={user && user.avatar ? user.avatar : profilePlaceholder}
         className="img-fluid rounded-circle"
       />
-    </a>
+    </Link>
   );
-  const journeysAndDetails = (pathname === "/journeys" ||
-    pathname === "/journeys/details" ||
-    pathname === "/notifications" ||
-    pathname === "/tickets" ||
-    pathname === "/support" ||
-    pathname === "profile") && (
+  const titles = {
+    "/journeys/details": "Bus Details",
+    "/notifications": "Notification",
+    "/tickets": "Your Bookings",
+    "/profile": "Profile",
+    "/support": "Support"
+  }
+  const journeysAndDetails = (["/journeys", "/journeys/details", "/notifications", "/tickets", "/support", "/profile"].includes(pathname)) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
-      {(pathname === "/journeys/details" ||
-        pathname === "/notifications" ||
-        pathname === "/tickets" ||
-        pathname === "/support" ||
-        pathname === "/profile") && (
+      {(["/journeys/details", "/notifications", "/tickets", "/support", "/profile"].includes(pathname)) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
         >
-          {pathname === "/journeys/details" && "Bus Details"}
-          {pathname === "/notifications" && "Notification"}
-          {pathname === "/tickets" && "Your Bookings"}
-          {pathname === "/profile" && "Profile"}
-          {pathname === "/support" && "Support"}
+          {titles[pathname] || ""}
         </span>
       )}
     </Link>
@@ -64,13 +58,7 @@ function MainNavigation() {
     <>
       {sidebar}
       {authenticationHeader}
-      {(pathname === "/" ||
-        pathname === "/journeys" ||
-        pathname === "/journeys/details" ||
-        pathname === "/notifications" ||
-        pathname === "/tickets" ||
-        pathname === "/support" ||
-        pathname === "/profile") && (
+      {(["/", "/journeys", "/journeys/details", "/notifications", "/tickets", "/support", "/profile"].includes(pathname)) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
           <div className="font-weight-normal mb-0 d-flex align-items-center">
             {homeLogo}

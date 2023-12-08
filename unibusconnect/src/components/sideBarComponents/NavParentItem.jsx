@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 function NavParentItem(props) {
   const { openNestedSideBar } = useSelector((state) => state.sideBar);
   const dispatch = useDispatch();
-
   return (
     <li
       key={props.i}

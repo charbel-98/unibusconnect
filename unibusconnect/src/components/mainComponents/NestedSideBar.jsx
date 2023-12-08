@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 
-function NestedItem({ title, id }) {
+function NestedItem({ title, id, path }) {
   return (
     <li key={id}>
       <div className="nav-item-wrapper">
-        <a href="#" role="menuitem" tabIndex="0">
+        <a href={path} role="menuitem" tabIndex="0">
           {title}
         </a>
       </div>
@@ -22,7 +22,7 @@ function NestedSideBar() {
         <h2 className="ms-3">{title}</h2>
         <ul className="ms-4">
           {content?.map((item) => (
-            <NestedItem title={item.title} id={item.id} />
+            <NestedItem title={item.title} id={item.id} path={item.path} />
           ))}
         </ul>
       </div>
