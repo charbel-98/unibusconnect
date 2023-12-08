@@ -7,7 +7,7 @@ import {
 import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 import Places from "./Places";
 const MAPS_LIBRARIES = ["places"];
-const Map = () => {
+const Map = ({ withDirection }) => {
   const [home, setHome] = useState(null);
   console.log(home);
   const [directions, setDirections] = useState();
@@ -33,9 +33,9 @@ const Map = () => {
 
     console.log(
       "Latitude: " +
-        position?.coords?.latitude +
-        "Longitude: " +
-        position?.coords?.longitude
+      position?.coords?.latitude +
+      "Longitude: " +
+      position?.coords?.longitude
     );
   }
 
@@ -119,7 +119,7 @@ const Map = () => {
 
           {/* {directions && <Distance leg={directions.routes[0].legs[0]} />} */}
         </div>
-        {directions && (
+        {withDirection && directions && (
           <DirectionsRenderer
             directions={directions}
             options={{
@@ -133,7 +133,7 @@ const Map = () => {
         )}
         <button onClick={getLocation}>get current location</button>
         {home?.lat && home?.lng && <Marker position={center}></Marker>}
-        <Marker position={{ lat: 34.396663, lng: 35.8426649 }}></Marker>
+        {withDirection && <Marker position={{ lat: 34.396663, lng: 35.8426649 }}></Marker>}
       </GoogleMap>
     </>
   );
