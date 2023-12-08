@@ -93,6 +93,12 @@ const Map = () => {
   useEffect(() => {
     getLocation();
   }, []);
+  useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [isLoaded]);
   if (!isLoaded) return <div>loading...</div>;
   return (
     <>
