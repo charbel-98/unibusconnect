@@ -51,9 +51,13 @@ function MainNavigation() {
     pathname.startsWith("/journeys/")) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
-      {(["/notifications", "/tickets", "/support", "/profile"].includes(
-        pathname
-      ) ||
+      {([
+        "/journeys",
+        "/notifications",
+        "/tickets",
+        "/support",
+        "/profile",
+      ].includes(pathname) ||
         pathname.startsWith("/journeys/")) && (
         <span
           style={{ fontSize: "16px" }}
