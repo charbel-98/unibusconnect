@@ -34,21 +34,24 @@ function MainNavigation() {
     </Link>
   );
   const titles = {
-    "/journeys/": "Bus Details",
+    "/journeys": "Journeys",
+    "journeys/": "Journey Details",
     "/notifications": "Notification",
     "/tickets": "Your Bookings",
     "/profile": "Profile",
     "/support": "Support"
   }
+  { console.log(pathname, "JJ") }
+
   const journeysAndDetails = (["/journeys", "/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
-      {(["/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
+      {(["/journeys", "/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
         >
-          {titles[pathname] || titles[`${pathname.split("/")[0]}/`] || ""}
+          {titles[pathname] || titles[`${pathname.split("/")[1]}/`] || ""}
         </span>
       )}
     </Link>
