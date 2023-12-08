@@ -54,7 +54,6 @@ export const Journeys = () => {
       {/* {load the journey for going to university ot coming back based on the existance of the from in the cities array} */}
       {!isLoading &&
         journeys?.map((journey) => {
-          console.log(journey.serviceProvider.region.cities.includes(from));
           return (
             <JourneyInstance
               nbPassengers={

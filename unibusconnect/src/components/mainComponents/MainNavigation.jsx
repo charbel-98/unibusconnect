@@ -25,36 +25,45 @@ function MainNavigation() {
     <img src={logo} className="img-fluid osahan-nav-logo " />
   );
   const homeProfile = pathname === "/" && (
-    <a href="profile.html" className="me-3">
+    <Link to="profile" clLinkssName="me-3">
       {console.log(user?.avatar)}
       <img
         src={user && user.avatar ? user.avatar : profilePlaceholder}
         className="img-fluid rounded-circle"
       />
-    </a>
+    </Link>
   );
-  const journeysAndDetails = (pathname === "/journeys" ||
-    pathname === "/journeys/details" ||
-    pathname === "/notifications" ||
-    pathname === "/tickets" ||
-    pathname === "/support" ||
-    pathname === "profile") && (
+  const titles = {
+    "/journeys": "Journeys",
+    "journeys/": "Journey Details",
+    "/notifications": "Notification",
+    "/tickets": "Your Bookings",
+    "/profile": "Profile",
+    "/support": "Support",
+  };
+  const journeysAndDetails = ([
+    "/journeys",
+    "/notifications",
+    "/tickets",
+    "/support",
+    "/profile",
+  ].includes(pathname) ||
+    pathname.startsWith("/journeys/")) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
-      {(pathname === "/journeys/details" ||
-        pathname === "/notifications" ||
-        pathname === "/tickets" ||
-        pathname === "/support" ||
-        pathname === "/profile") && (
+      {([
+        "/journeys",
+        "/notifications",
+        "/tickets",
+        "/support",
+        "/profile",
+      ].includes(pathname) ||
+        pathname.startsWith("/journeys/")) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
         >
-          {pathname === "/journeys/details" && "Bus Details"}
-          {pathname === "/notifications" && "Notification"}
-          {pathname === "/tickets" && "Your Bookings"}
-          {pathname === "/profile" && "Profile"}
-          {pathname === "/support" && "Support"}
+          {titles[pathname] || titles[`${pathname.split("/")[1]}/`] || ""}
         </span>
       )}
     </Link>
@@ -64,13 +73,15 @@ function MainNavigation() {
     <>
       {sidebar}
       {authenticationHeader}
-      {(pathname === "/" ||
-        pathname === "/journeys" ||
-        pathname === "/journeys/details" ||
-        pathname === "/notifications" ||
-        pathname === "/tickets" ||
-        pathname === "/support" ||
-        pathname === "/profile") && (
+      {([
+        "/",
+        "/journeys",
+        "/notifications",
+        "/tickets",
+        "/support",
+        "/profile",
+      ].includes(pathname) ||
+        pathname.startsWith("/journeys/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
           <div className="font-weight-normal mb-0 d-flex align-items-center">
             {homeLogo}
@@ -79,7 +90,7 @@ function MainNavigation() {
             <div className="ms-auto d-flex align-items-center">
               {homeProfile}
               <a
-                className="toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1"
+                className="toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 notify"
                 href="#"
                 role="button"
                 aria-controls="hc-nav-1"

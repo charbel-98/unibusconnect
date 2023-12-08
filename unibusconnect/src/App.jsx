@@ -10,6 +10,7 @@ import Notification from "./pages/Notification";
 import Tickets from "./pages/Tickets";
 import axios from "./api/axios";
 import Profile from "./pages/Profile";
+import DefaultLocation from "./pages/defaultLocation.jsx";
 import { useState, useEffect } from "react";
 import Support from "./pages/Support";
 import { useSelector, useDispatch } from "react-redux";
@@ -77,6 +78,9 @@ function App() {
             </Route>
             <Route element={<RequireAuth />}>
               <Route path="Profile" element={<Profile />} />
+            </Route>
+            <Route element={<RequireAuth />}>
+              <Route path="default-location" element={<DefaultLocation />} />
             </Route>
             <Route element={<RequireAuth />}>
               <Route path="notifications" element={<Notification />} />

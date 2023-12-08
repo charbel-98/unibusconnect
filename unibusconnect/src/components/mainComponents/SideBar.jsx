@@ -69,6 +69,20 @@ const navItems = [
     isParentItem: true,
   },
   {
+    title: "Default Location",
+    icon: <BellFill className="me-3" />,
+    isParentItem: false,
+    path: "/default-location",
+    isLogout: false,
+    warning: true
+  },
+  {
+    title: "Admin",
+    icon: <PersonFill className="me-3" />,
+
+    isParentItem: true,
+  },
+  {
     title: "Contact US",
     icon: <ChatRightDotsFill className="me-3" />,
 
@@ -87,11 +101,12 @@ const navItems = [
 ];
 function SideBar() {
   const content = navItems.map(
-    ({ title, icon, isParentItem, path, isLogout }, i) => {
+    ({ title, icon, isParentItem, path, isLogout, warning = false }, i) => {
       return isParentItem ? (
         <NavParentItem title={title} icon={icon} i={i} />
       ) : (
         <NavItem
+          class={warning ? "notify" : ""}
           title={title}
           i={i}
           icon={icon}

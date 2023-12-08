@@ -23,4 +23,16 @@ export const navParentItems = {
       path: "/",
     },
   ],
+  Admin: [
+    {
+      title: "Statistics",
+      id: "c1",
+      path: "/admin",
+    },
+    {
+      title: "My Journeys",
+      id: "c2",
+      path: "/admin/journeys",
+    },
+  ],
 };
