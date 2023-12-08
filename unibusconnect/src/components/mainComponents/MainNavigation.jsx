@@ -34,21 +34,21 @@ function MainNavigation() {
     </Link>
   );
   const titles = {
-    "/journeys/details": "Bus Details",
+    "/journeys/": "Bus Details",
     "/notifications": "Notification",
     "/tickets": "Your Bookings",
     "/profile": "Profile",
     "/support": "Support"
   }
-  const journeysAndDetails = (["/journeys", "/journeys/details", "/notifications", "/tickets", "/support", "/profile"].includes(pathname)) && (
+  const journeysAndDetails = (["/journeys", "/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
-      {(["/journeys/details", "/notifications", "/tickets", "/support", "/profile"].includes(pathname)) && (
+      {(["/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
         >
-          {titles[pathname] || ""}
+          {titles[pathname] || titles[`${pathname.split("/")[0]}/`] || ""}
         </span>
       )}
     </Link>
@@ -58,7 +58,7 @@ function MainNavigation() {
     <>
       {sidebar}
       {authenticationHeader}
-      {(["/", "/journeys", "/journeys/details", "/notifications", "/tickets", "/support", "/profile"].includes(pathname)) && (
+      {(["/", "/journeys", "/notifications", "/tickets", "/support", "/profile"].includes(pathname) || pathname.startsWith("/journeys/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
           <div className="font-weight-normal mb-0 d-flex align-items-center">
             {homeLogo}
@@ -67,7 +67,7 @@ function MainNavigation() {
             <div className="ms-auto d-flex align-items-center">
               {homeProfile}
               <a
-                className="toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1"
+                className="toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 notify"
                 href="#"
                 role="button"
                 aria-controls="hc-nav-1"
