@@ -9,6 +9,7 @@ import Places from "./Places";
 const MAPS_LIBRARIES = ["places"];
 const Map = () => {
   const [home, setHome] = useState(null);
+  console.log(home);
   const [directions, setDirections] = useState();
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDlXmTnz1ntfdhkloeT7HZ2jtJ0fWQPgos",
@@ -24,32 +25,33 @@ const Map = () => {
 
   function showPosition(position) {
     setHome((prev) => {
-      return { ...prev, lat: position.coords.latitude };
+      return {
+        lng: position?.coords?.longitude,
+        lat: position?.coords?.latitude,
+      };
     });
-    setHome((prev) => {
-      return { ...prev, lng: position.coords.longitude };
-    });
+
     console.log(
       "Latitude: " +
-        position.coords.latitude +
+        position?.coords?.latitude +
         "Longitude: " +
-        position.coords.longitude
+        position?.coords?.longitude
     );
   }
 
   function showError(error) {
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        x.innerHTML = "User denied the request for Geolocation.";
+        alert("User denied the request for Geolocation.");
         break;
       case error.POSITION_UNAVAILABLE:
-        x.innerHTML = "Location information is unavailable.";
+        alert("Location information is unavailable.");
         break;
       case error.TIMEOUT:
-        x.innerHTML = "The request to get user location timed out.";
+        alert("The request to get user location timed out.");
         break;
       case error.UNKNOWN_ERROR:
-        x.innerHTML = "An unknown error occurred.";
+        alert("An unknown error occurred.");
         break;
     }
   }
@@ -81,12 +83,16 @@ const Map = () => {
       }
     );
   };
+
   useEffect(() => {
     mapRef.current?.panTo(home);
     console.log("after");
     fetchDirections({ lat: 34.396663, lng: 35.8426649 });
     console.log("finally");
   }, [home]);
+  useEffect(() => {
+    getLocation();
+  }, []);
   if (!isLoaded) return <div>loading...</div>;
   return (
     <>
