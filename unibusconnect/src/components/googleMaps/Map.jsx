@@ -67,7 +67,7 @@ const Map = () => {
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const fetchDirections = (uni) => {
     if (!home) return;
-
+    if (!isLoaded) return;
     const service = new google.maps.DirectionsService();
     service.route(
       {
@@ -89,7 +89,7 @@ const Map = () => {
     console.log("after");
     fetchDirections({ lat: 34.396663, lng: 35.8426649 });
     console.log("finally");
-  }, [home]);
+  }, [home, isLoaded]);
   useEffect(() => {
     getLocation();
   }, []);
