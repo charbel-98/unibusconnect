@@ -34,7 +34,8 @@ function MainNavigation() {
     </Link>
   );
   const titles = {
-    "/journeys/": "Bus Details",
+    "/journeys": "Journeys",
+    "journeys/": "Journey Details",
     "/notifications": "Notification",
     "/tickets": "Your Bookings",
     "/profile": "Profile",
@@ -58,7 +59,7 @@ function MainNavigation() {
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
         >
-          {titles[pathname] || titles[`${pathname.split("/")[0]}/`] || ""}
+          {titles[pathname] || titles[`${pathname.split("/")[1]}/`] || ""}
         </span>
       )}
     </Link>
