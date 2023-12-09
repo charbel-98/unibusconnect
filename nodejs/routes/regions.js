@@ -16,8 +16,12 @@ router.get("/", async (req, res) => {
     const universities = [];
 
     regions.forEach((region) => {
-      cities.push(region.region.cities);
-      universities.push(region.region.universities);
+      cities.push(
+        region.region.cities.map((cityObj) => Object.keys(cityObj)[0])
+      );
+      universities.push(
+        region.region.universities.map((univObj) => Object.keys(univObj)[0])
+      );
     });
     console.log("regions" + regions);
     console.log(cities, universities);

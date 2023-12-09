@@ -10,8 +10,14 @@ const journeys = async (req, res) => {
     }
 
     const serviceProvider = await ServiceProvider.findOne({
-      $or: [{ "region.cities": from }, { "region.universities": from }],
-      $or: [{ "region.cities": to }, { "region.universities": to }],
+      $or: [
+        { [`region.cities.${from}`]: { $exists: true } },
+        { [`region.universities.${from}`]: { $exists: true } },
+      ],
+      $or: [
+        { [`region.cities.${to}`]: { $exists: true } },
+        { [`region.universities.${to}`]: { $exists: true } },
+      ],
     });
     console.log(serviceProvider);
     if (!serviceProvider) {

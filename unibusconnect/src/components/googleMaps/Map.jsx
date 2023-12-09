@@ -4,32 +4,49 @@ import {
   Marker,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { useRef, useMemo, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Places from "./Places";
+import { getLocation, showError } from "./mapFunctions";
+import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { setLocation } from "../../redux/locationSlice";
+
 const MAPS_LIBRARIES = ["places"];
-const Map = ({ withDirection }) => {
-  const [home, setHome] = useState(null);
-  console.log(home);
+
+const Map = ({ withDirection, universityLat, universityLng }) => {
+  //home and university states for the map
+  //home is for the user to set
+  //he can share jis current location or choose one by clicking on the map or from the input
+  const defaultLocation = useSelector(
+    (state) => state?.auth?.user?.defaultLocation
+  );
+  const [home, setHome] = useState(defaultLocation);
+  //uni is from the db which we get after filtering the array of unis based on the users filtration
+  const [university, setUniversity] = useState({
+    lat: universityLat,
+    lng: universityLng,
+  });
+  //directions state to store the directions from the home to the uni
   const [directions, setDirections] = useState();
+  //load the script
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDlXmTnz1ntfdhkloeT7HZ2jtJ0fWQPgos",
     libraries: MAPS_LIBRARIES,
   });
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }
-
-  function showPosition(position) {
-    setHome((prev) => {
-      return {
-        lng: position?.coords?.longitude,
-        lat: position?.coords?.latitude,
-      };
-    });
+  //getting whethere the user is going to or from the university
+  const isDeparting = JSON.parse(localStorage.getItem("filter"))?.isDeparting;
+  //map reference to control it later
+  const mapRef = useRef();
+  //on load function to set the map reference
+  const onLoad = useCallback((map) => (mapRef.current = map), []);
+  //setting the center of the map
+  const center = getCenter(home);
+  //if user share his location we set is as home location
+  const setCurrentHomeLocation = (position) => {
+    setHome((prev) => ({
+      lng: position?.coords?.longitude,
+      lat: position?.coords?.latitude,
+    }));
 
     console.log(
       "Latitude: " +
@@ -37,77 +54,44 @@ const Map = ({ withDirection }) => {
         "Longitude: " +
         position?.coords?.longitude
     );
-  }
-
-  function showError(error) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        alert("User denied the request for Geolocation.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert("Location information is unavailable.");
-        break;
-      case error.TIMEOUT:
-        alert("The request to get user location timed out.");
-        break;
-      case error.UNKNOWN_ERROR:
-        alert("An unknown error occurred.");
-        break;
-    }
-  }
-  const mapRef = useRef();
-  const center = useMemo(
-    () => ({
-      lat: home?.lat ? parseFloat(home?.lat) : 34.3963159,
-      lng: home?.lng ? parseFloat(home.lng) : 35.89584450000007,
-    }),
-    // () => ({ lat: 34.3963159, lng: 35.89584450000007 }),
-    [home?.lat, home?.lng]
-  );
-  const onLoad = useCallback((map) => (mapRef.current = map), []);
-  const fetchDirections = (uni) => {
-    if (!home) return;
-    if (!isLoaded) return;
-    const service = new google.maps.DirectionsService();
-    service.route(
-      {
-        origin: uni,
-        destination: home,
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (status === "OK" && result) {
-          setDirections(result);
-          console.log(result);
-        }
-      }
-    );
   };
-
+  //calling of the function to get the current location on mount, and alerting any errors if any
+  // useEffect(() => {
+  //   getLocation(setCurrentHomeLocation, showError);
+  // }, []);
+  //displaying directions based on the home changing state and after loading
   useEffect(() => {
-    mapRef.current?.panTo(home);
-    console.log("after");
-    fetchDirections({ lat: 34.396663, lng: 35.8426649 });
-    console.log("finally");
+    onLoad(mapRef.current, home);
+    withDirection &&
+      fetchDirections(home, isLoaded, isDeparting, university, setDirections);
   }, [home, isLoaded]);
+  //scroll to bottom to fill the map
   useEffect(() => {
-    getLocation();
-  }, []);
-  useEffect(() => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
+    scrollToBottom(withDirection);
   }, [isLoaded]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setLocation(home));
+  }, [home]);
+
   if (!isLoaded) return <div>loading...</div>;
+
   return (
     <>
       <GoogleMap
         zoom={15}
+        onClick={(e) => {
+          console.log(e.latLng.lat(), e.latLng.lng());
+          setHome({
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+          });
+        }}
         center={center}
         options={{ disableDefaultUI: true }}
         mapContainerClassName="map-container"
-        onLoad={onLoad}
+        onLoad={() => onLoad(mapRef.current)}
       >
         <div className="controls">
           <Places
@@ -116,8 +100,6 @@ const Map = ({ withDirection }) => {
               console.log("here");
             }}
           />
-
-          {/* {directions && <Distance leg={directions.routes[0].legs[0]} />} */}
         </div>
         {withDirection && directions && (
           <DirectionsRenderer
@@ -131,10 +113,14 @@ const Map = ({ withDirection }) => {
             }}
           />
         )}
-        <button onClick={getLocation}>get current location</button>
+        <button onClick={() => getLocation(setCurrentHomeLocation, showError)}>
+          get current location
+        </button>
         {home?.lat && home?.lng && <Marker position={center}></Marker>}
         {withDirection && (
-          <Marker position={{ lat: 34.396663, lng: 35.8426649 }}></Marker>
+          <Marker
+            position={{ lat: universityLat, lng: universityLng }}
+          ></Marker>
         )}
       </GoogleMap>
     </>

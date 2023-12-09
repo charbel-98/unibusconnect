@@ -1,3 +1,4 @@
+import ST_AD from "../../img/ST-ad.jpg";
 function Info({ sp }) {
   return (
     <div

@@ -37,6 +37,7 @@ app.use(authenticateJWT);
 app.use("/api/v1/journeys", require("./routes/journeys"));
 app.use("/api/v1/reservation", require("./routes/reservation"));
 app.use("/api/v1/regions/supported", require("./routes/regions"));
+app.use("/api/v1", require("./routes/setDefaultLocation"));
 //error handlers
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

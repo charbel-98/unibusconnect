@@ -81,8 +81,9 @@ const refreshToken = async (req, res) => {
         email: foundUser.email,
         name: foundUser.name,
         mobile: foundUser.mobile,
-
+        defaultLocation: foundUser.defaultLocation,
         avatar: foundUser.avatar,
+        id: foundUser._id,
       },
     });
   });

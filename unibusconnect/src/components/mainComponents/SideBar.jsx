@@ -15,6 +15,8 @@ import {
   TicketPerforatedFill,
 } from "react-bootstrap-icons";
 import SideBarHeader from "../sideBarComponents/SideBarHeader";
+import { useSelector } from "react-redux";
+
 const navItems = [
   {
     title: "Home",
@@ -74,7 +76,7 @@ const navItems = [
     isParentItem: false,
     path: "/default-location",
     isLogout: false,
-    warning: true
+    warning: true,
   },
   {
     title: "Admin",
@@ -101,7 +103,11 @@ const navItems = [
 ];
 function SideBar() {
   const content = navItems.map(
-    ({ title, icon, isParentItem, path, isLogout, warning = false }, i) => {
+    ({ title, icon, isParentItem, path, isLogout, warning }, i) => {
+      const defaultLocation = useSelector(
+        (state) => state?.auth?.user?.defaultLocation
+      );
+      navItems[7].warning = !defaultLocation?.lat || !defaultLocation?.lng;
       return isParentItem ? (
         <NavParentItem title={title} icon={icon} i={i} />
       ) : (
