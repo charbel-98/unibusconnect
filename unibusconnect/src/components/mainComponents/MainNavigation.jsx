@@ -40,6 +40,7 @@ function MainNavigation() {
     "/tickets": "Your Bookings",
     "/profile": "Profile",
     "/support": "Support",
+    "/default-location": "Default Location",
   };
   const journeysAndDetails = ([
     "/journeys",
@@ -47,6 +48,7 @@ function MainNavigation() {
     "/tickets",
     "/support",
     "/profile",
+    "/default-location",
   ].includes(pathname) ||
     pathname.startsWith("/journeys/")) && (
     <Link className="text-light mr-3" to="..">
@@ -57,6 +59,7 @@ function MainNavigation() {
         "/tickets",
         "/support",
         "/profile",
+        "/default-location",
       ].includes(pathname) ||
         pathname.startsWith("/journeys/")) && (
         <span
@@ -80,6 +83,7 @@ function MainNavigation() {
         "/tickets",
         "/support",
         "/profile",
+        "/default-location",
       ].includes(pathname) ||
         pathname.startsWith("/journeys/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
