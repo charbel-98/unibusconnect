@@ -25,7 +25,7 @@ function MainNavigation() {
     <img src={logo} className="img-fluid osahan-nav-logo " />
   );
   const homeProfile = pathname === "/" && (
-    <Link to="profile" clLinkssName="me-3">
+    <Link to="profile" className="me-3">
       {console.log(user?.avatar)}
       <img
         src={user && user.avatar ? user.avatar : profilePlaceholder}
