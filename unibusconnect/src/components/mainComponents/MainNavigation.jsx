@@ -98,8 +98,7 @@ function MainNavigation() {
               {homeProfile}
               <a
                 className={`toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 ${
-                  defaultLocation &&
-                  Object.keys(defaultLocation).length === 0 &&
+                  (!defaultLocation.lat || !defaultLocation.lng) &&
                   "notify"
                 }`}
                 role="button"
