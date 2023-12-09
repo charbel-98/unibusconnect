@@ -2,9 +2,11 @@ import JourneyHeader from "../components/journeyDetailsComponents/JourneyHeader"
 import ActionButtons from "../components/journeyDetailsComponents/ActionButtons";
 import JourneyInfo from "../components/journeyDetailsComponents/JourneyInfo";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import Info from "../components/journeyDetailsComponents/Info";
 import Review from "../components/journeyDetailsComponents/Review";
 import Pickup from "../components/journeyDetailsComponents/Pickup";
+import Modal from "../UI/Modal.jsx";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 const JourneyDetails = () => {
@@ -14,6 +16,23 @@ const JourneyDetails = () => {
     pickup: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [ModalData, setModalData] = useState({
+    title: "Confirmation",
+    description: "Are you sure you want to use the current location.",
+    buttons: [
+      {
+        text: "no",
+        class: "btn btn-secondary",
+        function: ""
+      },
+      {
+        text: "yes",
+        class: "btn btn-primary bg-danger",
+        function: ""
+      }
+    ]
+  })
   const { id } = useParams();
   const [journey, setJourney] = useState([]);
   const axiosPrivate = useAxiosPrivate();
@@ -21,6 +40,12 @@ const JourneyDetails = () => {
   const location = useLocation();
   const { from, to, date, isDeparting } = JSON.parse(
     localStorage.getItem("filter")
+  );
+  const defaultLocation = useSelector(
+    (state) => state?.auth?.user?.defaultLocation
+  );
+  const currentLocation = useSelector(
+    (state) => state?.location
   );
   const activeButtonhandler = (e) => {
     setActive((prev) => {
@@ -44,7 +69,7 @@ const JourneyDetails = () => {
         isMounted && setJourney(response.data.journey);
         setIsLoading(false);
       } catch (err) {
-        if (err.response.status == 403) {
+        if (err.response?.status == 403) {
           console.error(err, err.response);
           navigate("/login", { state: { from: location }, replace: true });
         }
@@ -63,6 +88,11 @@ const JourneyDetails = () => {
   }, []);
 
   const reserve = async () => {
+    console.log(currentLocation, defaultLocation)
+    if (defaultLocation.lat || defaultLocation.lng) {
+      return setShowModal(true);
+    }
+
     try {
       const response = await axiosPrivate.post(`/reservation/register/${id}`, {
         isDeparting,
@@ -90,6 +120,13 @@ const JourneyDetails = () => {
 
   return (
     <>
+      {showModal && (
+        <Modal title={ModalData.title} description={ModalData.description}>
+          {ModalData.buttons.map(b => {
+            return (<button className={b.class} > {b.text} </button>)
+          })}
+        </Modal>
+      )}
       <div className="list_item m-0 bg-white">
         <JourneyHeader
           from={from}

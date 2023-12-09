@@ -395,3 +395,17 @@ li.notify::after {
     transform: scale(0.9);
   }
 }
+
+div.modal {
+  display: flex;
+  background-color: rgba(142, 142, 142, 0.26);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+div.modal-content {
+  box-shadow: 0 0 10px rgb(108, 108, 108);
+}
+div.modal-dialog {
+  margin: auto;
+}
