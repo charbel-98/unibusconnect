@@ -9,7 +9,7 @@ export default function Modal(props) {
                 <div className="modal-body">
                     <p>{props.description}</p>
                 </div>
-                {props.children.length && (<div className="modal-footer">
+                {props.children && (<div className="modal-footer">
                     {props.children}
                 </div>)}
             </div>

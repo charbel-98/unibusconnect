@@ -18,18 +18,18 @@ const JourneyDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [ModalData, setModalData] = useState({
-    title: "Confirmation",
-    description: "Are you sure you want to use the current location.",
+    title: "Warning",
+    description: "You need to set your location before continue.",
     buttons: [
       {
-        text: "no",
-        class: "btn btn-secondary",
-        function: ""
-      },
-      {
-        text: "yes",
-        class: "btn btn-primary bg-danger",
-        function: ""
+        text: "set my location",
+        class: "btn bg-danger",
+        function: () => {
+          setActive({
+            info: false, review: false, pickup: true
+          })
+          setShowModal(false);
+        }
       }
     ]
   })
@@ -86,13 +86,12 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
-
-  const reserve = async () => {
-    console.log(currentLocation, defaultLocation)
-    if (defaultLocation.lat || defaultLocation.lng) {
+  const Modalfunction = () => {
+    if (!defaultLocation.lat || !defaultLocation.lng) {
       return setShowModal(true);
     }
-
+  }
+  const reserve = async () => {
     try {
       const response = await axiosPrivate.post(`/reservation/register/${id}`, {
         isDeparting,
@@ -122,8 +121,8 @@ const JourneyDetails = () => {
     <>
       {showModal && (
         <Modal title={ModalData.title} description={ModalData.description}>
-          {ModalData.buttons.map(b => {
-            return (<button className={b.class} > {b.text} </button>)
+          {ModalData.buttons && ModalData.buttons.map(b => {
+            return (<button className={b.class} onClick={b.function || null} > {b.text} </button>)
           })}
         </Modal>
       )}
@@ -159,7 +158,7 @@ const JourneyDetails = () => {
       </div>
       <div className="fixed-bottom view-seatbt p-3">
         <button
-          onClick={reserve}
+          onClick={Modalfunction}
           className="btn btn-danger btn-block osahanbus-btn rounded-1"
         >
           Book Your Seats Now
