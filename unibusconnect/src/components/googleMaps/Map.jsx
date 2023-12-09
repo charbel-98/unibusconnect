@@ -31,7 +31,7 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
     libraries: MAPS_LIBRARIES,
   });
   //getting whethere the user is going to or from the university
-  const { isDeparting } = JSON.parse(localStorage.getItem("filter"));
+  const isDeparting = JSON.parse(localStorage.getItem("filter"))?.isDeparting;
   //map reference to control it later
   const mapRef = useRef();
   //on load function to set the map reference
@@ -47,9 +47,9 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
 
     console.log(
       "Latitude: " +
-        position?.coords?.latitude +
-        "Longitude: " +
-        position?.coords?.longitude
+      position?.coords?.latitude +
+      "Longitude: " +
+      position?.coords?.longitude
     );
   };
   //calling of the function to get the current location on mount, and alerting any errors if any
