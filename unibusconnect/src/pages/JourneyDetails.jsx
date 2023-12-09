@@ -86,6 +86,7 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
+  
   const Modalfunction = () => {
     console.log(defaultLocation)
     if (!defaultLocation.lat || !defaultLocation.lng) {
