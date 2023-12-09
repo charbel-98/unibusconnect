@@ -15,11 +15,11 @@ const ServiceProviderSchema = new mongoose.Schema({
   },
   region: {
     cities: {
-      type: [String],
+      type: [Object],
       required: true,
     },
     universities: {
-      type: [String],
+      type: [Object],
       required: true,
     },
   },

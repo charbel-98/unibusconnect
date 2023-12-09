@@ -78,6 +78,15 @@ const JourneyDetails = () => {
     }
     setIsLoading(false);
   };
+  const universityName = isDeparting ? to : from;
+  const universityObject = journey?.serviceProvider?.region?.universities.find(
+    (university) => university[universityName]
+  );
+
+  const university_Lat_Lng = universityObject
+    ? universityObject[universityName]
+    : null;
+  console.log(university_Lat_Lng);
 
   return (
     <>
@@ -106,7 +115,9 @@ const JourneyDetails = () => {
             <Info sp={journey?.serviceProvider?.businessName}></Info>
           )}
           {active.review && <Review></Review>}
-          {active.pickup && <Pickup></Pickup>}
+          {active.pickup && (
+            <Pickup universityLocation={university_Lat_Lng}></Pickup>
+          )}
         </div>
       </div>
       <div className="fixed-bottom view-seatbt p-3">
