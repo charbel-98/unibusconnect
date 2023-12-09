@@ -1,9 +1,8 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Map from "../components/googleMaps/Map.jsx";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setLocation } from "../redux/auth/authSlice";
 export default function DefaultLocation() {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +11,6 @@ export default function DefaultLocation() {
   const { currentLocation } = useSelector((state) => state?.location);
   console.log(currentLocation);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const setDefaultLocation = async () => {
     try {
@@ -21,16 +19,13 @@ export default function DefaultLocation() {
         return;
       }
 
-
       setIsRequestPending(true); // Set the request status to pending
 
       const response = await axiosPrivate.post(`/setdefaultlocation`, {
         defaultLocation: currentLocation,
         userId,
       });
-      dispatch(
-        setLocation({ "location": currentLocation })
-      )
+
       console.log(response.data);
 
       navigate("/", { replace: true });

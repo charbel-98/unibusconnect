@@ -8,7 +8,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import Places from "./Places";
 import { getLocation, showError } from "./mapFunctions";
 import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLocation } from "../../redux/locationSlice";
 
 const MAPS_LIBRARIES = ["places"];
@@ -17,7 +17,10 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
   //home and university states for the map
   //home is for the user to set
   //he can share jis current location or choose one by clicking on the map or from the input
-  const [home, setHome] = useState(null);
+  const defaultLocation = useSelector(
+    (state) => state?.auth?.user?.defaultLocation
+  );
+  const [home, setHome] = useState(defaultLocation);
   //uni is from the db which we get after filtering the array of unis based on the users filtration
   const [university, setUniversity] = useState({
     lat: universityLat,
@@ -47,15 +50,15 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
 
     console.log(
       "Latitude: " +
-      position?.coords?.latitude +
-      "Longitude: " +
-      position?.coords?.longitude
+        position?.coords?.latitude +
+        "Longitude: " +
+        position?.coords?.longitude
     );
   };
   //calling of the function to get the current location on mount, and alerting any errors if any
-  useEffect(() => {
-    getLocation(setCurrentHomeLocation, showError);
-  }, []);
+  // useEffect(() => {
+  //   getLocation(setCurrentHomeLocation, showError);
+  // }, []);
   //displaying directions based on the home changing state and after loading
   useEffect(() => {
     onLoad(mapRef.current, home);
