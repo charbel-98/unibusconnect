@@ -87,8 +87,36 @@ const JourneyDetails = () => {
     };
   }, []);
   const Modalfunction = () => {
+    console.log(defaultLocation)
     if (!defaultLocation.lat || !defaultLocation.lng) {
       return setShowModal(true);
+    } else {
+      let Data = {
+        title: "Confirmation",
+        description: "You already have deafult location, you need to use it ?\ or choose another location for this journey.",
+        buttons: [
+          {
+            text: "get the default",
+            class: "btn bg-secondary",
+            function: () => {
+              setShowModal(false);
+              reserve();
+            }
+          },
+          {
+            text: "change my location",
+            class: "btn bg-danger",
+            function: () => {
+              setActive({
+                info: false, review: false, pickup: true
+              })
+              setShowModal(false);
+            }
+          }
+        ]
+      }
+      setModalData(Data);
+      setShowModal(true);
     }
   }
   const reserve = async () => {
