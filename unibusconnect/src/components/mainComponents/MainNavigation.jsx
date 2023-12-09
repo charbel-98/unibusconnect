@@ -71,7 +71,10 @@ function MainNavigation() {
       )}
     </Link>
   );
-
+  const defaultLocation = useSelector(
+    (state) => state?.auth?.user?.defaultLocation
+  );
+  //console.log(Object.keys(defaultLocation).length !== 0);
   return (
     <>
       {sidebar}
@@ -94,8 +97,11 @@ function MainNavigation() {
             <div className="ms-auto d-flex align-items-center">
               {homeProfile}
               <a
-                className="toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 notify"
-                href="#"
+                className={`toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 ${
+                  defaultLocation &&
+                  Object.keys(defaultLocation).length === 0 &&
+                  "notify"
+                }`}
                 role="button"
                 aria-controls="hc-nav-1"
                 onClick={() => dispatch(open())}

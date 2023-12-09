@@ -8,6 +8,8 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import Places from "./Places";
 import { getLocation, showError } from "./mapFunctions";
 import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
+import { useDispatch } from "react-redux";
+import { setLocation } from "../../redux/locationSlice";
 
 const MAPS_LIBRARIES = ["places"];
 
@@ -65,6 +67,11 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
     scrollToBottom(withDirection);
   }, [isLoaded]);
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setLocation(home));
+  }, [home]);
+
   if (!isLoaded) return <div>loading...</div>;
 
   return (
@@ -111,16 +118,6 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
           <Marker
             position={{ lat: universityLat, lng: universityLng }}
           ></Marker>
-        )}
-        {!withDirection && (
-          <div className="fixed-bottom view-seatbt p-3">
-            <button
-              //onClick={reserve}
-              className="btn btn-danger btn-block osahanbus-btn rounded-1"
-            >
-              Set Your Default Location
-            </button>
-          </div>
         )}
       </GoogleMap>
     </>
