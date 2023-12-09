@@ -98,8 +98,7 @@ function MainNavigation() {
               {homeProfile}
               <a
                 className={`toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 ${
-                  (!defaultLocation.lat || !defaultLocation.lng) &&
-                  "notify"
+                  (!defaultLocation?.lat || !defaultLocation?.lng) && "notify"
                 }`}
                 role="button"
                 aria-controls="hc-nav-1"

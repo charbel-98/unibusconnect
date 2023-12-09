@@ -107,8 +107,7 @@ function SideBar() {
       const defaultLocation = useSelector(
         (state) => state?.auth?.user?.defaultLocation
       );
-      navItems[7].warning =
-      (!defaultLocation.lat || !defaultLocation.lng);
+      navItems[7].warning = !defaultLocation?.lat || !defaultLocation?.lng;
       return isParentItem ? (
         <NavParentItem title={title} icon={icon} i={i} />
       ) : (
