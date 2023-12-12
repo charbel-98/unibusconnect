@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import Map from "../components/googleMaps/Map.jsx";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { setLocation } from "../redux/auth/authSlice";
+import { setDefaultLocation } from "../redux/auth/authSlice";
+import { setLocation } from "../redux/locationSlice.js";
 export default function DefaultLocation() {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
@@ -14,25 +15,27 @@ export default function DefaultLocation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const setDefaultLocation = async () => {
+  const setDefaultLocationCallback = useCallback(async () => {
     try {
       if (isRequestPending) {
-        // If a request is already pending, ignore the new click
         return;
       }
 
-      setIsRequestPending(true); // Set the request status to pending
-
-      const response = await axiosPrivate.post(`/setdefaultlocation`, {
-        defaultLocation: currentLocation,
-        userId,
-      });
-      dispatch(setLocation({ location: currentLocation }));
-      console.log(response.data);
-
-      navigate("/", { replace: true });
+      setIsRequestPending(true);
+      if (currentLocation) {
+        const response = await axiosPrivate.post(`/setdefaultlocation`, {
+          defaultLocation: currentLocation,
+          userId,
+        });
+        dispatch(
+          setDefaultLocation({ location: response.data.defaultLocation })
+        );
+        console.log(response.data);
+        navigate("/", { replace: true });
+      } else {
+        alert("Please set your location first");
+      }
     } catch (err) {
-      // Handle errors
       console.log(err.response?.data?.message);
 
       if (err.response?.status === 403) {
@@ -40,17 +43,29 @@ export default function DefaultLocation() {
         navigate("/login", { state: { from: location }, replace: true });
       }
     } finally {
-      setIsRequestPending(false); // Reset the request status whether successful or not
+      setIsRequestPending(false);
       setIsLoading(false);
     }
-  };
+  }, [
+    isRequestPending,
+    currentLocation,
+    dispatch,
+    navigate,
+    axiosPrivate,
+    userId,
+  ]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(setLocation({ lat: null, lng: null }));
+    };
+  }, [dispatch]);
   return (
     <>
       <Map withDirection={false} />
       <div className="fixed-bottom view-seatbt p-3">
         <button
-          onClick={setDefaultLocation}
+          onClick={setDefaultLocationCallback}
           className="btn btn-danger btn-block osahanbus-btn rounded-1"
           disabled={isRequestPending} // Disable the button while a request is pending
         >

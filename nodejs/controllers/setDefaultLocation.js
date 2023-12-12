@@ -23,7 +23,12 @@ const setDefaultLocation = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ message: "Default location set successfully" });
+    res
+      .status(200)
+      .json({
+        message: "Default location set successfully",
+        defaultLocation: user.defaultLocation,
+      });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

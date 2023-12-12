@@ -20,7 +20,15 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
   const defaultLocation = useSelector(
     (state) => state?.auth?.user?.defaultLocation
   );
-  const [home, setHome] = useState(defaultLocation);
+  const currentLocation = useSelector(
+    (state) => state?.location.currentLocation
+  );
+  const currentLocationIsNull =
+    currentLocation?.lat === null && currentLocation?.lng === null;
+  console.log(currentLocation);
+  console.log(defaultLocation);
+  const dispatch = useDispatch();
+  //const [home, setHome] = useState(defaultLocation);
   //uni is from the db which we get after filtering the array of unis based on the users filtration
   const [university, setUniversity] = useState({
     lat: universityLat,
@@ -40,14 +48,17 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
   //on load function to set the map reference
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   //setting the center of the map
-  const center = getCenter(home);
+  const center = getCenter(
+    !currentLocationIsNull ? currentLocation : defaultLocation
+  );
   //if user share his location we set is as home location
   const setCurrentHomeLocation = (position) => {
-    setHome((prev) => ({
-      lng: position?.coords?.longitude,
-      lat: position?.coords?.latitude,
-    }));
-
+    dispatch(
+      setLocation({
+        lat: position?.coords?.latitude,
+        lng: position?.coords?.longitude,
+      })
+    );
     console.log(
       "Latitude: " +
         position?.coords?.latitude +
@@ -59,21 +70,26 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
   // useEffect(() => {
   //   getLocation(setCurrentHomeLocation, showError);
   // }, []);
-  //displaying directions based on the home changing state and after loading
-  useEffect(() => {
-    onLoad(mapRef.current, home);
-    withDirection &&
-      fetchDirections(home, isLoaded, isDeparting, university, setDirections);
-  }, [home, isLoaded]);
   //scroll to bottom to fill the map
   useEffect(() => {
     scrollToBottom(withDirection);
   }, [isLoaded]);
-
-  const dispatch = useDispatch();
+  //displaying directions based on the home changing state and after loading
   useEffect(() => {
-    dispatch(setLocation(home));
-  }, [home]);
+    onLoad(
+      mapRef.current,
+      !currentLocationIsNull ? currentLocation : defaultLocation
+    );
+    withDirection &&
+      fetchDirections(
+        !currentLocationIsNull ? currentLocation : defaultLocation,
+        isLoaded,
+        isDeparting,
+        university,
+        setDirections
+      );
+    //return () => dispatch(setLocation({ lat: null, lng: null }));
+  }, [currentLocation, defaultLocation, isLoaded]);
 
   if (!isLoaded) return <div>loading...</div>;
 
@@ -83,10 +99,13 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         zoom={15}
         onClick={(e) => {
           console.log(e.latLng.lat(), e.latLng.lng());
-          setHome({
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
-          });
+
+          dispatch(
+            setLocation({
+              lat: e?.latLng?.lat(),
+              lng: e?.latLng?.lng(),
+            })
+          );
         }}
         center={center}
         options={{ disableDefaultUI: true }}
@@ -96,8 +115,7 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         <div className="controls">
           <Places
             setHome={(position) => {
-              setHome(position);
-              console.log("here");
+              dispatch(setLocation(position));
             }}
           />
         </div>
@@ -116,7 +134,10 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         <button onClick={() => getLocation(setCurrentHomeLocation, showError)}>
           get current location
         </button>
-        {home?.lat && home?.lng && <Marker position={center}></Marker>}
+        {(!currentLocationIsNull ||
+          (defaultLocation?.lat !== null && defaultLocation.lng !== null)) && (
+          <Marker position={center}></Marker>
+        )}
         {withDirection && (
           <Marker
             position={{ lat: universityLat, lng: universityLng }}
