@@ -9,7 +9,7 @@ import Pickup from "../components/journeyDetailsComponents/Pickup";
 import Modal from "../UI/Modal.jsx";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-
+import { modal_Data } from "../UI/modalData";
 const JourneyDetails = () => {
   const [active, setActive] = useState({
     info: true,
@@ -28,6 +28,14 @@ const JourneyDetails = () => {
   const defaultLocation = useSelector(
     (state) => state?.auth?.user?.defaultLocation
   );
+  const modalData = modal_Data(
+    setActive,
+    setShowModal,
+    currentLocation,
+    defaultLocation,
+    reserve
+  );
+  const [ModalData, setModalData] = useState(modalData.noCurrentLocation);
   const currentLocationIsNull = !currentLocation?.lat && !currentLocation?.lng;
   const defaultLocationIsNull = !defaultLocation?.lat && !defaultLocation?.lng;
   const { id } = useParams();
@@ -38,111 +46,7 @@ const JourneyDetails = () => {
   const { from, to, date, isDeparting } = JSON.parse(
     localStorage.getItem("filter")
   );
-  const modalData = {
-    noLocation: {
-      title: "Warning",
-      description: "You need to set your location before continue.",
-      buttons: [
-        {
-          text: "set my location",
-          class: "btn text-light bg-danger",
-          function: () => {
-            setActive({
-              info: false,
-              review: false,
-              pickup: true,
-            });
-            setShowModal(false);
-          },
-        },
-      ],
-    },
-    noCurrentLocationWithDefaultLocation: {
-      title: "Confirmation",
-      description:
-        "Your default location would be set as your pickup location, do you want to continue?",
-      buttons: [
-        {
-          text: "Change",
-          class: "btn text-light bg-secondary",
-          function: () => {
-            setActive({
-              info: false,
-              review: false,
-              pickup: true,
-            });
-            setShowModal(false);
-          },
-        },
-        {
-          text: "Reserve",
-          class: "btn text-light bg-danger",
-          function: () => {
-            setShowModal(false);
-            reserve(defaultLocation);
-          },
-        },
-      ],
-    },
-    withCurrentLocationAndDefaultLocation: {
-      title: "Confirmation",
-      description: "A new location was provided, do you want to continue?",
-      buttons: [
-        {
-          text: "Change",
-          class: "btn text-light bg-secondary",
-          function: () => {
-            setActive({
-              info: false,
-              review: false,
-              pickup: true,
-            });
-            setShowModal(false);
-          },
-        },
-        {
-          text: "Reserve with default",
-          class: "btn text-light bg-secondary",
-          function: () => {
-            setShowModal(false);
-            reserve(defaultLocation);
-          },
-        },
-        {
-          text: "Reserve",
-          class: "btn text-light bg-danger",
-          function: () => {
-            setShowModal(false);
-            reserve(currentLocation);
-          },
-        },
-      ],
-    },
-    noDefaultLocationWithCurrentLocation: {
-      title: "Confirmation",
-      description: "Would you like to set this location as default?",
-      buttons: [
-        {
-          text: "yes",
-          class: "btn text-light bg-danger",
-          function: () => {
-            //set default location here and reserve
-            reserve(defaultLocation);
-            setShowModal(false);
-          },
-        },
-        {
-          text: "no",
-          class: "btn text-light bg-secondary",
-          function: () => {
-            setShowModal(false);
-            reserve(currentLocation);
-          },
-        },
-      ],
-    },
-  };
-  const [ModalData, setModalData] = useState(modalData.noLocation);
+
   const activeButtonhandler = (e) => {
     setActive((prev) => {
       console.log([e.target.id]);
@@ -182,7 +86,7 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
-  const reserve = async (userLocation) => {
+  async function reserve(userLocation) {
     try {
       if (isRequestPending) {
         return;
@@ -204,7 +108,8 @@ const JourneyDetails = () => {
       setIsRequestPending(false);
       setIsLoading(false);
     }
-  };
+  }
+
   const Modalfunction = () => {
     console.log(defaultLocation);
     if (defaultLocationIsNull && currentLocationIsNull) {
@@ -236,9 +141,13 @@ const JourneyDetails = () => {
       {showModal && (
         <Modal title={ModalData.title} description={ModalData.description}>
           {ModalData.buttons &&
-            ModalData.buttons.map((b) => {
+            ModalData.buttons.map((b, i) => {
               return (
-                <button className={b.class} onClick={b.function || null}>
+                <button
+                  key={i}
+                  className={b.class}
+                  onClick={b.function || null}
+                >
                   {" "}
                   {b.text}{" "}
                 </button>

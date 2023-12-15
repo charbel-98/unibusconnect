@@ -109,15 +109,15 @@ function SideBar() {
       );
       navItems[7].warning = !defaultLocation?.lat || !defaultLocation?.lng;
       return isParentItem ? (
-        <NavParentItem title={title} icon={icon} i={i} />
+        <NavParentItem title={title} icon={icon} key={i} />
       ) : (
         <NavItem
           class={warning ? "notify" : ""}
           title={title}
-          i={i}
           icon={icon}
           path={path}
           isLogout={isLogout}
+          key={i}
         />
       );
     }

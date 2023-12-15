@@ -15,7 +15,7 @@ function NavItem(props) {
     dispatch(close());
   };
   return (
-    <li key={props.i} className={props.class || ""}>
+    <li className={props.class || ""}>
       <div className="nav-item-wrapper">
         <Link
           className="nav-item"

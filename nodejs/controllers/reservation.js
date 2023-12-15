@@ -10,10 +10,10 @@ async function reservation(req, res) {
   const user = await User.findById(userId);
   //console.log("you want me" + user, journey);
   //check if user already reserved
-  console.log(journey.departingPassengers[0].passenger.toString());
+
   if (isDeparting) {
     if (
-      journey.departingPassengers.some(
+      journey?.departingPassengers?.some(
         (item) => item.passenger.toString() === userId
       )
     ) {
@@ -25,7 +25,7 @@ async function reservation(req, res) {
     // journey.save();
   } else {
     if (
-      journey.returningPassengers.some(
+      journey?.returningPassengers?.some(
         (item) => item.passenger.toString() === userId
       )
     ) {

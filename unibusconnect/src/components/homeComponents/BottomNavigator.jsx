@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   HouseFill,
   TicketPerforatedFill,
@@ -15,29 +15,49 @@ function BottomNavigator() {
         } row m-0 bg-danger shadow rounded-2`}
       >
         <div className="col-3 p-0 text-center">
-          <Link to="/" className={`text-white ${classes.active}`}>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? `home ${classes.active}` : "home text-white"
+            }
+          >
             <HouseFill size={25} />
             <p className="mb-0 small">Home</p>
-          </Link>
+          </NavLink>
         </div>
         <div className="col-3 p-0 text-center">
-          <Link to="/tickets" className="home text-white">
+          <NavLink
+            to="/tickets"
+            className={({ isActive }) =>
+              isActive ? `home ${classes.active}` : "home text-white"
+            }
+          >
             <TicketPerforatedFill size={25} />
             <p className="mb-0 small">My Tickets</p>
-          </Link>
+          </NavLink>
         </div>
         <div className="col-3 p-0 text-center">
-          <Link to="/notifications" className="home text-white">
+          <NavLink
+            to="/notifications"
+            className={({ isActive }) =>
+              isActive ? `home ${classes.active}` : "home text-white"
+            }
+          >
             <BellFill size={25} />
             <small className={classes.osahan}>4</small>
             <p className="mb-0 small">Notice</p>
-          </Link>
+          </NavLink>
         </div>
         <div className="col-3 p-0 text-center">
-          <Link to="profile" className="home text-white">
+          <NavLink
+            to="profile"
+            className={({ isActive }) =>
+              isActive ? `home ${classes.active}` : "home text-white"
+            }
+          >
             <PersonFill size={25} />
             <p className="mb-0 small">Account</p>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </div>
