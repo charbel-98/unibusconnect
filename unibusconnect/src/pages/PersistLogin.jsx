@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import { BounceLoader } from "react-spinners";
+import JourneyInstanceSkeleton from "../UI/skeleton-components/JourneyInstanceSkeleton";
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const controller = new AbortController();
@@ -36,21 +37,7 @@ const PersistLogin = () => {
     console.log(`aT: ${JSON.stringify(auth)}`);
   }, [isLoading]);
 
-  return (
-    <>
-      {isLoading ? (
-        <BounceLoader
-          color={"#d9534f"}
-          loading={isLoading}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      ) : (
-        <Outlet />
-      )}
-    </>
-  );
+  return <>{isLoading ? <BounceLoader></BounceLoader> : <Outlet />}</>;
 };
 
 export default PersistLogin;

@@ -10,6 +10,7 @@ import Modal from "../UI/Modal.jsx";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { modal_Data } from "../UI/modalData";
+import JourneyDetailsSkeleton from "../UI/skeleton-components/JourneyDetailsSkeleton.jsx";
 const JourneyDetails = () => {
   const [active, setActive] = useState({
     info: true,
@@ -155,44 +156,50 @@ const JourneyDetails = () => {
             })}
         </Modal>
       )}
-      <div className="list_item m-0 bg-white">
-        <JourneyHeader
-          from={from}
-          to={to}
-          sp={journey?.serviceProvider?.businessName}
-        />
-        <JourneyInfo
-          time={
-            isDeparting
-              ? ["Arriving Time", journey.arrivalTimeToUniversity]
-              : ["Departing Time", journey.departureTimeFromUniversity]
-          }
-          AC={journey?.bus?.AC}
-          status={journey?.status}
-          busnb={journey?.bus?.busnb}
-        />
-        <ActionButtons
-          activeButton={active}
-          onClick={activeButtonhandler}
-        ></ActionButtons>
-        <div className="tab-content" id="pills-tabContent">
-          {active.info && (
-            <Info sp={journey?.serviceProvider?.businessName}></Info>
-          )}
-          {active.review && <Review></Review>}
-          {active.pickup && (
-            <Pickup universityLocation={university_Lat_Lng}></Pickup>
-          )}
-        </div>
-      </div>
-      <div className="fixed-bottom view-seatbt p-3">
-        <button
-          onClick={Modalfunction}
-          className="btn btn-danger btn-block osahanbus-btn rounded-1"
-        >
-          {isRequestPending ? "Reserving..." : "Book Your Seats Now"}
-        </button>
-      </div>
+      {isLoading && <JourneyDetailsSkeleton />}
+      {!isLoading && (
+        <>
+          <div className="list_item m-0 bg-white">
+            <JourneyHeader
+              from={from}
+              to={to}
+              sp={journey?.serviceProvider?.businessName}
+            />
+            <JourneyInfo
+              time={
+                isDeparting
+                  ? ["Arriving Time", journey.arrivalTimeToUniversity]
+                  : ["Departing Time", journey.departureTimeFromUniversity]
+              }
+              AC={journey?.bus?.AC}
+              status={journey?.status}
+              busnb={journey?.bus?.busnb}
+            />
+            <ActionButtons
+              activeButton={active}
+              onClick={activeButtonhandler}
+            ></ActionButtons>
+            <div className="tab-content" id="pills-tabContent">
+              {active.info && (
+                <Info sp={journey?.serviceProvider?.businessName}></Info>
+              )}
+              {active.review && <Review></Review>}
+              {active.pickup && (
+                <Pickup universityLocation={university_Lat_Lng}></Pickup>
+              )}
+            </div>
+          </div>
+          )
+          <div className="fixed-bottom view-seatbt p-3">
+            <button
+              onClick={Modalfunction}
+              className="btn btn-danger btn-block osahanbus-btn rounded-1"
+            >
+              {isRequestPending ? "Reserving..." : "Book Your Seats Now"}
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 };
