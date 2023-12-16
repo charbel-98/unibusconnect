@@ -29,14 +29,15 @@ const JourneyDetails = () => {
   const defaultLocation = useSelector(
     (state) => state?.auth?.user?.defaultLocation
   );
+  const [ModalData, setModalData] = useState(null);
   const modalData = modal_Data(
     setActive,
     setShowModal,
     currentLocation,
     defaultLocation,
-    reserve
+    reserve,
+    setModalData
   );
-  const [ModalData, setModalData] = useState(modalData.noCurrentLocation);
   const currentLocationIsNull = !currentLocation?.lat && !currentLocation?.lng;
   const defaultLocationIsNull = !defaultLocation?.lat && !defaultLocation?.lng;
   const { id } = useParams();
@@ -114,7 +115,8 @@ const JourneyDetails = () => {
   const Modalfunction = () => {
     console.log(defaultLocation);
     if (defaultLocationIsNull && currentLocationIsNull) {
-      return setShowModal(true);
+      setModalData(modalData.noLocation);
+      setShowModal(true);
     } else if (currentLocationIsNull && !defaultLocationIsNull) {
       setModalData(modalData.noCurrentLocationWithDefaultLocation);
       setShowModal(true);
@@ -124,7 +126,8 @@ const JourneyDetails = () => {
       setShowModal(true);
     }
     if (defaultLocationIsNull && !currentLocationIsNull) {
-      reserve(currentLocation);
+      setModalData(modalData.setCurrentLocationAsDefault);
+      setShowModal(true);
     }
   };
 

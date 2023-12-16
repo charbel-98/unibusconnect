@@ -1,9 +1,34 @@
+import { set } from "date-fns";
+const setCurrentLocationAsDefault = {
+  title: "Confirmation",
+  description: "Would you like to set this location as default?",
+  buttons: [
+    {
+      text: "no",
+      class: "btn text-light bg-secondary",
+      function: () => {
+        setShowModal(false);
+        reserve(currentLocation);
+      },
+    },
+    {
+      text: "yes",
+      class: "btn text-light bg-danger",
+      function: () => {
+        //set default location here and reserve
+        reserve(defaultLocation);
+        setShowModal(false);
+      },
+    },
+  ],
+};
 export const modal_Data = (
   setActive,
   setShowModal,
   currentLocation,
   defaultLocation,
-  reserve
+  reserve,
+  setModalData
 ) => ({
   noLocation: {
     title: "Warning",
@@ -50,6 +75,7 @@ export const modal_Data = (
       },
     ],
   },
+  noDefaultLocationWithCurrentLocation: setCurrentLocationAsDefault,
   withCurrentLocationAndDefaultLocation: {
     title: "Confirmation",
     description: "A new location was provided, do you want to continue?",
@@ -80,29 +106,8 @@ export const modal_Data = (
         function: () => {
           setShowModal(false);
           reserve(currentLocation);
-        },
-      },
-    ],
-  },
-  noDefaultLocationWithCurrentLocation: {
-    title: "Confirmation",
-    description: "Would you like to set this location as default?",
-    buttons: [
-      {
-        text: "yes",
-        class: "btn text-light bg-danger",
-        function: () => {
-          //set default location here and reserve
-          reserve(defaultLocation);
-          setShowModal(false);
-        },
-      },
-      {
-        text: "no",
-        class: "btn text-light bg-secondary",
-        function: () => {
-          setShowModal(false);
-          reserve(currentLocation);
+          setModalData(setCurrentLocationAsDefault);
+          setShowModal(true);
         },
       },
     ],
