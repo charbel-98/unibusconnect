@@ -37,7 +37,7 @@ const PersistLogin = () => {
     console.log(`aT: ${JSON.stringify(auth)}`);
   }, [isLoading]);
 
-  return <>{isLoading ? <BounceLoader></BounceLoader> : <Outlet />}</>;
+  return <>{isLoading ? <p></p> : <Outlet />}</>;
 };
 
 export default PersistLogin;

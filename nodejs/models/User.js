@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   mobile: { type: String },
   refreshToken: [String],
   defaultLocation: { lat: Number || null, lng: Number || null },
+  defaultAddress: { type: String || null },
 });
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

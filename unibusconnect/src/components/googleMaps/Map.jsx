@@ -9,7 +9,7 @@ import Places from "./Places";
 import { getLocation, showError } from "./mapFunctions";
 import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocation } from "../../redux/locationSlice";
+import { setLocation, setAddress } from "../../redux/locationSlice";
 
 const MAPS_LIBRARIES = ["places"];
 
@@ -52,7 +52,7 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
     !currentLocationIsNull ? currentLocation : defaultLocation
   );
   //if user share his location we set is as home location
-  const setCurrentHomeLocation = (position) => {
+  const shareLocation = (position) => {
     dispatch(
       setLocation({
         lat: position?.coords?.latitude,
@@ -66,6 +66,37 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         position?.coords?.longitude
     );
   };
+  //get the place name of the current location
+  const getCurrentLocationName = useCallback(async (position) => {
+    const geocoder = new window.google.maps.Geocoder();
+    const latlng = {
+      lat: parseFloat(position?.lat),
+      lng: parseFloat(position?.lng),
+    };
+    await geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === "OK") {
+        if (results[0]) {
+          const address =
+            results[3].address_components[0].long_name +
+            ", " +
+            results[3].address_components[1].long_name +
+            ", " +
+            results[3].address_components[2].long_name;
+          dispatch(setAddress(address));
+          console.log(address);
+          return address;
+        } else {
+          window.alert("No results found");
+        }
+      } else {
+        window.alert("Geocoder failed due to: " + status);
+      }
+    });
+  });
+  useEffect(() => {
+    currentLocation && isLoaded && getCurrentLocationName(currentLocation);
+  }, [currentLocation, defaultLocation]);
+
   //calling of the function to get the current location on mount, and alerting any errors if any
   // useEffect(() => {
   //   getLocation(setCurrentHomeLocation, showError);
@@ -98,12 +129,21 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
       <GoogleMap
         zoom={15}
         onClick={(e) => {
-          console.log(e.latLng.lat(), e.latLng.lng());
-
+          console.log(e);
+          console.log(
+            getCurrentLocationName({
+              lat: e?.latLng?.lat(),
+              lng: e?.latLng?.lng(),
+            })
+          );
           dispatch(
             setLocation({
               lat: e?.latLng?.lat(),
               lng: e?.latLng?.lng(),
+              // address: getCurrentLocationName({
+              //   lat: e?.latLng?.lat(),
+              //   lng: e?.latLng?.lng(),
+              // }),
             })
           );
         }}
@@ -131,7 +171,7 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
             }}
           />
         )}
-        <button onClick={() => getLocation(setCurrentHomeLocation, showError)}>
+        <button onClick={() => getLocation(shareLocation, showError)}>
           get current location
         </button>
         {(!currentLocationIsNull ||

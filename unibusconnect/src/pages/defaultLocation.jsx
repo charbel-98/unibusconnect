@@ -4,17 +4,17 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { setDefaultLocation } from "../redux/auth/authSlice";
-import { setLocation } from "../redux/locationSlice.js";
+import { setAddress, setLocation } from "../redux/locationSlice.js";
 export default function DefaultLocation() {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
   const [isRequestPending, setIsRequestPending] = useState(false); // New state
   const userId = useSelector((state) => state?.auth?.user?.id);
-  const { currentLocation } = useSelector((state) => state?.location);
-  console.log(currentLocation);
+  const { currentLocation, address } = useSelector((state) => state?.location);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log(currentLocation, address);
   const setDefaultLocationCallback = useCallback(async () => {
     try {
       if (isRequestPending) {
@@ -25,10 +25,14 @@ export default function DefaultLocation() {
       if (currentLocation) {
         const response = await axiosPrivate.post(`/setdefaultlocation`, {
           defaultLocation: currentLocation,
+          defaultAddress: address,
           userId,
         });
         dispatch(
-          setDefaultLocation({ location: response.data.defaultLocation })
+          setDefaultLocation({
+            location: response.data.defaultLocation,
+            defaultAddress: response.data.defaultAddress,
+          })
         );
         console.log(response.data);
         navigate("/", { replace: true });
@@ -58,6 +62,7 @@ export default function DefaultLocation() {
   useEffect(() => {
     return () => {
       dispatch(setLocation({ lat: null, lng: null }));
+      dispatch(setAddress(null));
     };
   }, [dispatch]);
   return (

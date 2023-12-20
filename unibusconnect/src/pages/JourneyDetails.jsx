@@ -23,9 +23,7 @@ const JourneyDetails = () => {
 
   const [isRequestPending, setIsRequestPending] = useState(false); // New state
 
-  const currentLocation = useSelector(
-    (state) => state?.location.currentLocation
-  );
+  const { currentLocation, address } = useSelector((state) => state?.location);
   const defaultLocation = useSelector(
     (state) => state?.auth?.user?.defaultLocation
   );
@@ -88,7 +86,7 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
-  async function reserve(userLocation) {
+  async function reserve(userLocation, address) {
     try {
       if (isRequestPending) {
         return;
@@ -97,6 +95,7 @@ const JourneyDetails = () => {
       const response = await axiosPrivate.post(`/reservation/register/${id}`, {
         isDeparting,
         userLocation,
+        address,
       });
       console.log(response.data);
     } catch (err) {
@@ -126,6 +125,8 @@ const JourneyDetails = () => {
       setShowModal(true);
     }
     if (defaultLocationIsNull && !currentLocationIsNull) {
+      reserve(currentLocation, address);
+
       setModalData(modalData.setCurrentLocationAsDefault);
       setShowModal(true);
     }
@@ -192,7 +193,7 @@ const JourneyDetails = () => {
               )}
             </div>
           </div>
-          )
+
           <div className="fixed-bottom view-seatbt p-3">
             <button
               onClick={Modalfunction}

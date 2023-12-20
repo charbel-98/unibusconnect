@@ -46,7 +46,11 @@ const authSlice = createSlice({
       state.status = action.payload.status;
     },
     setDefaultLocation: (state, action) => {
-      state.user = { ...state.user, defaultLocation: action.payload.location };
+      state.user = {
+        ...state.user,
+        defaultLocation: action.payload.location,
+        defaultAddress: action.payload.defaultAddress,
+      };
     },
   },
 
