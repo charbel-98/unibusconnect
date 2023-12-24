@@ -8,6 +8,8 @@ export const modal_Data = (
   reserve,
   setModalData
 ) => ({
+  //! this file is to be changed since I realized I want to show more modals after reserving for the user showing them the success of the reservation and the details of the reservation
+  //! and asking them if they want to set the current location as default or if they want to browse fot the returning journeys directly without filtering again
   noLocation: {
     title: "Warning",
     description: "You need to set your location to reserve!",
