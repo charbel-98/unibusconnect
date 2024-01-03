@@ -54,8 +54,27 @@ const journeyById = async (req, res) => {
       res.status(404).json({ message: "Journey not found" });
       return;
     }
-
-    res.status(200).json({ journey });
+    const userInDepartingJourney = journey.departingPassengers.find(
+      (user) => user.passenger.toString() === req.user
+    );
+    const userInReturningJourney = journey.returningPassengers.find(
+      (user) => user.passenger.toString() === req.user
+    );
+    const user = userInDepartingJourney || userInReturningJourney;
+    if (user) {
+      const responseData = {
+        provider: journey.serviceProvider.businessName,
+        bus: journey.bus.busNumber,
+        date: journey.date,
+        status: journey.status,
+        briefAddress: user.departureAddress.split(",")[1],
+        departure: user.departureAddress,
+        destination: user.destinationAddress,
+        departureLatLng: user.departureLatLng,
+        destinationLatLng: user.destinationLatLng,
+      };
+      res.status(200).json(responseData);
+    } else res.status(200).json({ journey });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

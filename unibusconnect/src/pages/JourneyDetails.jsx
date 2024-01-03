@@ -24,8 +24,8 @@ const JourneyDetails = () => {
   const [isRequestPending, setIsRequestPending] = useState(false); // New state
 
   const { currentLocation, address } = useSelector((state) => state?.location);
-  const defaultLocation = useSelector(
-    (state) => state?.auth?.user?.defaultLocation
+  const { defaultLocation, defaultAddress } = useSelector(
+    (state) => state?.auth?.user
   );
   const [ModalData, setModalData] = useState(null);
   const modalData = modal_Data(
@@ -33,6 +33,7 @@ const JourneyDetails = () => {
     setShowModal,
     currentLocation,
     defaultLocation,
+    defaultAddress,
     reserve,
     setModalData
   );
@@ -86,7 +87,15 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
-  async function reserve(userLocation, address) {
+  const universityAddress = isDeparting ? to : from;
+  const universityObject = journey?.serviceProvider?.region?.universities.find(
+    (university) => university[universityAddress]
+  );
+
+  const university_Lat_Lng = universityObject
+    ? universityObject[universityAddress]
+    : null;
+  async function reserve(userLocation, userAddress) {
     try {
       if (isRequestPending) {
         return;
@@ -95,7 +104,9 @@ const JourneyDetails = () => {
       const response = await axiosPrivate.post(`/reservation/register/${id}`, {
         isDeparting,
         userLocation,
-        address,
+        userAddress,
+        universityLocation: university_Lat_Lng,
+        universityAddress,
       });
       console.log(response.data);
     } catch (err) {
@@ -131,15 +142,6 @@ const JourneyDetails = () => {
       setShowModal(true);
     }
   };
-
-  const universityName = isDeparting ? to : from;
-  const universityObject = journey?.serviceProvider?.region?.universities.find(
-    (university) => university[universityName]
-  );
-
-  const university_Lat_Lng = universityObject
-    ? universityObject[universityName]
-    : null;
 
   return (
     <>

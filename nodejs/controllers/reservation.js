@@ -1,14 +1,21 @@
 const Journey = require("../models/Journey");
 const User = require("../models/User");
-
-async function reservation(req, res) {
-  const id = req.params.id;
+// isDeparting,
+// userLocation,
+// userAddress,
+// universityLocation: university_Lat_Lng,
+// universityAddress,
+async function reservation(req, res, notify) {
+  const journeyID = req.params.id;
   const userId = req.user;
-  const location = req.body.userLocation;
-  const address = req.body.address;
-  const isDeparting = req.body.isDeparting;
-  const journey = await Journey.findById(id).populate("bus");
-  const user = await User.findById(userId);
+  const {
+    isDeparting,
+    userLocation,
+    userAddress,
+    universityLocation,
+    universityAddress,
+  } = req.body;
+  const journey = await Journey.findById(journeyID).populate("bus");
   //console.log("you want me" + user, journey);
   //check if user already reserved
   if (!journey) {
@@ -45,11 +52,19 @@ async function reservation(req, res) {
         (item) => item.passenger.toString() === userId
       )
     ) {
-      res.status(400).json({ message: "You already reserved" });
+      res
+        .status(400)
+        .json({ message: "You already reserved for this journey" });
       return;
     }
     //reserve
-    journey.departingPassengers.push({ passenger: userId, location, address });
+    journey.departingPassengers.push({
+      passenger: userId,
+      departureLatLng: userLocation,
+      departureAddress: userAddress,
+      destinationLatLng: universityLocation,
+      destinationAddress: universityAddress,
+    });
     // journey.save();
   } else {
     if (
@@ -57,10 +72,18 @@ async function reservation(req, res) {
         (item) => item.passenger.toString() === userId
       )
     ) {
-      res.status(400).json({ message: "You already reserved" });
+      res
+        .status(400)
+        .json({ message: "You already reserved for this journey" });
       return;
     }
-    journey.returningPassengers.push({ passenger: userId, location, address });
+    journey.returningPassengers.push({
+      passenger: userId,
+      departureLatLng: universityLocation,
+      departureAddress: universityAddress,
+      destinationLatLng: userLocation,
+      destinationAddress: userAddress,
+    });
     // journey.save();
   }
   //change journey status to confirmed if 10 seats were reserved
@@ -69,6 +92,31 @@ async function reservation(req, res) {
     journey.returningPassengers.length == 2
   ) {
     journey.status = "Confirmed";
+    //get the passengers id
+    const passengers = journey.departingPassengers.map(
+      (item) => item.passenger
+    );
+    passengers.push(
+      ...journey.returningPassengers.map((item) => item.passenger)
+    );
+    //map through user sockets map and send notification to each user
+    const globalUserSocketMap = req.app.get("globalUserSocketMap");
+    const notificationMap = req.app.get("notificationMap");
+    const io = req.app.get("io");
+    const sockets = [];
+    passengers.forEach((passenger) => {
+      const socketId = globalUserSocketMap.get(passenger);
+      if (socketId) {
+        sockets.push(socketId);
+      } else {
+        //store notification in database
+      }
+    });
+    sockets.forEach((socketId) => {
+      io.to(socketId).emit("notification", {
+        message: `Your reservation on ${journey.date} has been confirmed`,
+      });
+    });
   }
   await journey.save();
 

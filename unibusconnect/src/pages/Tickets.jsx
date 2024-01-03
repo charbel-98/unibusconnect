@@ -1,25 +1,39 @@
-import { useLocation, useNavigate } from "react-router-dom";
+//!still have to add 404 handling and error handling
+
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
 
-function Ticket({ date, status, SP, isDeparting, time }) {
+export function Ticket({
+  date,
+  status,
+  SP,
+  isDeparting,
+  time,
+  path,
+  from,
+  to,
+}) {
+  const navigate = useNavigate();
   return (
-    <div className="bg-white rounded-1 shadow-sm p-3 mb-3 w-100">
-      <a href="your-ticket.html">
-        <div className="d-flex align-items-center mb-2">
-          <small className="text-muted">A/C Sleeper (2+1)</small>
-          <small className="text-success ms-auto f-10">{status}</small>
-        </div>
-        <h6 className="mb-3 l-hght-18 fw-bold text-dark">{SP}</h6>
-      </a>
+    <div
+      className="bg-white rounded-1 shadow-sm p-3 mb-3 w-100"
+      onClick={() => navigate(path)}
+    >
+      <div className="d-flex align-items-center mb-2">
+        <small className="text-muted">A/C Sleeper (2+1)</small>
+        <small className="text-success ms-auto f-10">{status}</small>
+      </div>
+      <h6 className="mb-3 l-hght-18 fw-bold text-dark">{SP}</h6>
+
       <div className="row mx-0 mb-3">
         <div className="col-6 p-0">
           <small className="text-muted mb-1 f-10 pe-1">GOING FROM</small>
-          <p className="small mb-0 l-hght-14"> LUDHIANA</p>
+          <p className="small mb-0 l-hght-14">{from}</p>
         </div>
         <div className="col-6 p-0">
           <small className="text-muted mb-1 f-10 pe-1">TO</small>
-          <p className="small mb-0 l-hght-14"> GOA</p>
+          <p className="small mb-0 l-hght-14">{to}</p>
         </div>
       </div>
       <div className="row mx-0">
@@ -33,9 +47,7 @@ function Ticket({ date, status, SP, isDeparting, time }) {
           </small>
           <p className="small mb-0 l-hght-14">
             {" "}
-            <a className="text-success fw-bold" href="customer-feedback.html">
-              {time}
-            </a>
+            <Link className="text-success fw-bold">{time}</Link>
           </p>
         </div>
       </div>
@@ -86,6 +98,9 @@ const Tickets = () => {
             date={ticket.date}
             isDeparting={ticket.isDeparting}
             time={ticket.time}
+            from={ticket.from}
+            to={ticket.to}
+            path={`/tickets/${ticket.journeyID}`}
           />
         );
       })}

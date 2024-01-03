@@ -18,37 +18,46 @@ import RequireAuth from "./pages/RequireAuth";
 import PersistLogin from "./pages/PersistLogin";
 import { LoginSuccess } from "./UI/LoginSuccess";
 import { setAuth } from "./redux/auth/authSlice";
-
+import io from "socket.io-client";
+import LostItem from "./pages/LostItem";
+import History from "./pages/History.jsx";
+import TicketDetails from "./pages/TicketDetails";
 function App() {
   const status = useSelector((state) => state.auth.status);
+  const socket = io.connect("http://localhost:3000");
   const dispatch = useDispatch();
-  //google auth fetching user
   useEffect(() => {
-    const fetchAuthUser = async () => {
-      const response = await axios
-        .get("/api/v1/auth/login/success", {
-          withCredentials: true,
-        })
-        .catch((err) => {
-          console.log("Not properly authenticated");
-          dispatch(
-            setAuth({ accessToken: null, status: "failed", user: null })
-          );
-        });
+    socket.on("notification", (data) => {
+      console.log(data);
+    });
+  }, [socket]);
+  //google auth fetching user
+  // useEffect(() => {
+  //   const fetchAuthUser = async () => {
+  //     const response = await axios
+  //       .get("/api/v1/auth/login/success", {
+  //         withCredentials: true,
+  //       })
+  //       .catch((err) => {
+  //         console.log("Not properly authenticated");
+  //         dispatch(
+  //           setAuth({ accessToken: null, status: "failed", user: null })
+  //         );
+  //       });
 
-      if (response?.data) {
-        console.log("User: ", response.data);
-        dispatch(
-          setAuth({
-            user: response.data.user,
-            accessToken: response.data.accessToken,
-            status: "success",
-          })
-        );
-      }
-    };
-    //fetchAuthUser();
-  });
+  //     if (response?.data) {
+  //       console.log("User: ", response.data);
+  //       dispatch(
+  //         setAuth({
+  //           user: response.data.user,
+  //           accessToken: response.data.accessToken,
+  //           status: "success",
+  //         })
+  //       );
+  //     }
+  //   };
+  //fetchAuthUser();
+  //});
 
   return (
     <BrowserRouter>
@@ -73,8 +82,12 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="journeys/:id" element={<JourneyDetails />} />
             </Route>
+
             <Route element={<RequireAuth />}>
               <Route path="tickets" element={<Tickets />} />
+            </Route>
+            <Route element={<RequireAuth />}>
+              <Route path="tickets/:id" element={<TicketDetails />} />
             </Route>
             <Route element={<RequireAuth />}>
               <Route path="Profile" element={<Profile />} />
@@ -87,6 +100,12 @@ function App() {
             </Route>
             <Route element={<RequireAuth />}>
               <Route path="support" element={<Support />} />
+            </Route>
+            <Route element={<RequireAuth />}>
+              <Route path="reports/lost-item" element={<History />} />
+            </Route>
+            <Route element={<RequireAuth />}>
+              <Route path="reports/lost-item/:id" element={<LostItem />} />
             </Route>
           </Route>
         </Route>

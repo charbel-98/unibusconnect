@@ -18,10 +18,11 @@ export const sideBarSlice = createSlice({
     open: (state) => {
       state.openSideBar = true;
     },
-    close: (state) => {
+    close: (state, both = false) => {
       state.openNestedSideBar.open
         ? (state.openNestedSideBar.open = false)
         : (state.openSideBar = false);
+      both && (state.openSideBar = false);
     },
     openNested: (state, { payload }) => {
       state.openNestedSideBar.open = true;

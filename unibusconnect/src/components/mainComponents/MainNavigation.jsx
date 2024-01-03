@@ -41,6 +41,8 @@ function MainNavigation() {
     "/profile": "Profile",
     "/support": "Support",
     "/default-location": "Default Location",
+    "/reports/lost-item": "Report",
+    "lost-item/": "Lost Item",
   };
   const journeysAndDetails = ([
     "/journeys",
@@ -49,8 +51,10 @@ function MainNavigation() {
     "/support",
     "/profile",
     "/default-location",
+    "/reports/lost-item",
   ].includes(pathname) ||
-    pathname.startsWith("/journeys/")) && (
+    pathname.startsWith("/journeys/") ||
+    pathname.startsWith("/reports/lost-item/")) && (
     <Link className="text-light mr-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
       {([
@@ -60,13 +64,18 @@ function MainNavigation() {
         "/support",
         "/profile",
         "/default-location",
+        "/reports/lost-item",
       ].includes(pathname) ||
-        pathname.startsWith("/journeys/")) && (
+        pathname.startsWith("/journeys/") ||
+        pathname.startsWith("/reports/lost-item/")) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
         >
-          {titles[pathname] || titles[`${pathname.split("/")[1]}/`] || ""}
+          {titles[pathname] ||
+            titles[`${pathname.split("/")[1]}/`] ||
+            titles[`${pathname.split("/")[2]}/`] ||
+            ""}
         </span>
       )}
     </Link>
@@ -87,8 +96,10 @@ function MainNavigation() {
         "/support",
         "/profile",
         "/default-location",
+        "/reports/lost-item",
       ].includes(pathname) ||
-        pathname.startsWith("/journeys/")) && (
+        pathname.startsWith("/journeys/") ||
+        pathname.startsWith("/reports/lost-item/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
           <div className="font-weight-normal mb-0 d-flex align-items-center">
             {homeLogo}

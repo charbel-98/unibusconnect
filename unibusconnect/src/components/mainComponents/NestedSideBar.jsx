@@ -1,12 +1,20 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { close } from "../../redux/sideBarSlice";
 
-function NestedItem({ title, id, path }) {
+function NestedItem({ title, path }) {
+  const dispatch = useDispatch();
   return (
-    <li key={id}>
+    <li>
       <div className="nav-item-wrapper">
-        <a href={path} role="menuitem" tabIndex="0">
+        <Link
+          to={path}
+          role="menuitem"
+          tabIndex="0"
+          onClick={() => dispatch(close(true))}
+        >
           {title}
-        </a>
+        </Link>
       </div>
     </li>
   );
@@ -21,8 +29,8 @@ function NestedSideBar() {
       <div className="nav-content ps-4">
         <h2 className="ms-3">{title}</h2>
         <ul className="ms-4">
-          {content?.map((item) => (
-            <NestedItem title={item.title} id={item.id} path={item.path} />
+          {content?.map((item, i) => (
+            <NestedItem title={item.title} key={i} path={item.path} />
           ))}
         </ul>
       </div>

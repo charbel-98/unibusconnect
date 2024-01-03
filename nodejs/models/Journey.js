@@ -25,19 +25,31 @@ const JourneySchema = new mongoose.Schema({
   departingPassengers: [
     {
       passenger: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      location: {
-        lat: { type: Number, required: true },
-        lng: { type: Number, required: true },
+      departureLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
       },
+      departureAddress: { type: String },
+      destinationLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
+      },
+      destinationAddress: { type: String },
     },
   ],
   returningPassengers: [
     {
       passenger: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      location: {
-        lat: { type: Number, required: true },
-        lng: { type: Number, required: true },
+      departureLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
       },
+      departureAddress: { type: String },
+      destinationLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
+      },
+      destinationAddress: { type: String },
     },
   ],
 });
