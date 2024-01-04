@@ -15,7 +15,7 @@ const Support = () => {
         <p className="mb-0 small">Click here to mail us</p>
       </div>
       <div className="messenger bg-white shadow-sm p-3 d-flex align-items-center rounded-1 mb-2">
-        <i className="icofont-support mr-3 h5 mb-0 text-danger"></i>
+        <i className="icofont-support me-3 h5 mb-0 text-danger"></i>
         <p className="mb-0 small">Customer Care</p>
       </div>
     </div>

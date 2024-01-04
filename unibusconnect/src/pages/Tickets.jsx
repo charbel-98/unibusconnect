@@ -3,6 +3,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
+import TicketsSkeleton from "../UI/skeleton-components/TicketsSkeleton";
 
 export function Ticket({
   date,
@@ -88,23 +89,26 @@ const Tickets = () => {
     };
   }, []);
   return (
-    <div className="your-ticket border-top row m-0 p-3">
-      {tickets.map((ticket, i) => {
-        return (
-          <Ticket
-            key={i}
-            status={ticket.status}
-            SP={ticket.serviceProvider.businessName}
-            date={ticket.date}
-            isDeparting={ticket.isDeparting}
-            time={ticket.time}
-            from={ticket.from}
-            to={ticket.to}
-            path={`/tickets/${ticket.journeyID}`}
-          />
-        );
-      })}
-    </div>
+    <>
+      <div className="your-ticket border-top row m-0 p-3">
+        {isLoading && <TicketsSkeleton cards={3} />}{" "}
+        {tickets.map((ticket, i) => {
+          return (
+            <Ticket
+              key={i}
+              status={ticket.status}
+              SP={ticket.serviceProvider.businessName}
+              date={ticket.date}
+              isDeparting={ticket.isDeparting}
+              time={ticket.time}
+              from={ticket.from}
+              to={ticket.to}
+              path={`/tickets/${ticket.journeyID}`}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 };
 export default Tickets;

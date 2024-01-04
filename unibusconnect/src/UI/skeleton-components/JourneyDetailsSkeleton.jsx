@@ -1,5 +1,4 @@
 import Skeleton from "react-loading-skeleton";
-import React from "react";
 
 const JourneyDetailsSkeleton = () => {
   return (
@@ -102,7 +101,7 @@ const JourneyDetailsSkeleton = () => {
         >
           <div className="bus-details pt-3 pb-0 px-3">
             <div className="info" id="info">
-              <h6 className="font-weight-normal">
+              <h6 className="fw-normal">
                 <Skeleton width={50} />
               </h6>
               <p className="text-muted small mb-3">

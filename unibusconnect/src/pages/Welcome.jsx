@@ -16,9 +16,7 @@ const Welcome = () => {
       <div className="pt-2 text-center">
         <img src={image} />
         <div className="head py-4 px-4 text-center">
-          <h5 className="font-weight-bold mb-4">
-            Start by creating an account.
-          </h5>
+          <h5 className="fw-bold mb-4">Start by creating an account.</h5>
           <p className="text-muted">
             Hop aboard the future of hassle-free travel
             <br /> sign up now and unlock the gateway to effortless bus

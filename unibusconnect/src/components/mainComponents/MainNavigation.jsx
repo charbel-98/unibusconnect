@@ -55,7 +55,7 @@ function MainNavigation() {
   ].includes(pathname) ||
     pathname.startsWith("/journeys/") ||
     pathname.startsWith("/reports/lost-item/")) && (
-    <Link className="text-light mr-3" to="..">
+    <Link className="text-light me-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
       {([
         "/journeys",
@@ -101,7 +101,7 @@ function MainNavigation() {
         pathname.startsWith("/journeys/") ||
         pathname.startsWith("/reports/lost-item/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
-          <div className="font-weight-normal mb-0 d-flex align-items-center">
+          <div className="fw-normal mb-0 d-flex align-items-center">
             {homeLogo}
             {journeysAndDetails}
 

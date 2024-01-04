@@ -18,13 +18,13 @@ const useRefreshToken = (controller) => {
     console.log(JSON.stringify(auth));
     dispatch(
       setAuth({
-        accessToken: response.data.accessToken,
-        user: response.data.user,
+        accessToken: response?.data?.accessToken,
+        user: response?.data?.user,
       })
     );
-    console.log(response.data.accessToken);
+    console.log(response?.data?.accessToken);
 
-    return response.data.accessToken;
+    return response?.data?.accessToken;
   };
   return refresh;
 };

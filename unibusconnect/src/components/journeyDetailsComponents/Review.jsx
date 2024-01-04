@@ -8,7 +8,7 @@ function Review() {
     >
       <div className="bus-details pt-3 pb-0 px-3">
         <div className="review" id="review">
-          <h6 className="font-weight-normal">Review</h6>
+          <h6 className="fw-normal">Review</h6>
           <p className="mb-0">
             <span className="h4 mb-0">4.8</span>
             <span className="h6">/5</span>
@@ -131,18 +131,18 @@ function Review() {
                   src="img/review/r1.jpg"
                   className="img-fluid rounded-pill"
                 />
-                <div className="ml-2">
-                  <p className="mb-0 small font-weight-bold">Mike Jhon</p>
+                <div className="ms-2">
+                  <p className="mb-0 small fw-bold">Mike Jhon</p>
                   <div className="start-rating d-flex align-items-center f-8">
                     <i className="icofont-star text-danger"></i>
                     <i className="icofont-star text-danger"></i>
                     <i className="icofont-star text-danger"></i>
                     <i className="icofont-star text-danger"></i>
                     <i className="icofont-star text-muted"></i>
-                    <span className="ml-2 small text-danger">Good</span>
+                    <span className="ms-2 small text-danger">Good</span>
                   </div>
                 </div>
-                <div className="date ml-auto mb-auto small">
+                <div className="date ms-auto mb-auto small">
                   <small className="f-10">24/03/2021</small>
                 </div>
               </div>
@@ -158,18 +158,18 @@ function Review() {
                   src="img/review/r2.jpg"
                   className="img-fluid rounded-pill"
                 />
-                <div className="ml-2">
-                  <p className="mb-0 small font-weight-bold">Mike Jhon</p>
+                <div className="ms-2">
+                  <p className="mb-0 small fw-bold">Mike Jhon</p>
                   <div className="start-rating d-flex align-items-center f-8">
                     <i className="icofont-star text-danger"></i>
                     <i className="icofont-star text-danger"></i>
                     <i className="icofont-star text-muted"></i>
                     <i className="icofont-star text-muted"></i>
                     <i className="icofont-star text-muted"></i>
-                    <span className="ml-2 small text-danger">Not Good</span>
+                    <span className="ms-2 small text-danger">Not Good</span>
                   </div>
                 </div>
-                <div className="date ml-auto mb-auto small">
+                <div className="date ms-auto mb-auto small">
                   <small className="f-10">24/03/2020</small>
                 </div>
               </div>

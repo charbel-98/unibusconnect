@@ -5,7 +5,7 @@ export const SelectSeat = () => {
   const [change, setChange] = useState(false);
   return (
     <div className="select-seat row bg-white mx-0 px-3 pt-3 pb-1 mb-3 rounded-1 shadow-sm">
-      <div className="col-8 pl-0">
+      <div className="col-8 ps-0">
         <div className="d-flex">
           <div className="sold text-center">
             <img src="img/sold-seat.png" className="img-fluid mb-1" />
@@ -82,7 +82,7 @@ export const SelectSeat = () => {
           </div>
         </div>
       </div>
-      <div className="col-4 text-right pr-0">
+      <div className="col-4 text-right ps-0">
         <img src="img/driver.png" className="img-fluid mb-4" />
         <div className="checkboxes-seat mt-4">
           <SeatGroup

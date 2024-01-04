@@ -67,7 +67,7 @@ const journeyById = async (req, res) => {
         bus: journey.bus.busNumber,
         date: journey.date,
         status: journey.status,
-        briefAddress: user.departureAddress.split(",")[1],
+        
         departure: user.departureAddress,
         destination: user.destinationAddress,
         departureLatLng: user.departureLatLng,

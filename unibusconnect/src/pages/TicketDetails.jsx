@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import TicketHeader from "../components/ticketComponents/TicketHeader";
 import TicketBoardingDetails from "../components/ticketComponents/TicketBoardingDetails";
 import { useParams } from "react-router-dom";
+import TicketViewMap from "../components/ticketComponents/TicketViewMap";
 const TicketDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [journey, setJourney] = useState([]);
@@ -48,10 +49,8 @@ const TicketDetails = () => {
 
   return (
     <div className="p-3">
-      <h5 className="mb-3 font-weight-bold text-dark">{journey?.provider}</h5>
-      <p className={`text-${"success"} mb-3 font-weight-bold`}>
-        {journey?.status}
-      </p>
+      <h5 className="mb-3 fw-bold text-dark">{journey?.provider}</h5>
+      <p className={`text-${"success"} mb-3 fw-bold`}>{journey?.status}</p>
       <TicketHeader
         date={journey?.date}
         from={journey?.departure}
@@ -61,7 +60,7 @@ const TicketDetails = () => {
         from={journey?.departure}
         to={journey?.destination}
       />
-      <h5 className=" mb-3 font-weight-bold">Select your seat</h5>
+      <TicketViewMap />
     </div>
   );
 };

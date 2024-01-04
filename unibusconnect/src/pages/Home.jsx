@@ -158,7 +158,7 @@ const Home = () => {
         <div className="p-3">
           <h6 className="text-center">Bus Discounts For You</h6>
           <div className="row m-0">
-            <div className="col-6 py-1 pr-1 pl-0">
+            <div className="col-6 py-1 ps-1 ps-0">
               <a href="listing.html">
                 <img
                   className="img-fluid rounded-1 shadow-sm"
@@ -167,7 +167,7 @@ const Home = () => {
                 />
               </a>
             </div>
-            <div className="col-6 py-1 pl-1 pr-0">
+            <div className="col-6 py-1 ps-1 ps-0">
               <a href="listing.html">
                 <img
                   className="img-fluid rounded-1 shadow-sm"
@@ -176,7 +176,7 @@ const Home = () => {
                 />
               </a>
             </div>
-            <div className="col-6 py-1 pr-1 pl-0">
+            <div className="col-6 py-1 ps-1 ps-0">
               <a href="listing.html">
                 <img
                   className="img-fluid rounded-1 shadow-sm"
@@ -185,7 +185,7 @@ const Home = () => {
                 />
               </a>
             </div>
-            <div className="col-6 py-1 pl-1 pr-0">
+            <div className="col-6 py-1 ps-1 ps-0">
               <a href="listing.html">
                 <img
                   className="img-fluid rounded-1 shadow-sm"
