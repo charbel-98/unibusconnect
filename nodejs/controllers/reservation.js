@@ -1,11 +1,13 @@
 const Journey = require("../models/Journey");
+const Notification = require("../models/Notification");
 const User = require("../models/User");
+const UserNotification = require("../models/UserNotification");
 // isDeparting,
 // userLocation,
 // userAddress,
 // universityLocation: university_Lat_Lng,
 // universityAddress,
-async function reservation(req, res, notify) {
+async function reservation(req, res) {
   const journeyID = req.params.id;
   const userId = req.user;
   const {
@@ -88,8 +90,8 @@ async function reservation(req, res, notify) {
   }
   //change journey status to confirmed if 10 seats were reserved
   if (
-    journey.departingPassengers.length == 2 ||
-    journey.returningPassengers.length == 2
+    journey.departingPassengers.length == 1 ||
+    journey.returningPassengers.length == 1
   ) {
     journey.status = "Confirmed";
     //get the passengers id
@@ -99,24 +101,46 @@ async function reservation(req, res, notify) {
     passengers.push(
       ...journey.returningPassengers.map((item) => item.passenger)
     );
-    //map through user sockets map and send notification to each user
-    const globalUserSocketMap = req.app.get("globalUserSocketMap");
-    const notificationMap = req.app.get("notificationMap");
-    const io = req.app.get("io");
-    const sockets = [];
-    passengers.forEach((passenger) => {
-      const socketId = globalUserSocketMap.get(passenger);
+
+    const notification = await Notification.create({
+      message: `Your reservation on ${journey.date} has been confirmed`,
+      type: "confirmation",
+    });
+
+    let globalUserSocketMap = req.app.get("globalUserSocketMap");
+    let io = req.app.get("io");
+    console.error("io", io)
+
+    passengers.forEach(async (passenger) => {
+      UserNotification.create({
+        userID: passenger,
+        notificationID: notification._id,
+      });
+      const socketId = globalUserSocketMap.get(passenger.toString());
+      console.log("socketId", socketId);
+      console.log("passenger", passenger, passenger.toString());
       if (socketId) {
-        sockets.push(socketId);
-      } else {
-        //store notification in database
+        io.to(socketId).emit("notification", notification);
       }
     });
-    sockets.forEach((socketId) => {
-      io.to(socketId).emit("notification", {
-        message: `Your reservation on ${journey.date} has been confirmed`,
-      });
-    });
+
+
+    //map through user sockets map and send notification to each user
+
+    // const sockets = [];
+    // passengers.forEach((passenger) => {
+    //   const socketId = globalUserSocketMap.get(passenger);
+    //   if (socketId) {
+    //     sockets.push(socketId);
+    //   } else {
+    //     //store notification in database
+    //   }
+    // });
+    // sockets.forEach((socketId) => {
+    //   io.to(socketId).emit("notification", {
+    //     message: `Your reservation on ${journey.date} has been confirmed`,
+    //   });
+    // });
   }
   await journey.save();
 

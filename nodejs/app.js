@@ -52,7 +52,7 @@ const start = async () => {
 
 start();
 const server = http.createServer(app);
-const io = initializeSocketServer({ server, app, userID: app?.req?.user });
+const io = initializeSocketServer({ server, app });
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {

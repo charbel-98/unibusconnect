@@ -18,19 +18,24 @@ import RequireAuth from "./pages/RequireAuth";
 import PersistLogin from "./pages/PersistLogin";
 import { LoginSuccess } from "./UI/LoginSuccess";
 import { setAuth } from "./redux/auth/authSlice";
-import io from "socket.io-client";
 import LostItem from "./pages/LostItem";
 import History from "./pages/History.jsx";
 import TicketDetails from "./pages/TicketDetails";
+import useAuth from "./hooks/useAuth.js";
+import io from "socket.io-client";
+
 function App() {
-  const status = useSelector((state) => state.auth.status);
-  const socket = io.connect("http://localhost:3000");
-  const dispatch = useDispatch();
+  const user = useAuth();
   useEffect(() => {
-    socket.on("notification", (data) => {
-      console.log(data);
-    });
-  }, [socket]);
+    if(user.auth) {
+      console.error("user", user);
+      const socket = io.connect("http://localhost:3000");
+      socket.emit("user", user);
+      socket.on("notification", (data) => {
+        console.error("notification", data);
+      });
+    }
+  }, [user]);
   //google auth fetching user
   // useEffect(() => {
   //   const fetchAuthUser = async () => {

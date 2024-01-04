@@ -3,6 +3,9 @@ const ServiceProvider = require("../models/ServiceProvider");
 const { BadRequestError } = require("../errors");
 const Bus = require("../models/Bus");
 const journeys = async (req, res) => {
+  let io = req.app.get("io");
+  console.error("io")
+  console.error("io", io)
   try {
     const { from, to, date } = req.query;
     if (!from || !to || !date) {
@@ -19,7 +22,7 @@ const journeys = async (req, res) => {
         { [`region.universities.${to}`]: { $exists: true } },
       ],
     });
-    console.log(serviceProvider);
+    // console.log(serviceProvider);
     if (!serviceProvider) {
       res.status(404).json({ message: "No service provider found" });
       return;
@@ -29,23 +32,23 @@ const journeys = async (req, res) => {
     startOfDay.setHours(0, 0, 0, 0);
     const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
-    console.log(startOfDay, endOfDay);
+    // console.log(startOfDay, endOfDay);
     const journeys = await Journey.find({
       serviceProvider: serviceProvider._id,
       date: { $gte: startOfDay, $lte: endOfDay },
     })
       .populate("bus serviceProvider")
       .exec();
-    console.log(journeys);
+    // console.log(journeys);
     res.status(200).json({ journeys });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     res.status(500).send("Server Error");
   }
 };
 const journeyById = async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
     const journey = await Journey.findById(req.params.id)
       .populate("bus serviceProvider")
       .exec();
@@ -67,7 +70,7 @@ const journeyById = async (req, res) => {
         bus: journey.bus.busNumber,
         date: journey.date,
         status: journey.status,
-        
+
         departure: user.departureAddress,
         destination: user.destinationAddress,
         departureLatLng: user.departureLatLng,
@@ -76,7 +79,7 @@ const journeyById = async (req, res) => {
       res.status(200).json(responseData);
     } else res.status(200).json({ journey });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     res.status(500).send("Server Error");
   }
 };
