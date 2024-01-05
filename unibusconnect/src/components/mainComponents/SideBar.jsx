@@ -39,7 +39,7 @@ const navItems = [
     icon: <BellFill className="me-3" />,
 
     isParentItem: false,
-    path: "/notification",
+    path: "/notifications",
     isLogout: false,
   },
   {

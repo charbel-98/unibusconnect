@@ -55,7 +55,7 @@ function MainNavigation() {
   ].includes(pathname) ||
     pathname.startsWith("/journeys/") ||
     pathname.startsWith("/reports/lost-item/")) && (
-    <Link className="text-light me-3" to="..">
+    <Link className="text-light d-flex me-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
       {([
         "/journeys",

@@ -17,9 +17,10 @@ export function Ticket({
 }) {
   const navigate = useNavigate();
   return (
-    <div
-      className="bg-white rounded-1 shadow-sm p-3 mb-3 w-100"
-      onClick={() => navigate(path)}
+    <Link
+      to={path}
+      className="bg-white text-black rounded-1 shadow-sm p-3 mb-3 w-100"
+      // onClick={() => navigate()}
     >
       <div className="d-flex align-items-center mb-2">
         <small className="text-muted">A/C Sleeper (2+1)</small>
@@ -52,7 +53,7 @@ export function Ticket({
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -91,8 +92,8 @@ const Tickets = () => {
   return (
     <>
       <div className="your-ticket border-top row m-0 p-3">
-        {isLoading && <TicketsSkeleton cards={3} />}{" "}
-        {tickets.map((ticket, i) => {
+        {isLoading && <TicketsSkeleton cards={3} />}
+        {tickets.length && tickets.map((ticket, i) => {
           return (
             <Ticket
               key={i}
@@ -106,7 +107,8 @@ const Tickets = () => {
               path={`/tickets/${ticket.journeyID}`}
             />
           );
-        })}
+        }) || (<div className="text-center w-100"> <h5 className="small text-muted">No Tickets Found !</h5></div>)
+        }
       </div>
     </>
   );

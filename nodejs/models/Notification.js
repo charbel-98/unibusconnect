@@ -10,7 +10,7 @@ const NotificationSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["confirmation", "cancellation", "reminder"],
+    enum: ["confirmation", "cancellation", "discount", "reminder"],
     required: true,
   },
 });

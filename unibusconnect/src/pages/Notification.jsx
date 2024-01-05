@@ -1,4 +1,4 @@
-import { CheckLg, GiftFill } from "react-bootstrap-icons";
+import { CheckLg, XLg, Clock, Percent } from "react-bootstrap-icons";
 import React from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,6 +13,55 @@ const Notification = () => {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const transformDate = (date) => {
+    const diffTime = Math.abs(new Date() - new Date(date) + (1000 * 60 * 60 * 24 * 30 * 13));
+    if (diffTime < 60000) {
+      return "Just Now";
+    } else if (diffTime < 3600000) {
+      return `${Math.floor(diffTime / 60000)} minutes ago`;
+    } else if (diffTime < 86400000) {
+      return `${Math.floor(diffTime / 3600000)} hours ago`;
+    } else if (diffTime < 604800000) {
+      return `${Math.floor(diffTime / 86400000)} days ago`;
+    } else if (diffTime < 2629800000) {
+      return `${Math.floor(diffTime / 604800000)} weeks ago`;
+    } else if (diffTime < 31557600000) {
+      return `${Math.floor(diffTime / 2629800000)} months ago`;
+    } else {
+      return `${Math.floor(diffTime / 31557600000)} years ago`;
+    }
+
+    // if (myDate.getDate() === currentDate.getDate()) {
+    //   return `${myDate.getHours()}:${myDate.getMinutes().toString().padStart(2, 0)}`;
+    // } else if (myDate.getDate() === currentDate.getDate() - 1) {
+    //     return `Yesterday`;
+    // }
+    // return `${myDate.getDate()}/${myDate.getMonth() + 1}/${myDate.getFullYear()}`;
+  }
+  // "confirmation", "cancellation", "discount", "reminder"
+  const elementType = {
+    "confirmation": (<div className="icon pe-3">
+      <span className="icofont-check-alt bg-success text-white mb-0 rounded-pill">
+        <CheckLg size={20} />
+      </span>
+    </div>),
+    "cancellation": (<div className="icon pe-3">
+      <span className="icofont-close bg-danger text-white mb-0 rounded-pill">
+        <XLg size={20} />
+      </span>
+    </div>),
+    "discount": (<div className="icon pe-3">
+      <span className="percentage bg-primary text-white mb-0 rounded-pill p-1">
+        <Percent size={15} />
+      </span>
+    </div>),
+    "reminder": (<div className="icon pe-3">
+      <span className=" bg-warning text-dark mb-0 rounded-pill">
+        <Clock size={15} />
+      </span>
+    </div>),
+
+  }
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -42,31 +91,31 @@ const Notification = () => {
 
   return (
     <div className="osahan-notification padding-bt">
-      <div className="osahan-notification">
+      <div className="osahan-notification p-3">
 
         {isLoading && <TicketsSkeleton cards={3} />}
-        {notifications.map((notification, i) => {
-          return (
-            <div className="notification d-flex justify-content-between m-0 bg-white border-bottom p-3">
-              <div className="d-flex">
-                <div className="icon pe-3">
-                  <span className="icofont-check-alt bg-success text-white mb-0 rounded-pill">
-                    <CheckLg size={20} />
-                  </span>
-                </div>
+        {
+          (!isLoading && notifications.length && notifications.map((notification, i) => {
+            notification.seen = Math.random() > 0.5;
+            return (
+              <Link to={`${notification._id}`} className={`notification d-flex align-items-center m-0 bg-white text-black border-bottom p-3 ${notification.seen ? 'seen' : ''}`}>
+                {/* <div className="d-flex"> */}
+                {elementType[notification.type]}
                 <div className="noti-details l-hght-18 pe-0">
-                  <p className="mb-1">{notification.type}</p>
-                  <span className="small text-muted">
+                  <div className="mb-1 d-flex justify-content-between">
+                    {notification.type}
+                    <span className="small text-right text-truncate">{transformDate(notification.date)}</span>
+
+                  </div>
+                  <span className="small text-muted two-lines">
                     {notification.message}
                   </span>
                 </div>
-              </div>
-              <div className="f-10 p-2 text-right">
-                <span>{new Date(notification.date).toLocaleDateString()}</span>
-              </div>
-            </div>
-          );
-        })}
+                {/* </div> */}
+              </Link>
+            );
+          }) || (<div className="text-center w-100"> <h5 className="small text-muted">No Notifications Found !</h5></div>))
+        }
         {/* 
         <div className="notification d-flex m-0 bg-white border-bottom p-3">
           <div className="icon pe-3">

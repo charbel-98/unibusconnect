@@ -33,7 +33,6 @@ const getNotifications = async (req, res) => {
                     "date": "$notificationData.date",
                     "type": "$notificationData.type",
                     "seen": 1,
-                    "_id": 0
                 }
             },
             {
