@@ -32,7 +32,7 @@ body {
 .two-lines {
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
@@ -45,6 +45,7 @@ body {
     transform: translateX(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0%);
     opacity: 1;
@@ -122,27 +123,19 @@ body {
   transform: translate3d(0, 790px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left li.level-open>.nav-wrapper {
   transform: translate3d(-40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right li.level-open>.nav-wrapper {
   transform: translate3d(40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top li.level-open>.nav-wrapper {
   transform: translate3d(0, -40px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom li.level-open>.nav-wrapper {
   transform: translate3d(0, 40px, 0);
 }
 
@@ -177,7 +170,7 @@ small {
   font-size: 10px;
 }
 
-div.star-rating > * {
+div.star-rating>* {
   margin-right: 3px;
 }
 
@@ -188,7 +181,7 @@ div.star-rating > * {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
+.nav-pills .show>.nav-link {
   color: #fff;
   background-color: #dd3444;
 }
@@ -241,18 +234,18 @@ input {
 
 .btn-success:not(:disabled):not(.disabled).active,
 .btn-success:not(:disabled):not(.disabled):active,
-.show > .btn-success.dropdown-toggle {
+.show>.btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
 }
 
-.btn-group-vertical > .btn.active,
-.btn-group-vertical > .btn:active,
-.btn-group-vertical > .btn:focus,
-.btn-group > .btn.active,
-.btn-group > .btn:active,
-.btn-group > .btn:focus {
+.btn-group-vertical>.btn.active,
+.btn-group-vertical>.btn:active,
+.btn-group-vertical>.btn:focus,
+.btn-group>.btn.active,
+.btn-group>.btn:active,
+.btn-group>.btn:focus {
   z-index: 1;
 }
 
@@ -289,10 +282,10 @@ input {
     inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
-.btn-group-toggle > .btn input[type="checkbox"],
-.btn-group-toggle > .btn input[type="radio"],
-.btn-group-toggle > .btn-group > .btn input[type="checkbox"],
-.btn-group-toggle > .btn-group > .btn input[type="radio"] {
+.btn-group-toggle>.btn input[type="checkbox"],
+.btn-group-toggle>.btn input[type="radio"],
+.btn-group-toggle>.btn-group>.btn input[type="checkbox"],
+.btn-group-toggle>.btn-group>.btn input[type="radio"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -435,6 +428,144 @@ div.modal {
 div.modal-content {
   box-shadow: 0 0 10px rgb(108, 108, 108);
 }
+
 div.modal-dialog {
   margin: auto;
+}
+
+
+#notifications {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  top: 10px;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 99;
+  width: 100%;
+  max-height: 140px;
+  overflow-y: scroll;
+}
+
+#notifications>div {
+  width: 90%;
+  height: 20px;
+}
+
+#notifications>div:last-child {
+  height: auto;
+}
+
+
+.hide {
+  animation: hideNotification 1s ease-in-out;
+}
+
+/* "confirmation", "error", "cancellation", "reminder", "discount" */
+.notification_message {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+  padding: 10px 5px 5px;
+  border-radius: 20px;
+  margin: auto;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #eee;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: dropNotification 0.5s ease-in-out;
+  box-shadow: 0 1px 4px rgb(108, 108, 108);
+
+  &.confirmation {
+    background: rgba(0, 255, 0, 0.1);
+  }
+
+  &.error {
+    background: rgba(255, 255, 0, 0.1);
+  }
+
+  &.cancellation {
+    background: rgba(255, 0, 0, 0.1);
+  }
+
+  &.reminder {
+    background: rgba(0, 0, 255, 0.1);
+  }
+
+  &.discount {
+    background: rgba(0, 255, 255, 0.1);
+  }
+}
+
+.notification_message:not(:first-child) {
+  position: absolute;
+  top: 20px;
+}
+
+@keyframes dropNotification {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes hideNotification {
+  from {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.notification_icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background: #000;
+  color: #fff;
+}
+
+.notification_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.notification_title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+}
+
+.notification_description {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000cc;
+}
+
+.notification_message:hover {
+  /* background: #eee; */
+  cursor: pointer;
 }
