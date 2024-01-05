@@ -109,6 +109,7 @@ const JourneyDetails = () => {
         universityAddress,
       });
       console.log(response.data);
+      navigate("/");
     } catch (err) {
       // will be edited later
       alert(err.response.data.message);

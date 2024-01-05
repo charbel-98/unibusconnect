@@ -25,7 +25,10 @@ async function reservation(req, res) {
       socketId &&
         io
           .to(socketId)
-          .emit("notification", { errorMessage: "Journey not found" });
+          .emit("notification", {
+            message: "Journey not found",
+            type: "error",
+          });
       res.status(404).json({ message: "Journey not found" });
       return;
     }
@@ -61,7 +64,8 @@ async function reservation(req, res) {
       ) {
         socketId &&
           io.to(socketId).emit("notification", {
-            errorMessage: "You already reserved for this journey",
+            message: "You already reserved for this journey",
+            type: "error",
           });
         res
           .status(400)
@@ -85,7 +89,8 @@ async function reservation(req, res) {
       ) {
         socketId &&
           io.to(socketId).emit("notification", {
-            errorMessage: "You already reserved for this journey",
+            message: "You already reserved for this journey",
+            type: "error",
           });
         res
           .status(400)
