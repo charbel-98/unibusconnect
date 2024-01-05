@@ -1,1 +1,3 @@
 - spam connect from front when server down
+- not showing reserved journeys to user
+- deny user to filter history

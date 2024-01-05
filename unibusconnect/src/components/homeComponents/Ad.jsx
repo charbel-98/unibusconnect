@@ -7,7 +7,7 @@ function Ad({ title, img }) {
         <p className="mb-0 mt-4 fw-bold">
           {`${splittedTitle[0]} ${splittedTitle[1]}`}
           <br />
-          {splittedTitle[2]}
+          {`${splittedTitle[2]} ${splittedTitle[3] || ""}`}
         </p>
       </div>
     </div>

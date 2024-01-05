@@ -66,8 +66,8 @@ const JourneyDetails = () => {
           },
           signal: controller.signal,
         });
-        console.log(response.data);
-        isMounted && setJourney(response.data.journey);
+        console.log(response?.data?.journey);
+        isMounted && setJourney(response?.data?.journey);
         setIsLoading(false);
       } catch (err) {
         if (err.response?.status == 403) {
@@ -174,8 +174,8 @@ const JourneyDetails = () => {
             <JourneyInfo
               time={
                 isDeparting
-                  ? ["Arriving Time", journey.arrivalTimeToUniversity]
-                  : ["Departing Time", journey.departureTimeFromUniversity]
+                  ? ["Arriving Time", journey?.arrivalTimeToUniversity]
+                  : ["Departing Time", journey?.departureTimeFromUniversity]
               }
               AC={journey?.bus?.AC}
               status={journey?.status}

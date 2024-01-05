@@ -4,8 +4,8 @@ const { BadRequestError } = require("../errors");
 const Bus = require("../models/Bus");
 const journeys = async (req, res) => {
   let io = req.app.get("io");
-  console.error("io")
-  console.error("io", io)
+  console.error("io");
+  console.error("io", io);
   try {
     const { from, to, date } = req.query;
     if (!from || !to || !date) {
@@ -49,6 +49,7 @@ const journeys = async (req, res) => {
 const journeyById = async (req, res) => {
   try {
     // console.log(req.params.id);
+    const { type } = req.query;
     const journey = await Journey.findById(req.params.id)
       .populate("bus serviceProvider")
       .exec();
@@ -64,7 +65,7 @@ const journeyById = async (req, res) => {
       (user) => user.passenger.toString() === req.user
     );
     const user = userInDepartingJourney || userInReturningJourney;
-    if (user) {
+    if (user && type === "ticket") {
       const responseData = {
         provider: journey.serviceProvider.businessName,
         bus: journey.bus.busNumber,

@@ -70,6 +70,9 @@ const Tickets = () => {
     const getTickets = async () => {
       try {
         const response = await axiosPrivate.get("/tickets", {
+          params: {
+            type: "ticket",
+          },
           signal: controller.signal,
         });
         console.log(response.data);
@@ -93,22 +96,27 @@ const Tickets = () => {
     <>
       <div className="your-ticket border-top row m-0 p-3">
         {isLoading && <TicketsSkeleton cards={3} />}
-        {tickets.length && tickets.map((ticket, i) => {
-          return (
-            <Ticket
-              key={i}
-              status={ticket.status}
-              SP={ticket.serviceProvider.businessName}
-              date={ticket.date}
-              isDeparting={ticket.isDeparting}
-              time={ticket.time}
-              from={ticket.from}
-              to={ticket.to}
-              path={`/tickets/${ticket.journeyID}`}
-            />
-          );
-        }) || (<div className="text-center w-100"> <h5 className="small text-muted">No Tickets Found !</h5></div>)
-        }
+        {(tickets.length &&
+          tickets.map((ticket, i) => {
+            return (
+              <Ticket
+                key={i}
+                status={ticket.status}
+                SP={ticket.serviceProvider.businessName}
+                date={ticket.date}
+                isDeparting={ticket.isDeparting}
+                time={ticket.time}
+                from={ticket.from}
+                to={ticket.to}
+                path={`/tickets/${ticket.journeyID}`}
+              />
+            );
+          })) || (
+          <div className="text-center w-100">
+            {" "}
+            <h5 className="small text-muted">No Tickets Found !</h5>
+          </div>
+        )}
       </div>
     </>
   );
