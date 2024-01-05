@@ -8,6 +8,7 @@ const Root = () => {
   console.log(location.pathname);
   return (
     <>
+      <div id="notifications" className="notifications"></div>
       <MainNavigation />
       <main>
         <Outlet></Outlet>

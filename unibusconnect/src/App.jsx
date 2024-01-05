@@ -1,23 +1,21 @@
 import "./App.css";
 import Welcome from "./pages/Welcome";
 import Auth from "./pages/Auth";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { createPortal } from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
 import { Journeys } from "./pages/Journeys";
 import JourneyDetails from "./pages/JourneyDetails";
 import Notification from "./pages/Notification";
 import Tickets from "./pages/Tickets";
-import axios from "./api/axios";
 import Profile from "./pages/Profile";
 import DefaultLocation from "./pages/defaultLocation.jsx";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Support from "./pages/Support";
-import { useSelector, useDispatch } from "react-redux";
 import RequireAuth from "./pages/RequireAuth";
 import PersistLogin from "./pages/PersistLogin";
 import { LoginSuccess } from "./UI/LoginSuccess";
-import { setAuth } from "./redux/auth/authSlice";
 import LostItem from "./pages/LostItem";
 import History from "./pages/History.jsx";
 import TicketDetails from "./pages/TicketDetails";
@@ -26,13 +24,49 @@ import io from "socket.io-client";
 
 function App() {
   const user = useAuth();
+  let elementType = {
+    confirmation: `<div class="notification_icon bg-success">
+    ✔
+  </div>`,
+    error: `<div class="notification_icon bg-warning">
+    !
+  </div>`,
+    cancellation: `<div class="notification_icon bg-danger">
+  ✖
+</div>`,
+    reminder: `<div class="notification_icon bg-info">
+  ⏰
+</div>`,
+    discount: `<div class="notification_icon bg-primary">
+  50%
+</div>`,
+  }
   useEffect(() => {
-    if(user.auth) {
+    if (user.auth) {
       console.error("user", user);
       const socket = io.connect("http://localhost:3000");
       socket.emit("user", user);
       socket.on("notification", (data) => {
         console.error("notification", data);
+        const notification = document.getElementById("notifications");
+        let div = document.createElement("div");
+        div.innerHTML = `<div class="notification_message ${data.type}">
+           ${elementType[data.type]}
+          <div class="notification_content">
+            <h2 class="notification_title">${data.type}</h2>
+            <p class="notification_description">${data.message}</p>
+          </div>
+        </div>`;
+
+        notification.appendChild(div);
+
+        setTimeout(() => {
+          div.classList.add("hide");
+          setTimeout(() => {
+            notification.removeChild(div);
+          }, 1000);
+        }, 5000);
+
       });
     }
   }, [user]);
