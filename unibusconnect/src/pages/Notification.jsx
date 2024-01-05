@@ -14,7 +14,7 @@ const Notification = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const transformDate = (date) => {
-    const diffTime = Math.abs(new Date() - new Date(date) + (1000 * 60 * 60 * 24 * 30 * 13));
+    const diffTime = Math.abs(new Date() - new Date(date));
     if (diffTime < 60000) {
       return "Just Now";
     } else if (diffTime < 3600000) {
@@ -30,13 +30,6 @@ const Notification = () => {
     } else {
       return `${Math.floor(diffTime / 31557600000)} years ago`;
     }
-
-    // if (myDate.getDate() === currentDate.getDate()) {
-    //   return `${myDate.getHours()}:${myDate.getMinutes().toString().padStart(2, 0)}`;
-    // } else if (myDate.getDate() === currentDate.getDate() - 1) {
-    //     return `Yesterday`;
-    // }
-    // return `${myDate.getDate()}/${myDate.getMonth() + 1}/${myDate.getFullYear()}`;
   }
   // "confirmation", "cancellation", "discount", "reminder"
   const elementType = {

@@ -36,6 +36,21 @@ body {
   overflow: hidden;
 }
 
+#sideBar nav .nav-container {
+  animation: sideBar .3s cubic-bezier(0, 0.73, 1, 1);
+}
+
+@keyframes sideBar {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
 .sign-or hr {
   width: 130px;
   border-top: 1px solid #dee2e6;
