@@ -18,17 +18,17 @@ async function reservation(req, res) {
       universityLocation,
       universityAddress,
     } = req.body;
-    const journey = await Journey.findById(journeyID).populate("bus");
+    const journey = await Journey.findById(journeyID)
+      .populate("bus serviceProvider")
+      .exec();
     //console.log("you want me" + user, journey);
     //check if user already reserved
     if (!journey) {
       socketId &&
-        io
-          .to(socketId)
-          .emit("notification", {
-            message: "Journey not found",
-            type: "error",
-          });
+        io.to(socketId).emit("notification", {
+          message: "Journey not found",
+          type: "error",
+        });
       res.status(404).json({ message: "Journey not found" });
       return;
     }
@@ -122,7 +122,9 @@ async function reservation(req, res) {
       );
 
       const notification = await Notification.create({
-        message: `The journey on ${journey.date} has been confirmed`,
+        message: `The journey on ${
+          journey.date.toISOString().split("T")[0]
+        } has been confirmed`,
         type: "confirmation",
       });
 
@@ -142,16 +144,14 @@ async function reservation(req, res) {
       });
     }
     await journey.save();
-    const reservationNotification = await Notification.create({
-      message: `Your reservation on ${journey.date} with ${journey.serviceProvider.businessName} is successful`,
-      type: "confirmation",
-    });
-    UserNotification.create({
-      userID: userId,
-      notificationID: reservationNotification._id,
-    });
+
     if (socketId) {
-      io.to(socketId).emit("notification", reservationNotification);
+      io.to(socketId).emit("notification", {
+        message: `Your reservation on ${
+          journey.date.toISOString().split("T")[0]
+        } with ${journey.serviceProvider.businessName} is successful`,
+        type: "confirmation",
+      });
     }
     res
       .status(200)

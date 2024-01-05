@@ -37,7 +37,7 @@ body {
 }
 
 #sideBar nav .nav-container {
-  animation: sideBar .3s cubic-bezier(0, 0.73, 1, 1);
+  animation: sideBar 0.3s cubic-bezier(0, 0.73, 1, 1);
 }
 
 @keyframes sideBar {
@@ -123,19 +123,27 @@ body {
   transform: translate3d(0, 790px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(-40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(0, -40px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom
+  li.level-open
+  > .nav-wrapper {
   transform: translate3d(0, 40px, 0);
 }
 
@@ -170,7 +178,7 @@ small {
   font-size: 10px;
 }
 
-div.star-rating>* {
+div.star-rating > * {
   margin-right: 3px;
 }
 
@@ -181,7 +189,7 @@ div.star-rating>* {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.nav-pills .show > .nav-link {
   color: #fff;
   background-color: #dd3444;
 }
@@ -234,18 +242,18 @@ input {
 
 .btn-success:not(:disabled):not(.disabled).active,
 .btn-success:not(:disabled):not(.disabled):active,
-.show>.btn-success.dropdown-toggle {
+.show > .btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
 }
 
-.btn-group-vertical>.btn.active,
-.btn-group-vertical>.btn:active,
-.btn-group-vertical>.btn:focus,
-.btn-group>.btn.active,
-.btn-group>.btn:active,
-.btn-group>.btn:focus {
+.btn-group-vertical > .btn.active,
+.btn-group-vertical > .btn:active,
+.btn-group-vertical > .btn:focus,
+.btn-group > .btn.active,
+.btn-group > .btn:active,
+.btn-group > .btn:focus {
   z-index: 1;
 }
 
@@ -282,10 +290,10 @@ input {
     inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
-.btn-group-toggle>.btn input[type="checkbox"],
-.btn-group-toggle>.btn input[type="radio"],
-.btn-group-toggle>.btn-group>.btn input[type="checkbox"],
-.btn-group-toggle>.btn-group>.btn input[type="radio"] {
+.btn-group-toggle > .btn input[type="checkbox"],
+.btn-group-toggle > .btn input[type="radio"],
+.btn-group-toggle > .btn-group > .btn input[type="checkbox"],
+.btn-group-toggle > .btn-group > .btn input[type="radio"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -433,7 +441,6 @@ div.modal-dialog {
   margin: auto;
 }
 
-
 #notifications {
   position: fixed;
   display: flex;
@@ -450,15 +457,14 @@ div.modal-dialog {
   overflow-y: scroll;
 }
 
-#notifications>div {
+#notifications > div {
   width: 90%;
-  height: 20px;
+  height: 30px;
 }
 
-#notifications>div:last-child {
+#notifications > div:last-child {
   height: auto;
 }
-
 
 .hide {
   animation: hideNotification 1s ease-in-out;
@@ -504,10 +510,10 @@ div.modal-dialog {
   }
 }
 
-.notification_message:not(:first-child) {
+/* .notification_message:not(:first-child) {
   position: absolute;
   top: 20px;
-}
+} */
 
 @keyframes dropNotification {
   from {

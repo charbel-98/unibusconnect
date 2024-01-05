@@ -40,7 +40,7 @@ function App() {
     discount: `<div class="notification_icon bg-primary">
   50%
 </div>`,
-  }
+  };
   useEffect(() => {
     if (user.auth) {
       console.error("user", user);
@@ -54,7 +54,7 @@ function App() {
            ${elementType[data.type]}
           <div class="notification_content">
             <h2 class="notification_title">${data.type}</h2>
-            <p class="notification_description">${data.message}</p>
+            <p class="notification_description two-lines">${data.message}</p>
           </div>
         </div>`;
 
@@ -66,7 +66,6 @@ function App() {
             notification.removeChild(div);
           }, 1000);
         }, 5000);
-
       });
     }
   }, [user]);

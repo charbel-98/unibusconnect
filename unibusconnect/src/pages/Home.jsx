@@ -84,21 +84,21 @@ const Home = () => {
   //search button handler
 
   const filter = useSelector((state) => state.filter);
-  console.log(
-    JSON.parse(localStorage.getItem("cities"))[0].includes(filter.to)
-  );
+
   const journeysSearchHandler = (e) => {
     e.preventDefault();
     if (
       !filter.from ||
       !filter.to ||
       !filter.date ||
-      (JSON.parse(localStorage.getItem("cities"))[0].includes(filter.from) &&
-        JSON.parse(localStorage.getItem("cities"))[0].includes(filter.to)) ||
-      (JSON.parse(localStorage.getItem("universities"))[0].includes(
+      (JSON.parse(localStorage?.getItem("cities"))[0].includes(filter?.from) &&
+        JSON.parse(localStorage?.getItem("cities"))[0].includes(filter?.to)) ||
+      (JSON.parse(localStorage?.getItem("universities"))[0].includes(
         filter.from
       ) &&
-        JSON.parse(localStorage.getItem("universities"))[0].includes(filter.to))
+        JSON.parse(localStorage?.getItem("universities"))[0].includes(
+          filter?.to
+        ))
     ) {
       setValid(false);
       return;

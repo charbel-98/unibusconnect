@@ -112,7 +112,6 @@ const JourneyDetails = () => {
       navigate("/");
     } catch (err) {
       // will be edited later
-      alert(err.response.data.message);
       if (err.response.status == 403) {
         console.error(err);
         navigate("/login", { state: { from: location }, replace: true });
