@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const initializeSocketServer = ({ server, app }) => {
   const globalUserSocketMap = new Map(); // Map to store the global mapping between userId and socketId
-  // const notificationMap = new Map(); // Map to store notifications for each user
 
   const io = new Server(server, { cors: { origin: "*" } });
 
@@ -12,10 +11,12 @@ const initializeSocketServer = ({ server, app }) => {
     console.log(`Socket connected: ${socket.id}`);
 
     socket.on("user", (user) => {
-      console.log(`User connected: `, user, socket.id);
-      globalUserSocketMap.set(user.id, socket.id);
+      console.log(`User connected: `, socket.id, user.auth);
       jwt.verify(user.auth, process.env.JWT_SECRET, (err, decoded) => {
         if (err) return console.error(err); //invalid token
+        if (globalUserSocketMap.has(decoded.userID)) {
+          io.sockets.sockets.get(globalUserSocketMap.get(decoded.userID))?.disconnect();
+        }
         globalUserSocketMap.set(decoded.userID, socket.id);
         socket.userId = decoded.userID;
       });
@@ -28,10 +29,9 @@ const initializeSocketServer = ({ server, app }) => {
 
   });
 
-  // Attach the io instance, globalUserSocketMap, and notificationMap to the Express app
+  // Attach the io instance, globalUserSocketMap to the Express app
   app.set("io", io);
   app.set("globalUserSocketMap", globalUserSocketMap);
-  // app.set("notificationMap", notificationMap);
 
   return io;
 };

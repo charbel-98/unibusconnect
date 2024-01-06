@@ -45,7 +45,13 @@ function App() {
     if (user.auth) {
       console.error("user", user);
       const socket = io.connect("http://localhost:3000");
-      socket.emit("user", user);
+      socket.on("connect", () => {
+        console.log("Socket Connected");
+        socket.emit("user", user);
+      });
+      socket.on("disconnect", () => {
+        console.log("Socket Disconnected");
+      });
       socket.on("notification", (data) => {
         console.error("notification", data);
         const notification = document.getElementById("notifications");
