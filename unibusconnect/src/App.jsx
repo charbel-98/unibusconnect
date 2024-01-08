@@ -65,6 +65,9 @@ function App() {
         </div>`;
 
         notification.appendChild(div);
+        // Notification sound
+        let audio = new Audio('../public/notification.wav');
+        audio.play();
 
         setTimeout(() => {
           div.classList.add("hide");
