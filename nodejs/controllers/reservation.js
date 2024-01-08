@@ -122,34 +122,33 @@ async function reservation(req, res) {
       );
 
       const notification = await Notification.create({
-        message: `The journey on ${
-          journey.date.toISOString().split("T")[0]
-        } has been confirmed`,
+        message: `The journey on ${journey.date.toISOString().split("T")[0]
+          } has been confirmed`,
         type: "confirmation",
       });
 
       console.error("io", io);
-
-      passengers.forEach(async (passenger) => {
-        UserNotification.create({
-          userID: passenger,
-          notificationID: notification._id,
+      setTimeout(() => {
+        passengers.forEach(async (passenger) => {
+          UserNotification.create({
+            userID: passenger,
+            notificationID: notification._id,
+          });
+          const socketId = globalUserSocketMap.get(passenger.toString());
+          console.log("socketId", socketId);
+          console.log("passenger", passenger, passenger.toString());
+          if (socketId) {
+            io.to(socketId).emit("notification", notification);
+          }
         });
-        const socketId = globalUserSocketMap.get(passenger.toString());
-        console.log("socketId", socketId);
-        console.log("passenger", passenger, passenger.toString());
-        if (socketId) {
-          io.to(socketId).emit("notification", notification);
-        }
-      });
+      }, 4000);
     }
     await journey.save();
 
     if (socketId) {
       io.to(socketId).emit("notification", {
-        message: `Your reservation on ${
-          journey.date.toISOString().split("T")[0]
-        } with ${journey.serviceProvider.businessName} is successful`,
+        message: `Your reservation on ${journey.date.toISOString().split("T")[0]
+          } with ${journey.serviceProvider.businessName} is successful`,
         type: "confirmation",
       });
     }
