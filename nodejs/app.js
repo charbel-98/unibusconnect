@@ -40,6 +40,8 @@ app.use("/api/v1/regions/supported", require("./routes/regions"));
 app.use("/api/v1/setdefaultlocation", require("./routes/setDefaultLocation"));
 app.use("/api/v1/tickets", require("./routes/tickets"));
 app.use("/api/v1/notifications", require("./routes/notifications"));
+app.use("/api/v1/reports", require("./routes/report"));
+app.use("/api/v1/profile", require("./routes/profile"));
 //error handlers
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

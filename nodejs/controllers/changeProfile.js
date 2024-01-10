@@ -1,0 +1,33 @@
+const User = require("../models/User");
+const { BadRequestError } = require("../errors");
+const sendNotification = require("../utils/sendNotification");
+const updateProfile = async (req, res) => {
+  try {
+    const userID = req.user;
+    const { name, email, phone } = req.body;
+    if (!name && !email && !phone) {
+      throw new BadRequestError("Missing required fields");
+    }
+
+    const user = await User.findOneAndUpdate(
+      { _id: userID },
+      {
+        name,
+        email,
+        mobile: phone,
+      }
+    );
+
+    sendNotification(req, {
+      message: `Your profile has been updated successfully`,
+      type: "profile",
+    });
+    res
+      .status(200)
+      .json({ message: "Your profile has been updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+module.exports = updateProfile;

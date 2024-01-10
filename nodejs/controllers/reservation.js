@@ -2,14 +2,12 @@ const Journey = require("../models/Journey");
 const Notification = require("../models/Notification");
 const User = require("../models/User");
 const UserNotification = require("../models/UserNotification");
+const sendNotification = require("../utils/sendNotification");
 
 async function reservation(req, res) {
   try {
     const journeyID = req.params.id;
     const userId = req.user;
-    let globalUserSocketMap = req.app.get("globalUserSocketMap");
-    let io = req.app.get("io");
-    const socketId = globalUserSocketMap.get(userId);
 
     const {
       isDeparting,
@@ -24,14 +22,7 @@ async function reservation(req, res) {
     //console.log("you want me" + user, journey);
     //check if user already reserved
     if (!journey) {
-      if (socketId.length > 0) {
-        socketId.forEach((id) => {
-          io.to(id).emit("notification", {
-            message: "Journey not found",
-            type: "error",
-          });
-        });
-      }
+      sendNotification(req, { message: "Journey not found", type: "error" });
       res.status(404).json({ message: "Journey not found" });
       return;
     }
@@ -65,11 +56,10 @@ async function reservation(req, res) {
           (item) => item.passenger.toString() === userId
         )
       ) {
-        socketId &&
-          io.to(socketId).emit("notification", {
-            message: "You already reserved for this journey",
-            type: "error",
-          });
+        sendNotification(req, {
+          message: "You already reserved for this journey",
+          type: "error",
+        });
         res
           .status(400)
           .json({ message: "You already reserved for this journey" });
@@ -90,14 +80,11 @@ async function reservation(req, res) {
           (item) => item.passenger.toString() === userId
         )
       ) {
-        if (socketId.length > 0) {
-          socketId.forEach((id) => {
-            io.to(id).emit("notification", {
-              message: "You already reserved for this journey",
-              type: "error",
-            });
-          });
-        }
+        sendNotification(req, {
+          message: "You already reserved for this journey",
+          type: "error",
+        });
+
         res
           .status(400)
           .json({ message: "You already reserved for this journey" });
@@ -128,40 +115,31 @@ async function reservation(req, res) {
       );
 
       const notification = await Notification.create({
-        message: `The journey on ${journey.date.toISOString().split("T")[0]
-          } has been confirmed`,
+        message: `The journey on ${
+          journey.date.toISOString().split("T")[0]
+        } has been confirmed`,
         type: "confirmation",
       });
 
-      console.error("io", io);
       setTimeout(() => {
         passengers.forEach(async (passenger) => {
           UserNotification.create({
             userID: passenger,
             notificationID: notification._id,
           });
-          const socketId = globalUserSocketMap.get(passenger.toString());
-          console.log("socketId", socketId);
-          console.log("passenger", passenger, passenger.toString());
-          if (socketId.length > 0) {
-            socketId.forEach((id) => {
-              io.to(id).emit("notification", notification);
-            });
-          }
+
+          sendNotification(req, notification, passenger.toString());
         });
       }, 4000);
     }
     await journey.save();
 
-    if (socketId.length > 0) {
-      socketId.forEach((id) => {
-        io.to(id).emit("notification", {
-          message: `Your reservation on ${journey.date.toISOString().split("T")[0]
-            } with ${journey.serviceProvider.businessName} is successful`,
-          type: "confirmation",
-        });
-      });
-    }
+    sendNotification(req, {
+      message: `Your reservation on ${
+        journey.date.toISOString().split("T")[0]
+      } with ${journey.serviceProvider.businessName} is successful`,
+      type: "confirmation",
+    });
     res
       .status(200)
       .json({ message: "Reservation successful", status: journey.status });
