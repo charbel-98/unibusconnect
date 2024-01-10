@@ -39,7 +39,7 @@ export default function Places({ setHome }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input"
+        className="combobox-input pe-5"
         placeholder="Search your home address"
       />
       <ComboboxPopover>

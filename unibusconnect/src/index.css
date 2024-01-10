@@ -604,9 +604,26 @@ textarea {
   height: 200px;
   aspect-ratio: 16/9;
 }
+
 .profile-image {
   height: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.locationNowButton {
+  position: absolute;
+  padding: 7.5px;
+  right: 10px;
+  top: 10px;
+  aspect-ratio: 1/1;
+  text-align: center;
+  border-radius: 4px;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    background-color: #dd3444;
+    color: #fff;
+  }
 }

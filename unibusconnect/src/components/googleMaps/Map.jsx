@@ -10,6 +10,7 @@ import { getLocation, showError } from "./mapFunctions";
 import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { setLocation, setAddress } from "../../redux/locationSlice";
+import { GeoAltFill } from "react-bootstrap-icons";
 
 const MAPS_LIBRARIES = ["places"];
 
@@ -61,9 +62,9 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
     );
     console.log(
       "Latitude: " +
-        position?.coords?.latitude +
-        "Longitude: " +
-        position?.coords?.longitude
+      position?.coords?.latitude +
+      "Longitude: " +
+      position?.coords?.longitude
     );
   };
   //get the place name of the current location
@@ -158,6 +159,9 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
               dispatch(setLocation(position));
             }}
           />
+          <button className="locationNowButton" onClick={() => getLocation(shareLocation, showError)}>
+            <GeoAltFill size={20} />
+          </button>
         </div>
         {withDirection && directions && (
           <DirectionsRenderer
@@ -171,13 +175,10 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
             }}
           />
         )}
-        <button onClick={() => getLocation(shareLocation, showError)}>
-          get current location
-        </button>
         {(!currentLocationIsNull ||
           (defaultLocation?.lat !== null && defaultLocation.lng !== null)) && (
-          <Marker position={center}></Marker>
-        )}
+            <Marker position={center}></Marker>
+          )}
         {withDirection && (
           <Marker
             position={{ lat: universityLat, lng: universityLng }}
