@@ -24,7 +24,7 @@ async function reservation(req, res) {
     //console.log("you want me" + user, journey);
     //check if user already reserved
     if (!journey) {
-      if (socketId.length > 1) {
+      if (socketId.length > 0) {
         socketId.forEach((id) => {
           io.to(id).emit("notification", {
             message: "Journey not found",
@@ -90,7 +90,7 @@ async function reservation(req, res) {
           (item) => item.passenger.toString() === userId
         )
       ) {
-        if (socketId.length > 1) {
+        if (socketId.length > 0) {
           socketId.forEach((id) => {
             io.to(id).emit("notification", {
               message: "You already reserved for this journey",
@@ -143,7 +143,7 @@ async function reservation(req, res) {
           const socketId = globalUserSocketMap.get(passenger.toString());
           console.log("socketId", socketId);
           console.log("passenger", passenger, passenger.toString());
-          if (socketId.length > 1) {
+          if (socketId.length > 0) {
             socketId.forEach((id) => {
               io.to(id).emit("notification", notification);
             });
@@ -152,8 +152,8 @@ async function reservation(req, res) {
       }, 4000);
     }
     await journey.save();
-    
-    if (socketId.length > 1) {
+
+    if (socketId.length > 0) {
       socketId.forEach((id) => {
         io.to(id).emit("notification", {
           message: `Your reservation on ${journey.date.toISOString().split("T")[0]
