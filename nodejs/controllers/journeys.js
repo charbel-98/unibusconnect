@@ -7,8 +7,8 @@ const journeys = async (req, res) => {
   console.error("io");
   console.error("io", io);
   try {
-    const { from, to, date } = req.query;
-    if (!from || !to || !date) {
+    const { from, to, date, currentDate } = req.query;
+    if (!from || !to || !date || !currentDate) {
       throw new BadRequestError("Missing query parameters");
     }
 
@@ -28,14 +28,14 @@ const journeys = async (req, res) => {
       return;
     }
 
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
+    // const startOfDay = new Date(date);
+    // startOfDay.setHours(0, 0, 0, 0);
     const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
     // console.log(startOfDay, endOfDay);
     const journeys = await Journey.find({
       serviceProvider: serviceProvider._id,
-      date: { $gte: startOfDay, $lte: endOfDay },
+      date: { $gte: currentDate, $lte: endOfDay },
     })
       .populate("bus serviceProvider")
       .exec();

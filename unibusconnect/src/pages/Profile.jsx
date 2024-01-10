@@ -1,9 +1,10 @@
 import { PersonFill } from "react-bootstrap-icons";
 import myPic from "../img/myPic.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
+import { updateUser } from "../redux/auth/authSlice";
 const Profile = () => {
   const user = useSelector((state) => state.auth);
   const [name, setName] = useState(user?.user?.name);
@@ -22,6 +23,7 @@ const Profile = () => {
   };
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log(name, email, phone);
@@ -39,6 +41,13 @@ const Profile = () => {
       });
 
       console.log(response.data);
+      dispatch(
+        updateUser({
+          name: response.data.name,
+          email: response.data.email,
+          mobile: response.data.mobile,
+        })
+      );
       navigate("/", { replace: true });
     } catch (err) {
       console.log(err);
@@ -82,7 +91,7 @@ const Profile = () => {
                 type="number"
                 className="form-control"
                 placeholder="Enter Mobile Number"
-                defaultValue={user?.user?.phone}
+                defaultValue={user?.user?.mobile}
                 onChange={phoneChanegHandler}
               />
             </div>

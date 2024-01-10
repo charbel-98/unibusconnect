@@ -2,7 +2,7 @@ const Journey = require("../models/Journey");
 const Notification = require("../models/Notification");
 const User = require("../models/User");
 const UserNotification = require("../models/UserNotification");
-const sendNotification = require("../utils/sendNotification");
+const { sendNotification } = require("../utils/sendNotification");
 
 async function reservation(req, res) {
   try {

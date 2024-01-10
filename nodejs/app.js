@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("express-async-errors");
 require("./cron-scheduler/scheduler");
+require("./cron-scheduler/cancelScheduler");
 const http = require("http");
 const cookieParser = require("cookie-parser");
 const express = require("express");
@@ -31,7 +32,7 @@ app.use("/api/v1/register", require("./routes/register"));
 app.use("/api/v1/auth", require("./routes/auth"));
 app.use("/api/v1/refresh", require("./routes/refreshToken"));
 app.use("/api/v1/logout", require("./routes/logout"));
-
+app.use("/api/v1/notifications", require("./routes/notifications"));
 //protected routes
 app.use(authenticateJWT);
 app.use("/api/v1/journeys", require("./routes/journeys"));
