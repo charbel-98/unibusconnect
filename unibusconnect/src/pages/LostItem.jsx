@@ -99,7 +99,7 @@ const LostItem = () => {
       <h5 className="mb-3 fw-bold">Select your seat</h5>
       <SelectSeat />
       <TicketViewMap />
-      <p><button type="submit"> Submit </button></p>
+      <p><button type="submit" className="btn btn-danger btn-block osahanbus-btn rounded-1"> Submit </button></p>
     </form>
   );
 };

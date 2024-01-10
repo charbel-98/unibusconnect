@@ -1,5 +1,6 @@
 import { PersonFill } from "react-bootstrap-icons";
 import myPic from "../img/myPic.jpg";
+import profilePlaceholder from "../img/profilePlaceholder.png";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -57,14 +58,14 @@ const Profile = () => {
       <form onSubmit={submitHandler}>
         <div className="d-flex justify-content-center rounded-2 mb-4">
           <div className="form-profile w-100">
-            <div className="text-center mb-3 position-relative">
+            <div className="image-section text-center mb-3 position-relative">
               <div className="position-absolute edit-bt">
                 <label htmlFor="upload-photo" className="mb-0">
                   <span className="icofont-pencil-alt-5 text-white"></span>
                 </label>
                 <input type="file" name="photo" id="upload-photo" />
               </div>
-              <img src={myPic} className="rounded-pill w-25" />
+              <img src={user?.user && user.user?.avatar ? user.user.avatar : profilePlaceholder} className="profile-image" />
             </div>
             <div className="form-group">
               <label className="text-muted f-10 mb-1">Name</label>

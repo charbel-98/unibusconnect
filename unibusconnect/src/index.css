@@ -598,3 +598,15 @@ textarea {
     border-radius: 6px;
   }
 }
+
+.image-section {
+  width: 100%;
+  height: 200px;
+  aspect-ratio: 16/9;
+}
+.profile-image {
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}

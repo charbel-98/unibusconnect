@@ -94,7 +94,7 @@ const Notification = () => {
               <Link to={`${notification._id}`} className={`notification d-flex align-items-center m-0 bg-white text-black border-bottom p-3 ${notification.seen ? 'seen' : ''}`}>
                 {/* <div className="d-flex"> */}
                 {elementType[notification.type]}
-                <div className="noti-details l-hght-18 pe-0">
+                <div className="noti-details l-hght-18 pe-0 flex-grow-1">
                   <div className="mb-1 d-flex justify-content-between">
                     {notification.type}
                     <span className="small text-right text-truncate">{transformDate(notification.date)}</span>

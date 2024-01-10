@@ -143,8 +143,11 @@ const Home = () => {
                   sx: { "& .MuiSvgIcon-root": { color: "orange" } },
                 }}
                 shouldDisableDate={(date) => {
+                  const currentDate = new Date();
+                  const currentHour = currentDate.getHours();
                   const day = date.getDay();
-                  return day === 0 || day === 6;
+                  console.log(currentHour, (date.getTime() === currentDate.getTime() && currentHour >= 23))
+                  return ((date < currentDate) || (date.getTime() === currentDate.getTime() && currentHour >= 23) || (day === 0) || (day === 6));
                 }}
                 value={selectedDate}
                 onChange={dateChangeHandler}
