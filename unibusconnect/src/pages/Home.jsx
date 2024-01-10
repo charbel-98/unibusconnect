@@ -144,8 +144,6 @@ const Home = () => {
                 }}
                 shouldDisableDate={(date) => {
                   const currentDate = new Date();
-                  currentDate.setHours(8, 0);
-
                   const day = date.getDay();
                   const currentPlus = new Date(currentDate);
                   currentPlus.setDate(currentDate.getDate() - 1);
