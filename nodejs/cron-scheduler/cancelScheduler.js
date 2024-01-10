@@ -1,14 +1,19 @@
 const Journey = require("../models/Journey");
 const cron = require("node-cron");
 
-const schedule = "10 22-23,0- * 9-1,3-6 0-5";
+const schedule = "48 22-23,0-8 * 9-1,3-6 0-5";
 const task = async () => {
   const today = new Date();
-  const time = today.getHours();
-  const journey = Journey.find({
+  today.setHours(today.getHours() + 10);
+  today.setMinutes(0, 0);
+
+  console.log(today);
+  const journey = await Journey.find({
     date: today,
-    arrivalTime: `${time}:00${time < 12 ? "AM" : "PM"}`,
   });
+  console.log(
+    "scheduleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  );
   console.log(journey);
   if (!journey) {
     return;
