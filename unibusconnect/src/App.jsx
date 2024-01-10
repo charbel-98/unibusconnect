@@ -42,9 +42,9 @@ function App() {
 </div>`,
   };
   useEffect(() => {
+    const socket = io.connect("http://localhost:3000");
     if (user.auth) {
       console.error("user", user);
-      const socket = io.connect("http://localhost:3000");
       socket.on("connect", () => {
         console.log("Socket Connected");
         socket.emit("user", user);
@@ -67,16 +67,22 @@ function App() {
         notification.appendChild(div);
         // Notification sound
         let audio = new Audio('../public/notification.wav');
+        audio.onerror = function () {
+          console.error('Error playing audio:', audio.error);
+        };
         audio.play();
 
         setTimeout(() => {
           div.classList.add("hide");
           setTimeout(() => {
-            notification.removeChild(div);
-          }, 1000);
+            div.remove();
+          }, 900);
         }, 5000);
       });
     }
+    return () => {
+      socket.disconnect();
+    };
   }, [user]);
   //google auth fetching user
   // useEffect(() => {

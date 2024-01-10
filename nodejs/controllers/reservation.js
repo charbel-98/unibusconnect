@@ -24,11 +24,14 @@ async function reservation(req, res) {
     //console.log("you want me" + user, journey);
     //check if user already reserved
     if (!journey) {
-      socketId &&
-        io.to(socketId).emit("notification", {
-          message: "Journey not found",
-          type: "error",
+      if (socketId.length > 1) {
+        socketId.forEach((id) => {
+          io.to(id).emit("notification", {
+            message: "Journey not found",
+            type: "error",
+          });
         });
+      }
       res.status(404).json({ message: "Journey not found" });
       return;
     }
@@ -87,11 +90,14 @@ async function reservation(req, res) {
           (item) => item.passenger.toString() === userId
         )
       ) {
-        socketId &&
-          io.to(socketId).emit("notification", {
-            message: "You already reserved for this journey",
-            type: "error",
+        if (socketId.length > 1) {
+          socketId.forEach((id) => {
+            io.to(id).emit("notification", {
+              message: "You already reserved for this journey",
+              type: "error",
+            });
           });
+        }
         res
           .status(400)
           .json({ message: "You already reserved for this journey" });
@@ -137,19 +143,23 @@ async function reservation(req, res) {
           const socketId = globalUserSocketMap.get(passenger.toString());
           console.log("socketId", socketId);
           console.log("passenger", passenger, passenger.toString());
-          if (socketId) {
-            io.to(socketId).emit("notification", notification);
+          if (socketId.length > 1) {
+            socketId.forEach((id) => {
+              io.to(id).emit("notification", notification);
+            });
           }
         });
       }, 4000);
     }
     await journey.save();
-
-    if (socketId) {
-      io.to(socketId).emit("notification", {
-        message: `Your reservation on ${journey.date.toISOString().split("T")[0]
-          } with ${journey.serviceProvider.businessName} is successful`,
-        type: "confirmation",
+    
+    if (socketId.length > 1) {
+      socketId.forEach((id) => {
+        io.to(id).emit("notification", {
+          message: `Your reservation on ${journey.date.toISOString().split("T")[0]
+            } with ${journey.serviceProvider.businessName} is successful`,
+          type: "confirmation",
+        });
       });
     }
     res

@@ -428,6 +428,7 @@ li.notify::after {
 
 div.modal {
   display: flex;
+  justify-content: center;
   background-color: rgba(142, 142, 142, 0.26);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3);
@@ -549,6 +550,7 @@ div.modal-dialog {
   border-radius: 50px;
   background: #000;
   color: #fff;
+  aspect-ratio: 1/1;
 }
 
 .notification_content {

@@ -11,20 +11,31 @@ const initializeSocketServer = ({ server, app }) => {
     console.log(`Socket connected: ${socket.id}`);
 
     socket.on("user", (user) => {
-      console.log(`User connected: `, socket.id, user.auth);
+      // console.log(`User connected: `, socket.id, user.auth);
       jwt.verify(user.auth, process.env.JWT_SECRET, (err, decoded) => {
         if (err) return console.error(err); //invalid token
-        if (globalUserSocketMap.has(decoded.userID)) {
-          io.sockets.sockets.get(globalUserSocketMap.get(decoded.userID))?.disconnect();
+        if (!globalUserSocketMap.has(decoded.userID)) {
+          globalUserSocketMap.set(decoded.userID, [socket.id]);
+        } else {
+          let socketIds = globalUserSocketMap.get(decoded.userID);
+          socketIds.push(socket.id);
+          globalUserSocketMap.set(decoded.userID, socketIds);
+          socketIds = null;
         }
-        globalUserSocketMap.set(decoded.userID, socket.id);
         socket.userId = decoded.userID;
       });
+      console.log(globalUserSocketMap);
     });
 
     socket.on("disconnect", () => {
       console.log(`Socket disconnected: ${socket.id} `, socket.userId);
-      globalUserSocketMap.delete(socket.userId);
+
+      let socketIds = globalUserSocketMap.get(socket.userId);
+      socketIds = socketIds.filter((id) => id !== socket.id);
+      if (socketIds.length === 0) globalUserSocketMap.delete(socket.userId);
+      else globalUserSocketMap.set(socket.userId, socketIds);
+
+      socketIds = null;
     });
 
   });
