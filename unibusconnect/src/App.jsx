@@ -21,26 +21,11 @@ import History from "./pages/History.jsx";
 import TicketDetails from "./pages/TicketDetails";
 import useAuth from "./hooks/useAuth.js";
 import io from "socket.io-client";
+import createNotification from "./utils/createNotification.js";
 
 function App() {
   const user = useAuth();
-  let elementType = {
-    confirmation: `<div class="notification_icon bg-success">
-    ✔
-  </div>`,
-    error: `<div class="notification_icon bg-warning">
-    !
-  </div>`,
-    cancellation: `<div class="notification_icon bg-danger">
-  ✖
-</div>`,
-    reminder: `<div class="notification_icon bg-info">
-  ⏰
-</div>`,
-    discount: `<div class="notification_icon bg-primary">
-  50%
-</div>`,
-  };
+
   useEffect(() => {
     const socket = io.connect("http://localhost:3000");
     if (user.auth) {
@@ -52,33 +37,7 @@ function App() {
       socket.on("disconnect", () => {
         console.log("Socket Disconnected");
       });
-      socket.on("notification", (data) => {
-        console.error("notification", data);
-        const notification = document.getElementById("notifications");
-        let div = document.createElement("div");
-        div.innerHTML = `<div class="notification_message ${data.type}">
-           ${elementType[data.type]}
-          <div class="notification_content">
-            <h2 class="notification_title">${data.type}</h2>
-            <p class="notification_description two-lines">${data.message}</p>
-          </div>
-        </div>`;
-
-        notification.appendChild(div);
-        // Notification sound
-        let audio = new Audio('../public/notification.wav');
-        audio.onerror = function () {
-          console.error('Error playing audio:', audio.error);
-        };
-        audio.play();
-
-        setTimeout(() => {
-          div.classList.add("hide");
-          setTimeout(() => {
-            div.remove();
-          }, 900);
-        }, 5000);
-      });
+      socket.on("notification", createNotification);
     }
     return () => {
       socket.disconnect();

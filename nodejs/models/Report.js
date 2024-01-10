@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const User = require("./User");
 const ReportSchema = new mongoose.Schema({
+  journeyID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Journey",
+    required: true,
+  },
   message: {
     type: String,
     required: true,

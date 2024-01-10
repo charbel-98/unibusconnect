@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import SeatGroup from "./SeatGroup";
 
 export const SelectSeat = () => {
-  const [selectSeat, setSelectSeat] = useState(false);
   const [seats, setSeats] = useState([]);
   useEffect(() => {
     let seatRows = 10;
@@ -11,8 +10,6 @@ export const SelectSeat = () => {
       seatsArray.push(
         <SeatGroup
           key={i}
-          setSelectedSeat={setSelectSeat}
-          selectedSeat={selectSeat}
           char={String.fromCharCode(i)}
         />
       );
@@ -23,7 +20,7 @@ export const SelectSeat = () => {
       seatRows = null;
       seatsArray = null;
     }
-  }, [selectSeat])
+  }, [])
 
   return (
     <div className="select-seat row bg-white mx-0 px-3 pt-3 pb-1 mb-3 rounded-1 shadow-sm">

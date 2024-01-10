@@ -2,9 +2,7 @@ import { set } from "date-fns";
 import { useEffect, useState } from "react";
 
 function SeatGroup({
-  char,
-  selectedSeat,
-  setSelectedSeat,
+  char
 }) {
 
   return (
@@ -14,31 +12,25 @@ function SeatGroup({
         data-toggle="buttons"
       >
         <label
-          className={`btn check-seat btn-success small btn-sm rounded mb-2 ${selectedSeat === char + "1" ? "active" : ""}`}
+          className={`btn check-seat btn-success small btn-sm rounded mb-2`}
         >
           <input
-            type="checkbox"
-            name={`${char}1`}
+            type="radio"
+            name={"seat"}
+            value={`${char}1`}
             autoComplete="off"
-            checked={selectedSeat === char + "1"}
-            onChange={(e) => {
-              setSelectedSeat(e.target.name)
-            }}
           />
           {char + "1"}
         </label>
 
         <label
-          className={`btn check-seat btn-success small btn-sm rounded mb-2 ${selectedSeat === char + "2" ? "active" : ""}`}
+          className={`btn check-seat btn-success small btn-sm rounded mb-2`}
         >
           <input
-            type="checkbox"
-            name={`${char}2`}
+            type="radio"
+            name={"seat"}
+            value={`${char}2`}
             autoComplete="off"
-            checked={selectedSeat === char + "2"}
-            onChange={(e) => {
-              setSelectedSeat(e.target.name)
-            }}
           />
           {char + "2"}
         </label>
@@ -50,16 +42,13 @@ function SeatGroup({
         style={{ marginLeft: "auto" }}
       >
         <label
-          className={`btn check-seat btn-success small btn-sm rounded mb-2 ${selectedSeat === char + "3" ? "active" : ""}`}
+          className={`btn check-seat btn-success small btn-sm rounded mb-2`}
         >
           <input
-            type="checkbox"
-            name={`${char}3`}
+            type="radio"
+            name={"seat"}
+            value={`${char}3`}
             autoComplete="off"
-            checked={selectedSeat === char + "3"}
-            onChange={(e) => {
-              setSelectedSeat(e.target.name)
-            }}
           />
           {char + "3"}
         </label>

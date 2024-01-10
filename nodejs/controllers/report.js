@@ -1,24 +1,27 @@
 const Report = require("../models/Report");
-const { BadRequestError } = require("../errors");
-const sendNotification = require("../utils/sendNotification");
+const mongoose = require("mongoose");
+
 const newReport = async (req, res) => {
   try {
-    const { message, type, seat } = req.body;
-    if (!message || !type || !seat) {
-      throw new BadRequestError("Missing required fields");
+    const { message, type, seat, id } = req.body;
+    if (!message || !type || !seat || !id) {
+      return res.status(400).json({ message: "Missing required fields" });
     }
+    const check = await Report.findOne({
+      journeyID: new mongoose.Types.ObjectId(id),
+      user: req.user,
+    });
+    if (check) return res.status(400).json({ message: "You already reported this journey" });
+
     const report = new Report({
+      journeyID: new mongoose.Types.ObjectId(id),
       message,
       type,
       seat,
       user: req.user,
     });
     await report.save();
-    sendNotification(req, {
-      message: `Your ${report.type} report submitted successfully`,
-      type: "report",
-    });
-    res.status(201).json({ message: "Report submitted successfully" });
+    res.status(201).json({ message: `Your ${report.type} report submitted successfully` });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

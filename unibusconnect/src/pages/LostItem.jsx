@@ -2,11 +2,12 @@ import React from "react";
 import { SelectSeat } from "../UI/SelectSeat";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TicketHeader from "../components/ticketComponents/TicketHeader";
 import TicketBoardingDetails from "../components/ticketComponents/TicketBoardingDetails";
 import { useParams } from "react-router-dom";
 import TicketViewMap from "../components/ticketComponents/TicketViewMap";
+import createNotification from "../utils/createNotification";
 const LostItem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [journey, setJourney] = useState([]);
@@ -14,6 +15,38 @@ const LostItem = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
+  // let ref = useRef(null);
+  // console.log("ref", ref.current.value);
+  async function submitForm(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData)
+    data.type = "lost-item";
+    data.id = id;
+    if (!data.seat) return createNotification({
+      type: "error",
+      message: "Please select a seat"
+    })
+    console.log(data);
+    try {
+      const response = await axiosPrivate.post("/reports/new", data);
+      console.log(response.data);
+      createNotification({
+        type: "report",
+        message: response.data.message,
+      });
+      e.target.reset();
+    } catch (err) {
+      if (err.response?.status == 403) {
+        console.error(err, err.response);
+        return navigate("/login", { state: { from: location }, replace: true });
+      }
+      createNotification({
+        type: "error",
+        message: err.response.data?.message || "Something went wrong",
+      });
+    }
+  }
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -48,7 +81,7 @@ const LostItem = () => {
     };
   }, []);
   return (
-    <div className="p-3">
+    <form className="p-3" onSubmit={submitForm}>
       <h5 className="mb-3 fw-bold text-dark">{journey?.provider}</h5>
       <p className={`text-${"success"} mb-3 fw-bold`}>{journey?.status}</p>
       <TicketHeader
@@ -61,10 +94,13 @@ const LostItem = () => {
         to={journey?.destination}
         isHistory={true}
       />
-      <TicketViewMap />
-      <h5 className=" mb-3 fw-bold">Select your seat</h5>
+      <h5 className="mb-3 fw-bold">Enter your report message:</h5>
+      <textarea name="message" id="report-message" rows="4" required></textarea>
+      <h5 className="mb-3 fw-bold">Select your seat</h5>
       <SelectSeat />
-    </div>
+      <TicketViewMap />
+      <p><button type="submit"> Submit </button></p>
+    </form>
   );
 };
 
