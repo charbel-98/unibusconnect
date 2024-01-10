@@ -144,10 +144,15 @@ const Home = () => {
                 }}
                 shouldDisableDate={(date) => {
                   const currentDate = new Date();
-                  const currentHour = currentDate.getHours();
+                  currentDate.setHours(8, 0);
+                  console.log(date);
                   const day = date.getDay();
-                  console.log(currentHour, (date.getTime() === currentDate.getTime() && currentHour >= 23))
-                  return ((date < currentDate) || (date.getTime() === currentDate.getTime() && currentHour >= 23) || (day === 0) || (day === 6));
+                  const condition =
+                    currentDate.getHours() > 18
+                      ? date < currentDate
+                      : date <= currentDate;
+
+                  return condition || day === 0 || day === 6;
                 }}
                 value={selectedDate}
                 onChange={dateChangeHandler}

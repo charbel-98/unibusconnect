@@ -1,7 +1,7 @@
 const Journey = require("../models/Journey");
 const cron = require("node-cron");
 
-const schedule = "0 22-23,0- * 9-1,3-6 0-5";
+const schedule = "10 22-23,0- * 9-1,3-6 0-5";
 const task = async () => {
   const today = new Date();
   const time = today.getHours();
