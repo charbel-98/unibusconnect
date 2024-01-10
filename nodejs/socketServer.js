@@ -29,12 +29,13 @@ const initializeSocketServer = ({ server, app }) => {
 
     socket.on("disconnect", () => {
       console.log(`Socket disconnected: ${socket.id} `, socket.userId);
-
       let socketIds = globalUserSocketMap.get(socket.userId);
-      socketIds = socketIds.filter((id) => id !== socket.id);
-      if (socketIds.length === 0) globalUserSocketMap.delete(socket.userId);
-      else globalUserSocketMap.set(socket.userId, socketIds);
-
+      console.log(socketIds);
+      if (socketIds) {
+        socketIds = socketIds.filter((id) => id !== socket.id);
+        if (socketIds.length === 0) globalUserSocketMap.delete(socket.userId);
+        else globalUserSocketMap.set(socket.userId, socketIds);
+      }
       socketIds = null;
     });
 

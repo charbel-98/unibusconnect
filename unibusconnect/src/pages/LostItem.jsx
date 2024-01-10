@@ -62,7 +62,7 @@ const LostItem = () => {
         isHistory={true}
       />
       <TicketViewMap />
-      <h5 class=" mb-3 fw-bold">Select your seat</h5>
+      <h5 className=" mb-3 fw-bold">Select your seat</h5>
       <SelectSeat />
     </div>
   );
