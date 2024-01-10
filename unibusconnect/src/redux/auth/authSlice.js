@@ -52,6 +52,14 @@ const authSlice = createSlice({
         defaultAddress: action.payload.defaultAddress,
       };
     },
+    updateUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        name: action.payload.name,
+        email: action.payload.email,
+        mobile: action.payload.mobile,
+      };
+    },
   },
 
   extraReducers: (builder) => {
@@ -116,4 +124,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth, setDefaultLocation } = authSlice.actions;
+export const { setAuth, setDefaultLocation, updateUser } = authSlice.actions;

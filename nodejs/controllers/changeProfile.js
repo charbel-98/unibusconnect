@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const { BadRequestError } = require("../errors");
-const sendNotification = require("../utils/sendNotification");
+const { sendNotification } = require("../utils/sendNotification");
 const updateProfile = async (req, res) => {
   try {
     const userID = req.user;
@@ -22,9 +22,12 @@ const updateProfile = async (req, res) => {
       message: `Your profile has been updated successfully`,
       type: "profile",
     });
-    res
-      .status(200)
-      .json({ message: "Your profile has been updated successfully" });
+    res.status(200).json({
+      message: "Your profile has been updated successfully",
+      name: user.name,
+      email: user.email,
+      mobile: user.mobile,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

@@ -20,6 +20,7 @@ export const Journeys = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
+    const currentDate = new Date();
     setIsLoading(true);
     const getJourneys = async () => {
       try {
@@ -28,6 +29,7 @@ export const Journeys = () => {
             from,
             to,
             date,
+            currentDate,
           },
           signal: controller.signal,
         });

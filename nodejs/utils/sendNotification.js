@@ -11,4 +11,24 @@ const sendNotification = (req, { message, type }, userID) => {
     });
   }
 };
-module.exports = sendNotification;
+const notificationController = async (req, res) => {
+  try {
+    const { departingPassengers, returningPassengers, message, type } =
+      req.body;
+    if (!departingPassengers && !returningPassengers) {
+      res.sendStatus(400);
+    }
+    departingPassengers.forEach((passenger) => {
+      sendNotification(req, { message, type: "ticket" }, passenger);
+    });
+    returningPassengers.forEach((passenger) => {
+      sendNotification(req, { message, type }, passenger);
+    });
+    res.status(200);
+  } catch (err) {
+    console.error(err);
+    res.status(500);
+  }
+};
+
+module.exports = { sendNotification, notificationController };
