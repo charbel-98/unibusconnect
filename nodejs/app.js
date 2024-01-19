@@ -32,7 +32,8 @@ app.use("/api/v1/register", require("./routes/register"));
 app.use("/api/v1/auth", require("./routes/auth"));
 app.use("/api/v1/refresh", require("./routes/refreshToken"));
 app.use("/api/v1/logout", require("./routes/logout"));
-app.use("/api/v1/notifications", require("./routes/notifications"));
+app.use("/api/v1/privateNotifications", require("./routes/notifications"));
+
 //protected routes
 app.use(authenticateJWT);
 app.use("/api/v1/journeys", require("./routes/journeys"));
@@ -43,6 +44,8 @@ app.use("/api/v1/tickets", require("./routes/tickets"));
 app.use("/api/v1/notifications", require("./routes/notifications"));
 app.use("/api/v1/reports", require("./routes/report"));
 app.use("/api/v1/profile", require("./routes/profile"));
+app.use("/api/v1/cancelreservation", require("./routes/cancelReservation"));
+
 //error handlers
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

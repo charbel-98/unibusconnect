@@ -9,7 +9,7 @@ const getNotifications = async (req, res) => {
     console.log(userId);
     // Ensure userId is provided
     if (!userId) {
-      throw new BadRequestError("User ID is missing");
+      res.send(400).json({ error: "User ID is required" });
     }
 
     const userNotifications = await UserNotification.aggregate([

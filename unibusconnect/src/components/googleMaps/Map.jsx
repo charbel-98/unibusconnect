@@ -14,7 +14,12 @@ import { GeoAltFill } from "react-bootstrap-icons";
 
 const MAPS_LIBRARIES = ["places"];
 
-const Map = ({ withDirection, universityLat, universityLng }) => {
+const Map = ({
+  defaultLatLng,
+  withDirection,
+  universityLat,
+  universityLng,
+}) => {
   //home and university states for the map
   //home is for the user to set
   //he can share jis current location or choose one by clicking on the map or from the input
@@ -49,9 +54,10 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
   //on load function to set the map reference
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   //setting the center of the map
-  const center = getCenter(
+  let center = getCenter(
     !currentLocationIsNull ? currentLocation : defaultLocation
   );
+  if (defaultLatLng) center = getCenter(defaultLatLng);
   //if user share his location we set is as home location
   const shareLocation = (position) => {
     dispatch(
@@ -62,9 +68,9 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
     );
     console.log(
       "Latitude: " +
-      position?.coords?.latitude +
-      "Longitude: " +
-      position?.coords?.longitude
+        position?.coords?.latitude +
+        "Longitude: " +
+        position?.coords?.longitude
     );
   };
   //get the place name of the current location
@@ -153,16 +159,21 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         mapContainerClassName="map-container"
         onLoad={() => onLoad(mapRef.current)}
       >
-        <div className="controls">
-          <Places
-            setHome={(position) => {
-              dispatch(setLocation(position));
-            }}
-          />
-          <button className="locationNowButton" onClick={() => getLocation(shareLocation, showError)}>
-            <GeoAltFill size={20} />
-          </button>
-        </div>
+        {!defaultLatLng && (
+          <div className="controls">
+            <Places
+              setHome={(position) => {
+                dispatch(setLocation(position));
+              }}
+            />
+            <button
+              className="locationNowButton"
+              onClick={() => getLocation(shareLocation, showError)}
+            >
+              <GeoAltFill size={20} />
+            </button>
+          </div>
+        )}
         {withDirection && directions && (
           <DirectionsRenderer
             directions={directions}
@@ -177,8 +188,8 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         )}
         {(!currentLocationIsNull ||
           (defaultLocation?.lat !== null && defaultLocation.lng !== null)) && (
-            <Marker position={center}></Marker>
-          )}
+          <Marker position={center}></Marker>
+        )}
         {withDirection && (
           <Marker
             position={{ lat: universityLat, lng: universityLng }}

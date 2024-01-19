@@ -3,7 +3,7 @@ const isHoliday = require("./holiday");
 const ServiceProvider = require("../models/ServiceProvider");
 const Journey = require("../models/Journey");
 const Bus = require("../models/Bus");
-const schedule = "0 22 * 9-1,3-6 3"; // Every Saturday at midnight (0:00)
+const schedule = "14 04 * 9-1,3-6 4"; // Every Saturday at midnight (0:00)
 function getUpcomingWeekDates(today) {
   const upcomingWeekDates = [];
 
@@ -34,49 +34,49 @@ const task = () => {
         console.log(small, medium, large);
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(8, 0),
+          date: date.setHours(10, 0),
           arrivalTimeToUniversity: "08:00AM",
           departureTimeFromUniversity: "08:10AM",
           bus: medium[0]._id,
         });
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(9, 0),
+          date: date.setHours(11, 0),
           arrivalTimeToUniversity: "09:00AM",
           departureTimeFromUniversity: "09:10AM",
           bus: medium[1]._id,
         });
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(10, 0),
+          date: date.setHours(12, 0),
           arrivalTimeToUniversity: "10:00AM",
           departureTimeFromUniversity: "10:10AM",
           bus: medium[2]._id,
         });
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(11, 0),
+          date: date.setHours(13, 0),
           arrivalTimeToUniversity: "11:00AM",
           departureTimeFromUniversity: "11:10AM",
           bus: medium[3]._id,
         });
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(14, 0),
+          date: date.setHours(16, 0),
           arrivalTimeToUniversity: "02:00PM",
           departureTimeFromUniversity: "02:10PM",
           bus: medium[3]._id,
         });
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(15, 0),
+          date: date.setHours(17, 0),
           arrivalTimeToUniversity: "03:00PM",
           departureTimeFromUniversity: "03:10PM",
           bus: medium[2]._id,
         });
         Journey.create({
           serviceProvider: sp._id,
-          date: date.setHours(17, 0),
+          date: date.setHours(19, 0),
           arrivalTimeToUniversity: "05:00PM",
           departureTimeFromUniversity: "05:10PM",
           bus: medium[1]._id,

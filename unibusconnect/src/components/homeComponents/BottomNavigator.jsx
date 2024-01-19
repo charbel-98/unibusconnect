@@ -44,7 +44,7 @@ function BottomNavigator() {
             }
           >
             <BellFill size={25} />
-            <small className={classes.osahan}>4</small>
+            {/* <small className={classes.osahan}>4</small> */}
             <p className="mb-0 small">Notice</p>
           </NavLink>
         </div>

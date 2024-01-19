@@ -20,7 +20,7 @@ const updateProfile = async (req, res) => {
 
     sendNotification(req, {
       message: `Your profile has been updated successfully`,
-      type: "profile",
+      type: "confirmation",
     });
     res.status(200).json({
       message: "Your profile has been updated successfully",

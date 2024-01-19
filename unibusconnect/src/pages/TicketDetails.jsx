@@ -6,8 +6,10 @@ import TicketHeader from "../components/ticketComponents/TicketHeader";
 import TicketBoardingDetails from "../components/ticketComponents/TicketBoardingDetails";
 import { useParams } from "react-router-dom";
 import TicketViewMap from "../components/ticketComponents/TicketViewMap";
+import Map from "../components/googleMaps/Map";
 const TicketDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const [journey, setJourney] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ const TicketDetails = () => {
         const response = await axiosPrivate.get(`/journeys/${id}`, {
           params: {
             id,
+            type: "ticket",
           },
           signal: controller.signal,
         });
@@ -60,7 +63,12 @@ const TicketDetails = () => {
         from={journey?.departure}
         to={journey?.destination}
       />
-      <TicketViewMap />
+      <TicketViewMap
+        onClick={() => {
+          setShowMap(!showMap);
+        }}
+      />
+      {showMap && <Map defaultLatLng={journey.departureLatLng} />}
     </div>
   );
 };

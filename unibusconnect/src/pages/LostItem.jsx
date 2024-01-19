@@ -7,10 +7,12 @@ import TicketHeader from "../components/ticketComponents/TicketHeader";
 import TicketBoardingDetails from "../components/ticketComponents/TicketBoardingDetails";
 import { useParams } from "react-router-dom";
 import TicketViewMap from "../components/ticketComponents/TicketViewMap";
+import Map from "../components/googleMaps/Map";
 import createNotification from "../utils/createNotification";
 const LostItem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [journey, setJourney] = useState([]);
+  const [showMap, setShowMap] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,13 +22,14 @@ const LostItem = () => {
   async function submitForm(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData)
+    const data = Object.fromEntries(formData);
     data.type = "lost-item";
     data.id = id;
-    if (!data.seat) return createNotification({
-      type: "error",
-      message: "Please select a seat"
-    })
+    if (!data.seat)
+      return createNotification({
+        type: "error",
+        message: "Please select a seat",
+      });
     console.log(data);
     try {
       const response = await axiosPrivate.post("/reports/new", data);
@@ -36,6 +39,7 @@ const LostItem = () => {
         message: response.data.message,
       });
       e.target.reset();
+      navigate("/");
     } catch (err) {
       if (err.response?.status == 403) {
         console.error(err, err.response);
@@ -56,6 +60,7 @@ const LostItem = () => {
         const response = await axiosPrivate.get(`/journeys/${id}`, {
           params: {
             id,
+            type: "ticket",
           },
           signal: controller.signal,
         });
@@ -98,8 +103,16 @@ const LostItem = () => {
       <textarea name="message" id="report-message" rows="4" required></textarea>
       <h5 className="mb-3 fw-bold">Select your seat</h5>
       <SelectSeat />
-      <TicketViewMap />
-      <p><button type="submit" className="btn btn-danger btn-block osahanbus-btn rounded-1"> Submit </button></p>
+
+      <p>
+        <button
+          type="submit"
+          className="btn btn-danger btn-block osahanbus-btn rounded-1"
+        >
+          {" "}
+          Submit{" "}
+        </button>
+      </p>
     </form>
   );
 };

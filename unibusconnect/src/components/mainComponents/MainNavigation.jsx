@@ -38,6 +38,7 @@ function MainNavigation() {
     "journeys/": "Journey Details",
     "/notifications": "Notification",
     "/tickets": "Your Bookings",
+    "tickets/": "Ticket Details",
     "/profile": "Profile",
     "/support": "Support",
     "/default-location": "Default Location",
@@ -54,7 +55,8 @@ function MainNavigation() {
     "/reports/lost-item",
   ].includes(pathname) ||
     pathname.startsWith("/journeys/") ||
-    pathname.startsWith("/reports/lost-item/")) && (
+    pathname.startsWith("/reports/lost-item/") ||
+    pathname.startsWith("/tickets/")) && (
     <Link className="text-light d-flex me-3" to="..">
       <ArrowLeftCircle className="me-2" size={25}></ArrowLeftCircle>
       {([
@@ -67,7 +69,8 @@ function MainNavigation() {
         "/reports/lost-item",
       ].includes(pathname) ||
         pathname.startsWith("/journeys/") ||
-        pathname.startsWith("/reports/lost-item/")) && (
+        pathname.startsWith("/reports/lost-item/") ||
+        pathname.startsWith("/tickets/")) && (
         <span
           style={{ fontSize: "16px" }}
           className="fw-normal mb-0 text-white "
@@ -99,7 +102,8 @@ function MainNavigation() {
         "/reports/lost-item",
       ].includes(pathname) ||
         pathname.startsWith("/journeys/") ||
-        pathname.startsWith("/reports/lost-item/")) && (
+        pathname.startsWith("/reports/lost-item/") ||
+        pathname.startsWith("/tickets/")) && (
         <div className="p-3 shadow bg-danger danger-nav osahan-home-header">
           <div className="fw-normal mb-0 d-flex align-items-center">
             {homeLogo}

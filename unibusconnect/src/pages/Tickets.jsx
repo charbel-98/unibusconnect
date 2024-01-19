@@ -14,18 +14,31 @@ export function Ticket({
   path,
   from,
   to,
+  journeyId,
+  isFuture,
 }) {
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const cancelHandler = async () => {
+    try {
+      const response = await axiosPrivate.get(
+        `/cancelreservation/${journeyId}`
+      );
+      console.log(response.data);
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
-    <Link
-      to={path}
+    <div
       className="bg-white text-black rounded-1 shadow-sm p-3 mb-3 w-100"
       // onClick={() => navigate()}
     >
-      <div className="d-flex align-items-center mb-2">
+      <Link to={path} className="d-flex align-items-center mb-2">
         <small className="text-muted">A/C Sleeper (2+1)</small>
         <small className="text-success ms-auto f-10">{status}</small>
-      </div>
+      </Link>
       <h6 className="mb-3 l-hght-18 fw-bold text-dark">{SP}</h6>
 
       <div className="row mx-0 mb-3">
@@ -49,11 +62,21 @@ export function Ticket({
           </small>
           <p className="small mb-0 l-hght-14">
             {" "}
-            <Link className="text-success fw-bold">{time}</Link>
+            <div className="text-success fw-bold">{time}</div>
           </p>
         </div>
       </div>
-    </Link>
+      {isFuture && (
+        <div className="row w-100 mt-4">
+          <button
+            className="btn btn-danger w-25 ms-auto"
+            onClick={cancelHandler}
+          >
+            CANCEL
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -96,7 +119,8 @@ const Tickets = () => {
     <>
       <div className="your-ticket border-top row m-0 p-3">
         {isLoading && <TicketsSkeleton cards={3} />}
-        {(tickets.length &&
+        {(tickets.length > 0 &&
+          !isLoading &&
           tickets.map((ticket, i) => {
             return (
               <Ticket
@@ -109,14 +133,17 @@ const Tickets = () => {
                 from={ticket.from}
                 to={ticket.to}
                 path={`/tickets/${ticket.journeyID}`}
+                journeyId={ticket.journeyID}
+                isFuture={true}
               />
             );
-          })) || (
-          <div className="text-center w-100">
-            {" "}
-            <h5 className="small text-muted">No Tickets Found !</h5>
-          </div>
-        )}
+          })) ||
+          (!isLoading && (
+            <div className="text-center w-100">
+              {" "}
+              <h5 className="small text-muted">No Tickets Found !</h5>
+            </div>
+          ))}
       </div>
     </>
   );

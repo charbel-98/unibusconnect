@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate, setFilter, setIsDeparting } from "../redux/filterSlice";
+import STad from "../img/ST-ad.jpg";
+import STad1 from "../img/ST-ad1.jpg";
 // this is a home pge component
 const Home = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -179,41 +181,23 @@ const Home = () => {
             />
           </div>
         </div>
-        <div className="p-3">
-          <h6 className="text-center">Bus Discounts For You</h6>
+        <div className="" style={{ "background-color": "#f2f2f2" }}>
+          <h6 className="text-center"></h6>
           <div className="row m-0">
-            <div className="col-6 py-1 ps-1 ps-0">
-              <a href="listing.html">
+            <div className="col-12 mb-4 mt-4 ">
+              <a>
                 <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer1.jpg"
+                  className="img-fluid w-100 rounded-1 shadow-sm img-shadow"
+                  src={STad}
                   alt=""
                 />
               </a>
             </div>
-            <div className="col-6 py-1 ps-1 ps-0">
-              <a href="listing.html">
+            <div className="col-12 ">
+              <a>
                 <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer2.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="col-6 py-1 ps-1 ps-0">
-              <a href="listing.html">
-                <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer3.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="col-6 py-1 ps-1 ps-0">
-              <a href="listing.html">
-                <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer4.jpg"
+                  className="img-fluid w-100 rounded-1 shadow-sm img-shadow"
+                  src={STad1}
                   alt=""
                 />
               </a>

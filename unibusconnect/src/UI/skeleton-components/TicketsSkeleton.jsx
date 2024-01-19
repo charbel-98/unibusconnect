@@ -56,6 +56,11 @@ const TicketsSkeleton = ({ cards }) => {
             </p>
           </div>
         </div>
+        <div className="row w-100 mt-4">
+          <div className="btn ms-auto w-25 pe-3 ">
+            <Skeleton height={40} width={90}></Skeleton>
+          </div>
+        </div>
       </div>
     ));
 };
