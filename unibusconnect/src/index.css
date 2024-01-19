@@ -519,6 +519,10 @@ div.modal-dialog {
   &.report {
     background: rgba(0, 191, 255, 0.1);
   }
+
+  &.profile {
+    background: rgba(179, 255, 0, 0.1);
+  }
 }
 
 @keyframes dropNotification {
