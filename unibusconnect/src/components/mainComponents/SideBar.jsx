@@ -101,28 +101,26 @@ const navItems = [
     isLogout: true,
   },
 ];
+export const Content = () =>
+  navItems.map(({ title, icon, isParentItem, path, isLogout, warning }, i) => {
+    const defaultLocation = useSelector(
+      (state) => state?.auth?.user?.defaultLocation
+    );
+    navItems[5].warning = !defaultLocation?.lat || !defaultLocation?.lng;
+    return isParentItem ? (
+      <NavParentItem title={title} icon={icon} key={i} />
+    ) : (
+      <NavItem
+        class={warning ? "notify" : ""}
+        title={title}
+        icon={icon}
+        path={path}
+        isLogout={isLogout}
+        key={i}
+      />
+    );
+  });
 function SideBar() {
-  const content = navItems.map(
-    ({ title, icon, isParentItem, path, isLogout, warning }, i) => {
-      const defaultLocation = useSelector(
-        (state) => state?.auth?.user?.defaultLocation
-      );
-      navItems[5].warning = !defaultLocation?.lat || !defaultLocation?.lng;
-      return isParentItem ? (
-        <NavParentItem title={title} icon={icon} key={i} />
-      ) : (
-        <NavItem
-          class={warning ? "notify" : ""}
-          title={title}
-          icon={icon}
-          path={path}
-          isLogout={isLogout}
-          key={i}
-        />
-      );
-    }
-  );
-
   return (
     <>
       {createPortal(<Portal></Portal>, document.getElementById("portal"))}
@@ -147,7 +145,7 @@ function SideBar() {
                 <ul role="menu" aria-level="1" className="second-nav">
                   <SideBarHeader></SideBarHeader>
 
-                  {content}
+                  <Content />
                 </ul>
               </div>
             </div>

@@ -15,7 +15,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDate, setFilter, setIsDeparting } from "../redux/filterSlice";
 import STad from "../img/ST-ad.jpg";
 import STad1 from "../img/ST-ad1.jpg";
+import { Link } from "react-router-dom";
 // this is a home pge component
+
+function AdCard() {
+  return (
+    <div className="ads-card">
+      <div className="d-flex justify-content-center align-items-center">
+        <img
+          style={{
+            width: "400px",
+            aspectRatio: "1/1",
+          }}
+          className="img-fluid rounded-1"
+          src={STad}
+          alt=""
+        />
+      </div>
+      <div className="d-flex flex-column gap-4 ms-2 p-1">
+        <Link>
+          <h2 className="fw-bold text-decoration-underline">
+            {" "}
+            Travel from Cairo to Alexandria{" "}
+          </h2>
+        </Link>
+        <h6 className="two-lines">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+          nesciunt ex mollitia ipsa! Cum, obcaecati vero beatae ad quod
+          consectetur!
+        </h6>
+      </div>
+    </div>
+  );
+}
+
 const Home = () => {
   const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();
@@ -85,7 +118,7 @@ const Home = () => {
   };
   //search button handler
 
-  const filter = useSelector((state) => state.filter);
+  const filter = useSelector((state) => state?.filter);
 
   const journeysSearchHandler = (e) => {
     e.preventDefault();
@@ -113,7 +146,7 @@ const Home = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div className="osahan-verification padding-bt ">
-        <div className="bg-danger px-3 pb-3">
+        <div className="bg-danger pt-md-5 px-3 pb-3">
           <div className="bg-white rounded-1 p-3">
             <form onSubmit={journeysSearchHandler}>
               {!valid && (
@@ -179,27 +212,16 @@ const Home = () => {
             />
           </div>
         </div>
-        <div className="" style={{ "background-color": "#f2f2f2" }}>
+        <div className="bg-white">
           <h6 className="text-center"></h6>
-          <div className="row m-0">
-            <div className="col-12 mb-4 mt-4 ">
-              <a>
-                <img
-                  className="img-fluid w-100 rounded-1 shadow-sm img-shadow"
-                  src={STad}
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="col-12 ">
-              <a>
-                <img
-                  className="img-fluid w-100 rounded-1 shadow-sm img-shadow"
-                  src={STad1}
-                  alt=""
-                />
-              </a>
-            </div>
+          <div className="ads-container">
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
           </div>
         </div>
       </div>

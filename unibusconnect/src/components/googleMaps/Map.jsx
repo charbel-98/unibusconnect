@@ -187,7 +187,7 @@ const Map = ({
           />
         )}
         {(!currentLocationIsNull ||
-          (defaultLocation?.lat !== null && defaultLocation.lng !== null)) && (
+          (defaultLocation?.lat && defaultLocation?.lng)) && (
           <Marker position={center}></Marker>
         )}
         {withDirection && (

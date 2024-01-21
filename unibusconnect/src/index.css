@@ -637,3 +637,24 @@ textarea {
     color: #fff;
   }
 }
+
+.ads-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.ads-container > .ads-card {
+  display: flex;
+  gap: 5px;
+  padding: 10px 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(108, 108, 108, 0.24);
+}
+
+.ads-card h2 {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+}

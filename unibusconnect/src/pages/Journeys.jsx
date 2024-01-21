@@ -3,7 +3,6 @@ import FromToTextBox from "../components/journeysComponents/FromToTextBox";
 import JourneyInstance from "../components/journeysComponents/JourneyInstance";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import JourneyInstanceSkeleton from "../UI/skeleton-components/JourneyInstanceSkeleton";
 export const Journeys = () => {

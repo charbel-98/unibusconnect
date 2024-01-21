@@ -9,7 +9,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
 import AuthHeader from "../authComponents/AuthHeader";
 import { open } from "../../redux/sideBarSlice";
-function MainNavigation() {
+function MainNavigation({ screen }) {
   const user = useSelector((state) => state.auth.user);
   //! getting the pathname to render conditional content in the main navigation based on the path
   const { pathname } = useLocation();
@@ -24,7 +24,8 @@ function MainNavigation() {
   const homeLogo = pathname === "/" && (
     <img src={logo} className="img-fluid osahan-nav-logo " />
   );
-  const homeProfile = pathname === "/" && (
+  console.log(screen.small);
+  const homeProfile = pathname === "/" && !screen.medium && (
     <Link to="profile" className="me-3">
       {console.log(user?.avatar)}
       <img
@@ -109,19 +110,21 @@ function MainNavigation() {
             {homeLogo}
             {journeysAndDetails}
 
-            <div className="ms-auto d-flex align-items-center">
-              {homeProfile}
-              <a
-                className={`toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 ${
-                  (!defaultLocation?.lat || !defaultLocation?.lng) && "notify"
-                }`}
-                role="button"
-                aria-controls="hc-nav-1"
-                onClick={() => dispatch(open())}
-              >
-                <List size={40} />
-              </a>
-            </div>
+            {!screen.medium && (
+              <div className="ms-auto d-flex align-items-center">
+                {homeProfile}
+                <a
+                  className={`toggle osahan-toggle h4 m-0 text-white ms-auto hc-nav-trigger hc-nav-1 ${
+                    (!defaultLocation?.lat || !defaultLocation?.lng) && "notify"
+                  }`}
+                  role="button"
+                  aria-controls="hc-nav-1"
+                  onClick={() => dispatch(open())}
+                >
+                  <List size={40} />
+                </a>
+              </div>
+            )}
           </div>
         </div>
       )}
