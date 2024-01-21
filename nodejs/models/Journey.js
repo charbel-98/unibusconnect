@@ -22,8 +22,36 @@ const JourneySchema = new mongoose.Schema({
     enum: ["Pending", "Confirmed", "Cancelled"],
     default: "Pending",
   },
-  departingPassengers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  returningPassengers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  departingPassengers: [
+    {
+      passenger: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      departureLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
+      },
+      departureAddress: { type: String },
+      destinationLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
+      },
+      destinationAddress: { type: String },
+    },
+  ],
+  returningPassengers: [
+    {
+      passenger: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      departureLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
+      },
+      departureAddress: { type: String },
+      destinationLatLng: {
+        lat: { type: Number },
+        lng: { type: Number },
+      },
+      destinationAddress: { type: String },
+    },
+  ],
 });
 
 // ServiceProvider.findOne({ name: "Semaan Tannous" }).then((sp) => {

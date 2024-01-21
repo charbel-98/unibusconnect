@@ -5,6 +5,8 @@ import {
   Clock,
   GeoAltFill,
   ClockFill,
+  Check,
+  CheckCircleFill,
 } from "react-bootstrap-icons";
 
 import Rating from "../../UI/Rating";
@@ -83,7 +85,11 @@ function JourneyInstance({
         <div
           className={`status-element border border-2 border-${statusColor} mx-5 rounded-5 d-flex justify-content-center mb-3`}
         >
-          <ClockFill className={`text-${statusColor} me-1`} />
+          {status === "Pending" ? (
+            <ClockFill className={`text-${statusColor} me-1`} />
+          ) : (
+            <CheckCircleFill className={`text-${statusColor} me-1`} />
+          )}
           <span className={`text-${statusColor}`}>{status}</span>
         </div>
       </div>

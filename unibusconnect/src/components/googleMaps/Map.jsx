@@ -9,18 +9,32 @@ import Places from "./Places";
 import { getLocation, showError } from "./mapFunctions";
 import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocation } from "../../redux/locationSlice";
+import { setLocation, setAddress } from "../../redux/locationSlice";
+import { GeoAltFill } from "react-bootstrap-icons";
 
 const MAPS_LIBRARIES = ["places"];
 
-const Map = ({ withDirection, universityLat, universityLng }) => {
+const Map = ({
+  defaultLatLng,
+  withDirection,
+  universityLat,
+  universityLng,
+}) => {
   //home and university states for the map
   //home is for the user to set
   //he can share jis current location or choose one by clicking on the map or from the input
   const defaultLocation = useSelector(
     (state) => state?.auth?.user?.defaultLocation
   );
-  const [home, setHome] = useState(defaultLocation);
+  const currentLocation = useSelector(
+    (state) => state?.location.currentLocation
+  );
+  const currentLocationIsNull =
+    currentLocation?.lat === null && currentLocation?.lng === null;
+  console.log(currentLocation);
+  console.log(defaultLocation);
+  const dispatch = useDispatch();
+  //const [home, setHome] = useState(defaultLocation);
   //uni is from the db which we get after filtering the array of unis based on the users filtration
   const [university, setUniversity] = useState({
     lat: universityLat,
@@ -40,14 +54,18 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
   //on load function to set the map reference
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   //setting the center of the map
-  const center = getCenter(home);
+  let center = getCenter(
+    !currentLocationIsNull ? currentLocation : defaultLocation
+  );
+  if (defaultLatLng) center = getCenter(defaultLatLng);
   //if user share his location we set is as home location
-  const setCurrentHomeLocation = (position) => {
-    setHome((prev) => ({
-      lng: position?.coords?.longitude,
-      lat: position?.coords?.latitude,
-    }));
-
+  const shareLocation = (position) => {
+    dispatch(
+      setLocation({
+        lat: position?.coords?.latitude,
+        lng: position?.coords?.longitude,
+      })
+    );
     console.log(
       "Latitude: " +
         position?.coords?.latitude +
@@ -55,25 +73,61 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
         position?.coords?.longitude
     );
   };
+  //get the place name of the current location
+  const getCurrentLocationName = useCallback(async (position) => {
+    const geocoder = new window.google.maps.Geocoder();
+    const latlng = {
+      lat: parseFloat(position?.lat),
+      lng: parseFloat(position?.lng),
+    };
+    await geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === "OK") {
+        if (results[0]) {
+          const address =
+            results[3].address_components[0].long_name +
+            ", " +
+            results[3].address_components[1].long_name +
+            ", " +
+            results[3].address_components[2].long_name;
+          dispatch(setAddress(address));
+          console.log(address);
+          return address;
+        } else {
+          window.alert("No results found");
+        }
+      } else {
+        window.alert("Geocoder failed due to: " + status);
+      }
+    });
+  });
+  useEffect(() => {
+    currentLocation && isLoaded && getCurrentLocationName(currentLocation);
+  }, [currentLocation, defaultLocation]);
+
   //calling of the function to get the current location on mount, and alerting any errors if any
   // useEffect(() => {
   //   getLocation(setCurrentHomeLocation, showError);
   // }, []);
-  //displaying directions based on the home changing state and after loading
-  useEffect(() => {
-    onLoad(mapRef.current, home);
-    withDirection &&
-      fetchDirections(home, isLoaded, isDeparting, university, setDirections);
-  }, [home, isLoaded]);
   //scroll to bottom to fill the map
   useEffect(() => {
     scrollToBottom(withDirection);
   }, [isLoaded]);
-
-  const dispatch = useDispatch();
+  //displaying directions based on the home changing state and after loading
   useEffect(() => {
-    dispatch(setLocation(home));
-  }, [home]);
+    onLoad(
+      mapRef.current,
+      !currentLocationIsNull ? currentLocation : defaultLocation
+    );
+    withDirection &&
+      fetchDirections(
+        !currentLocationIsNull ? currentLocation : defaultLocation,
+        isLoaded,
+        isDeparting,
+        university,
+        setDirections
+      );
+    //return () => dispatch(setLocation({ lat: null, lng: null }));
+  }, [currentLocation, defaultLocation, isLoaded]);
 
   if (!isLoaded) return <div>loading...</div>;
 
@@ -82,25 +136,44 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
       <GoogleMap
         zoom={15}
         onClick={(e) => {
-          console.log(e.latLng.lat(), e.latLng.lng());
-          setHome({
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
-          });
+          console.log(e);
+          console.log(
+            getCurrentLocationName({
+              lat: e?.latLng?.lat(),
+              lng: e?.latLng?.lng(),
+            })
+          );
+          dispatch(
+            setLocation({
+              lat: e?.latLng?.lat(),
+              lng: e?.latLng?.lng(),
+              // address: getCurrentLocationName({
+              //   lat: e?.latLng?.lat(),
+              //   lng: e?.latLng?.lng(),
+              // }),
+            })
+          );
         }}
         center={center}
         options={{ disableDefaultUI: true }}
         mapContainerClassName="map-container"
         onLoad={() => onLoad(mapRef.current)}
       >
-        <div className="controls">
-          <Places
-            setHome={(position) => {
-              setHome(position);
-              console.log("here");
-            }}
-          />
-        </div>
+        {!defaultLatLng && (
+          <div className="controls">
+            <Places
+              setHome={(position) => {
+                dispatch(setLocation(position));
+              }}
+            />
+            <button
+              className="locationNowButton"
+              onClick={() => getLocation(shareLocation, showError)}
+            >
+              <GeoAltFill size={20} />
+            </button>
+          </div>
+        )}
         {withDirection && directions && (
           <DirectionsRenderer
             directions={directions}
@@ -113,10 +186,10 @@ const Map = ({ withDirection, universityLat, universityLng }) => {
             }}
           />
         )}
-        <button onClick={() => getLocation(setCurrentHomeLocation, showError)}>
-          get current location
-        </button>
-        {home?.lat && home?.lng && <Marker position={center}></Marker>}
+        {(!currentLocationIsNull ||
+          (defaultLocation?.lat && defaultLocation?.lng)) && (
+          <Marker position={center}></Marker>
+        )}
         {withDirection && (
           <Marker
             position={{ lat: universityLat, lng: universityLng }}

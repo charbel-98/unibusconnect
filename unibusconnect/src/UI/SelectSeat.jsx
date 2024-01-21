@@ -1,45 +1,42 @@
+import { useEffect, useState } from "react";
 import SeatGroup from "./SeatGroup";
+import driver from "../img/driver.png";
 export const SelectSeat = () => {
+  const [seats, setSeats] = useState([]);
+  useEffect(() => {
+    let seatRows = 10;
+    let seatsArray = [];
+    for (let i = 65; i <= 65 + seatRows; i++) {
+      seatsArray.push(<SeatGroup key={i} char={String.fromCharCode(i)} />);
+    }
+    setSeats(seatsArray);
+
+    return () => {
+      seatRows = null;
+      seatsArray = null;
+    };
+  }, []);
+
   return (
     <div className="select-seat row bg-white mx-0 px-3 pt-3 pb-1 mb-3 rounded-1 shadow-sm">
-      <div className="col-8 pl-0">
+      <div className="ps-10">
         <div className="d-flex">
           <div className="sold text-center">
-            <img src="img/sold-seat.png" className="img-fluid mb-1" />
-            <p className="small f-10">Sold Out</p>
+            <img src={driver} className="img-fluid mb-1" />
+            {/* <p className="small f-10">Sold Out</p> */}
           </div>
           <div className="sold text-center mx-3">
-            <img src="img/available-seat.png" className="img-fluid mb-1" />
-            <p className="small f-10">Available</p>
+            <img hidden className="img-fluid mb-1" />
+            {/* <p className="small f-10">Available</p> */}
           </div>
           <div className="sold text-center">
-            <img src="img/selected-seat.png" className="img-fluid mb-1" />
-            <p className="small f-10">Selected</p>
+            <img hidden className="img-fluid mb-1" />
+            {/* <p className="small f-10">Selected</p> */}
           </div>
         </div>
 
         <div className="select-seat">
-          <div className="checkboxes-seat mt-4">
-            <SeatGroup isPair={true} char="A" />
-            <SeatGroup isPair={true} char="B" />
-            <SeatGroup isPair={true} char="C" />
-            <SeatGroup isPair={true} char="D" />
-            <SeatGroup isPair={true} char="E" />
-            <SeatGroup isPair={true} char="F" />
-            <SeatGroup isPair={true} char="G" />
-          </div>
-        </div>
-      </div>
-      <div className="col-4 text-right pr-0">
-        <img src="img/driver.png" className="img-fluid mb-4" />
-        <div className="checkboxes-seat mt-4">
-          <SeatGroup isPair={false} char="A" />
-          <SeatGroup isPair={false} char="B" />
-          <SeatGroup isPair={false} char="C" />
-          <SeatGroup isPair={false} char="D" />
-          <SeatGroup isPair={false} char="E" />
-          <SeatGroup isPair={false} char="F" />
-          <SeatGroup isPair={false} char="G" />
+          <div className="checkboxes-seat mt-4">{seats}</div>
         </div>
       </div>
     </div>

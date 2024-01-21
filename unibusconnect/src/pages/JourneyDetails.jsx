@@ -9,30 +9,36 @@ import Pickup from "../components/journeyDetailsComponents/Pickup";
 import Modal from "../UI/Modal.jsx";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { modal_Data } from "../UI/modalData";
+import JourneyDetailsSkeleton from "../UI/skeleton-components/JourneyDetailsSkeleton.jsx";
 const JourneyDetails = () => {
   const [active, setActive] = useState({
     info: true,
     review: false,
     pickup: false,
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [ModalData, setModalData] = useState({
-    title: "Warning",
-    description: "You need to set your location before continue.",
-    buttons: [
-      {
-        text: "set my location",
-        class: "btn bg-danger",
-        function: () => {
-          setActive({
-            info: false, review: false, pickup: true
-          })
-          setShowModal(false);
-        }
-      }
-    ]
-  })
+
+  const [isRequestPending, setIsRequestPending] = useState(false); // New state
+
+  const { currentLocation, address } = useSelector((state) => state?.location);
+  const { defaultLocation, defaultAddress } = useSelector(
+    (state) => state?.auth?.user
+  );
+  const [ModalData, setModalData] = useState(null);
+  const modalData = modal_Data(
+    setActive,
+    setShowModal,
+    currentLocation,
+    defaultLocation,
+    defaultAddress,
+    reserve,
+    setModalData
+  );
+  const currentLocationIsNull = !currentLocation?.lat && !currentLocation?.lng;
+  const defaultLocationIsNull = !defaultLocation?.lat && !defaultLocation?.lng;
   const { id } = useParams();
   const [journey, setJourney] = useState([]);
   const axiosPrivate = useAxiosPrivate();
@@ -41,12 +47,7 @@ const JourneyDetails = () => {
   const { from, to, date, isDeparting } = JSON.parse(
     localStorage.getItem("filter")
   );
-  const defaultLocation = useSelector(
-    (state) => state?.auth?.user?.defaultLocation
-  );
-  const currentLocation = useSelector(
-    (state) => state?.location
-  );
+
   const activeButtonhandler = (e) => {
     setActive((prev) => {
       console.log([e.target.id]);
@@ -65,8 +66,8 @@ const JourneyDetails = () => {
           },
           signal: controller.signal,
         });
-        console.log(response.data);
-        isMounted && setJourney(response.data.journey);
+        console.log(response?.data?.journey);
+        isMounted && setJourney(response?.data?.journey);
         setIsLoading(false);
       } catch (err) {
         if (err.response?.status == 403) {
@@ -86,113 +87,125 @@ const JourneyDetails = () => {
       controller.abort();
     };
   }, []);
-  
-  const Modalfunction = () => {
-    console.log(defaultLocation)
-    if (!defaultLocation.lat || !defaultLocation.lng) {
-      return setShowModal(true);
-    } else {
-      let Data = {
-        title: "Confirmation",
-        description: "You already have deafult location, you need to use it ?\ or choose another location for this journey.",
-        buttons: [
-          {
-            text: "get the default",
-            class: "btn bg-secondary",
-            function: () => {
-              setShowModal(false);
-              reserve();
-            }
-          },
-          {
-            text: "change my location",
-            class: "btn bg-danger",
-            function: () => {
-              setActive({
-                info: false, review: false, pickup: true
-              })
-              setShowModal(false);
-            }
-          }
-        ]
-      }
-      setModalData(Data);
-      setShowModal(true);
-    }
-  }
-  const reserve = async () => {
+  const universityAddress = isDeparting ? to : from;
+  const universityObject = journey?.serviceProvider?.region?.universities.find(
+    (university) => university[universityAddress]
+  );
+
+  const university_Lat_Lng = universityObject
+    ? universityObject[universityAddress]
+    : null;
+  async function reserve(userLocation, userAddress) {
     try {
+      if (isRequestPending) {
+        return;
+      }
+      setIsRequestPending(true);
       const response = await axiosPrivate.post(`/reservation/register/${id}`, {
         isDeparting,
+        userLocation,
+        userAddress,
+        universityLocation: university_Lat_Lng,
+        universityAddress,
       });
       console.log(response.data);
+      navigate("/");
     } catch (err) {
       // will be edited later
-      alert(err.response.data.message);
       if (err.response.status == 403) {
         console.error(err);
         navigate("/login", { state: { from: location }, replace: true });
       }
+    } finally {
+      setIsRequestPending(false);
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  };
-  const universityName = isDeparting ? to : from;
-  const universityObject = journey?.serviceProvider?.region?.universities.find(
-    (university) => university[universityName]
-  );
+  }
 
-  const university_Lat_Lng = universityObject
-    ? universityObject[universityName]
-    : null;
-  console.log(university_Lat_Lng);
+  const Modalfunction = () => {
+    console.log(defaultLocation);
+    if (defaultLocationIsNull && currentLocationIsNull) {
+      setModalData(modalData.noLocation);
+      setShowModal(true);
+    } else if (currentLocationIsNull && !defaultLocationIsNull) {
+      setModalData(modalData.noCurrentLocationWithDefaultLocation);
+      setShowModal(true);
+    }
+    if (!currentLocationIsNull && !defaultLocationIsNull) {
+      setModalData(modalData.withCurrentLocationAndDefaultLocation);
+      setShowModal(true);
+    }
+    if (defaultLocationIsNull && !currentLocationIsNull) {
+      reserve(currentLocation, address);
+
+      setModalData(modalData.setCurrentLocationAsDefault);
+      setShowModal(true);
+    }
+  };
 
   return (
     <>
       {showModal && (
         <Modal title={ModalData.title} description={ModalData.description}>
-          {ModalData.buttons && ModalData.buttons.map(b => {
-            return (<button className={b.class} onClick={b.function || null} > {b.text} </button>)
-          })}
+          {ModalData.buttons &&
+            ModalData.buttons.map((b, i) => {
+              return (
+                <button
+                  key={i}
+                  className={b.class}
+                  onClick={b.function || null}
+                >
+                  {" "}
+                  {b.text}{" "}
+                </button>
+              );
+            })}
         </Modal>
       )}
-      <div className="list_item m-0 bg-white">
-        <JourneyHeader
-          from={from}
-          to={to}
-          sp={journey?.serviceProvider?.businessName}
-        />
-        <JourneyInfo
-          time={
-            isDeparting
-              ? ["Arriving Time", journey.arrivalTimeToUniversity]
-              : ["Departing Time", journey.departureTimeFromUniversity]
-          }
-          AC={journey?.bus?.AC}
-          status={journey?.status}
-          busnb={journey?.bus?.busnb}
-        />
-        <ActionButtons
-          activeButton={active}
-          onClick={activeButtonhandler}
-        ></ActionButtons>
-        <div className="tab-content" id="pills-tabContent">
-          {active.info && (
-            <Info sp={journey?.serviceProvider?.businessName}></Info>
-          )}
-          {active.review && <Review></Review>}
-          {active.pickup && (
-            <Pickup universityLocation={university_Lat_Lng}></Pickup>
-          )}
-        </div>
-      </div>
-      <div className="fixed-bottom view-seatbt p-3">
-        <button
-          onClick={Modalfunction}
-          className="btn btn-danger btn-block osahanbus-btn rounded-1"
-        >
-          Book Your Seats Now
-        </button>
-      </div>
+      {isLoading && <JourneyDetailsSkeleton />}
+      {!isLoading && (
+        <>
+          <div className="list_item m-0 bg-white">
+            <JourneyHeader
+              from={from}
+              to={to}
+              sp={journey?.serviceProvider?.businessName}
+            />
+            <JourneyInfo
+              time={
+                isDeparting
+                  ? ["Arriving Time", journey?.arrivalTimeToUniversity]
+                  : ["Departing Time", journey?.departureTimeFromUniversity]
+              }
+              AC={journey?.bus?.AC}
+              status={journey?.status}
+              busnb={journey?.bus?.busnb}
+            />
+            <ActionButtons
+              activeButton={active}
+              onClick={activeButtonhandler}
+            ></ActionButtons>
+            <div className="tab-content" id="pills-tabContent">
+              {active.info && (
+                <Info sp={journey?.serviceProvider?.businessName}></Info>
+              )}
+              {active.review && <Review></Review>}
+              {active.pickup && (
+                <Pickup universityLocation={university_Lat_Lng}></Pickup>
+              )}
+            </div>
+          </div>
+
+          <div className="fixed-bottom view-seatbt p-3">
+            <button
+              onClick={Modalfunction}
+              className="btn btn-danger btn-block osahanbus-btn rounded-1"
+            >
+              {isRequestPending ? "Reserving..." : "Book Your Seats Now"}
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 };

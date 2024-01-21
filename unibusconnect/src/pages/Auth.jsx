@@ -119,6 +119,7 @@ const SignUp = ({ isSignUp }) => {
     if (isSignUp) {
       if (signupFormIsValid) {
         await dispatch(signup({ name, mobile, email, password }));
+        navigate(from, { replace: true });
       }
     } else if (loginFormIsValid) {
       await dispatch(login(JSON.stringify({ mobileOrEmail, password })));

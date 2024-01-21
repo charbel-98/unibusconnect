@@ -1,7 +1,8 @@
 require("dotenv").config();
 require("express-async-errors");
 require("./cron-scheduler/scheduler");
-const cookieSession = require("express-session");
+require("./cron-scheduler/cancelScheduler");
+const http = require("http");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const cors = require("cors");
@@ -11,7 +12,7 @@ const bodyParser = require("body-parser");
 const connectDB = require("./db/connect");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
-// error handler
+const initializeSocketServer = require("./socketServer"); // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const authenticateJWT = require("./middleware/authenticateJWT");
@@ -31,26 +32,38 @@ app.use("/api/v1/register", require("./routes/register"));
 app.use("/api/v1/auth", require("./routes/auth"));
 app.use("/api/v1/refresh", require("./routes/refreshToken"));
 app.use("/api/v1/logout", require("./routes/logout"));
+app.use("/api/v1/privateNotifications", require("./routes/notifications"));
 
 //protected routes
 app.use(authenticateJWT);
 app.use("/api/v1/journeys", require("./routes/journeys"));
 app.use("/api/v1/reservation", require("./routes/reservation"));
 app.use("/api/v1/regions/supported", require("./routes/regions"));
-app.use("/api/v1", require("./routes/setDefaultLocation"));
+app.use("/api/v1/setdefaultlocation", require("./routes/setDefaultLocation"));
+app.use("/api/v1/tickets", require("./routes/tickets"));
+app.use("/api/v1/notifications", require("./routes/notifications"));
+app.use("/api/v1/reports", require("./routes/report"));
+app.use("/api/v1/profile", require("./routes/profile"));
+app.use("/api/v1/cancelreservation", require("./routes/cancelReservation"));
+
 //error handlers
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-const port = process.env.PORT || 3000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-
-    app.listen(port, () => {
-      console.log("Server is listening on port 3000...");
-    });
   } catch (err) {
     console.log(err);
   }
 };
+
 start();
+const server = http.createServer(app);
+const io = initializeSocketServer({ server, app });
+
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log("Server is listening on port 3000...");
+});
+
+module.exports = { app, io };

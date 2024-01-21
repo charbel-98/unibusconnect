@@ -13,7 +13,42 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate, setFilter, setIsDeparting } from "../redux/filterSlice";
+import STad from "../img/ST-ad.jpg";
+import STad1 from "../img/ST-ad1.jpg";
+import { Link } from "react-router-dom";
 // this is a home pge component
+
+function AdCard() {
+  return (
+    <div className="ads-card">
+      <div className="d-flex justify-content-center align-items-center">
+        <img
+          style={{
+            width: "400px",
+            aspectRatio: "1/1",
+          }}
+          className="img-fluid rounded-1"
+          src={STad}
+          alt=""
+        />
+      </div>
+      <div className="d-flex flex-column gap-4 ms-2 p-1">
+        <Link>
+          <h2 className="fw-bold text-decoration-underline">
+            {" "}
+            Travel from Cairo to Alexandria{" "}
+          </h2>
+        </Link>
+        <h6 className="two-lines">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+          nesciunt ex mollitia ipsa! Cum, obcaecati vero beatae ad quod
+          consectetur!
+        </h6>
+      </div>
+    </div>
+  );
+}
+
 const Home = () => {
   const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();
@@ -82,10 +117,24 @@ const Home = () => {
     setValid(true);
   };
   //search button handler
-  const filter = useSelector((state) => state.filter);
+
+  const filter = useSelector((state) => state?.filter);
+
   const journeysSearchHandler = (e) => {
     e.preventDefault();
-    if (!filter.from || !filter.to || !filter.date) {
+    if (
+      !filter.from ||
+      !filter.to ||
+      !filter.date ||
+      (JSON.parse(localStorage?.getItem("cities"))[0].includes(filter?.from) &&
+        JSON.parse(localStorage?.getItem("cities"))[0].includes(filter?.to)) ||
+      (JSON.parse(localStorage?.getItem("universities"))[0].includes(
+        filter.from
+      ) &&
+        JSON.parse(localStorage?.getItem("universities"))[0].includes(
+          filter?.to
+        ))
+    ) {
       setValid(false);
       return;
     }
@@ -97,7 +146,7 @@ const Home = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div className="osahan-verification padding-bt ">
-        <div className="bg-danger px-3 pb-3">
+        <div className="bg-danger pt-md-5 px-3 pb-3">
           <div className="bg-white rounded-1 p-3">
             <form onSubmit={journeysSearchHandler}>
               {!valid && (
@@ -129,8 +178,16 @@ const Home = () => {
                   sx: { "& .MuiSvgIcon-root": { color: "orange" } },
                 }}
                 shouldDisableDate={(date) => {
+                  const currentDate = new Date();
                   const day = date.getDay();
-                  return day === 0 || day === 6;
+                  const currentPlus = new Date(currentDate);
+                  currentPlus.setDate(currentDate.getDate() - 1);
+                  const condition =
+                    currentDate.getHours() > 18
+                      ? date < currentDate
+                      : date < currentPlus;
+
+                  return condition || day === 0 || day === 6;
                 }}
                 value={selectedDate}
                 onChange={dateChangeHandler}
@@ -144,8 +201,8 @@ const Home = () => {
             </form>
           </div>
         </div>
-        <div className="p-3 bg-warning">
-          <div className="row m-0">
+        <div className="p-2 bg-warning d-flex justify-content-center align-items-center">
+          <div className="row m-0 w-100">
             <Ad title={"Safe and Hygenic"} img={hygeneImg}></Ad>
             <Ad title={"Best Customer Support"} img={customerSupportImg} />
             <Ad title={"Live Track your Journey"} img={liveTrackingImg} />
@@ -155,45 +212,16 @@ const Home = () => {
             />
           </div>
         </div>
-        <div className="p-3">
-          <h6 className="text-center">Bus Discounts For You</h6>
-          <div className="row m-0">
-            <div className="col-6 py-1 pr-1 pl-0">
-              <a href="listing.html">
-                <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer1.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="col-6 py-1 pl-1 pr-0">
-              <a href="listing.html">
-                <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer2.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="col-6 py-1 pr-1 pl-0">
-              <a href="listing.html">
-                <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer3.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="col-6 py-1 pl-1 pr-0">
-              <a href="listing.html">
-                <img
-                  className="img-fluid rounded-1 shadow-sm"
-                  src="img/offer4.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
+        <div className="bg-white">
+          <h6 className="text-center"></h6>
+          <div className="ads-container">
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
+            <AdCard></AdCard>
           </div>
         </div>
       </div>

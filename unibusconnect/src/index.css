@@ -5,6 +5,27 @@ body {
   font-size: 13px;
 }
 
+main > div {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+
+  > div {
+    flex: 1 1 500px;
+  }
+}
+
+@media (width >= 768px) {
+  main > div {
+    gap: 10px;
+    padding: 10px;
+
+    > div {
+      border-radius: 10px;
+    }
+  }
+}
+
 .shadow-sm {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
@@ -23,6 +44,33 @@ body {
 
 .text-right {
   text-align: right !important;
+}
+
+.seen {
+  opacity: 0.6;
+}
+
+.two-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#sideBar nav .nav-container {
+  animation: sideBar 0.3s cubic-bezier(0, 0.73, 1, 1);
+}
+
+@keyframes sideBar {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
 }
 
 .sign-or hr {
@@ -198,6 +246,7 @@ input {
   width: 35px;
   height: 35px;
   font-size: 14px;
+  aspect-ratio: 1/1;
 }
 
 .check-seat {
@@ -214,11 +263,16 @@ input {
 }
 
 .btn-success:not(:disabled):not(.disabled).active,
-.btn-success:not(:disabled):not(.disabled):active,
 .show > .btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
+}
+
+.btn-success:not(:disabled):not(.disabled):not(:has(input:checked)):hover {
+  color: #000;
+  background-color: #73cf88;
+  border-color: #1b6d2d;
 }
 
 .btn-group-vertical > .btn.active,
@@ -336,10 +390,13 @@ input {
 
 .combobox-input {
   width: 100%;
+  height: 40px;
   padding: 0.5rem;
   margin: 0 0 0 0;
   border-radius: 5px;
   z-index: 1;
+  /* give more box shadow */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .osahan-toggle {
@@ -398,6 +455,7 @@ li.notify::after {
 
 div.modal {
   display: flex;
+  justify-content: center;
   background-color: rgba(142, 142, 142, 0.26);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3);
@@ -406,6 +464,218 @@ div.modal {
 div.modal-content {
   box-shadow: 0 0 10px rgb(108, 108, 108);
 }
+
 div.modal-dialog {
   margin: auto;
+}
+
+#notifications {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  top: 10px;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 99;
+  width: 100%;
+  max-height: 140px;
+  overflow-y: scroll;
+}
+
+#notifications > div {
+  width: 90%;
+  height: 30px;
+}
+
+#notifications > div:last-child {
+  height: auto;
+}
+
+.hide {
+  animation: hideNotification 1s ease-in-out;
+}
+
+/* "confirmation", "error", "cancellation", "reminder", "discount" , "report" */
+.notification_message {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+  padding: 10px 5px 5px;
+  border-radius: 20px;
+  margin: auto;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #eee;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: dropNotification 0.5s ease-in-out;
+  box-shadow: 0 1px 4px rgb(108, 108, 108);
+
+  &.confirmation {
+    background: rgba(0, 255, 0, 0.1);
+  }
+
+  &.error {
+    background: rgba(255, 255, 0, 0.1);
+  }
+
+  &.cancellation {
+    background: rgba(255, 0, 0, 0.1);
+  }
+
+  &.reminder {
+    background: rgba(0, 0, 255, 0.1);
+  }
+
+  &.discount {
+    background: rgba(0, 255, 255, 0.1);
+  }
+
+  &.report {
+    background: rgba(0, 191, 255, 0.1);
+  }
+
+  &.profile {
+    background: rgba(179, 255, 0, 0.1);
+  }
+}
+
+@keyframes dropNotification {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes hideNotification {
+  from {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.notification_icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background: #000;
+  color: #fff;
+  aspect-ratio: 1/1;
+}
+
+.notification_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.notification_title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+}
+
+.notification_description {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000cc;
+}
+
+.notification_message:hover {
+  cursor: pointer;
+}
+
+label:has(input[type="radio"]:checked) {
+  color: #eee;
+  background-color: #1e7e34;
+  border-color: #1c7430;
+}
+
+textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 2px;
+  padding: 6px;
+  box-shadow: inset 0 0 3px rgba(108, 108, 108, 0.5);
+  transition: all 0.3s ease-in;
+
+  &:focus {
+    box-shadow: 0 0 3px rgba(108, 108, 108, 0.5);
+    border-radius: 6px;
+  }
+}
+
+.image-section {
+  width: 100%;
+  height: 200px;
+  aspect-ratio: 16/9;
+}
+
+.profile-image {
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.locationNowButton {
+  position: absolute;
+  padding: 7.5px;
+  right: 10px;
+  top: 10px;
+  aspect-ratio: 1/1;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #dd3444;
+    color: #fff;
+  }
+}
+
+.ads-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.ads-container > .ads-card {
+  display: flex;
+  gap: 5px;
+  padding: 10px 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(108, 108, 108, 0.24);
+}
+
+.ads-card h2 {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
 }

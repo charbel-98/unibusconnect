@@ -3,9 +3,12 @@ const ServiceProvider = require("../models/ServiceProvider");
 const { BadRequestError } = require("../errors");
 const Bus = require("../models/Bus");
 const journeys = async (req, res) => {
+  let io = req.app.get("io");
+  console.error("io");
+  console.error("io", io);
   try {
-    const { from, to, date } = req.query;
-    if (!from || !to || !date) {
+    const { from, to, date, currentDate } = req.query;
+    if (!from || !to || !date || !currentDate) {
       throw new BadRequestError("Missing query parameters");
     }
 
@@ -19,33 +22,34 @@ const journeys = async (req, res) => {
         { [`region.universities.${to}`]: { $exists: true } },
       ],
     });
-    console.log(serviceProvider);
+    // console.log(serviceProvider);
     if (!serviceProvider) {
       res.status(404).json({ message: "No service provider found" });
       return;
     }
 
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
+    // const startOfDay = new Date(date);
+    // startOfDay.setHours(0, 0, 0, 0);
     const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
-    console.log(startOfDay, endOfDay);
+    // console.log(startOfDay, endOfDay);
     const journeys = await Journey.find({
       serviceProvider: serviceProvider._id,
-      date: { $gte: startOfDay, $lte: endOfDay },
+      date: { $gte: currentDate, $lte: endOfDay },
     })
       .populate("bus serviceProvider")
       .exec();
-    console.log(journeys);
+    // console.log(journeys);
     res.status(200).json({ journeys });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     res.status(500).send("Server Error");
   }
 };
 const journeyById = async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
+    const { type } = req.query;
     const journey = await Journey.findById(req.params.id)
       .populate("bus serviceProvider")
       .exec();
@@ -54,10 +58,29 @@ const journeyById = async (req, res) => {
       res.status(404).json({ message: "Journey not found" });
       return;
     }
+    const userInDepartingJourney = journey.departingPassengers.find(
+      (user) => user.passenger.toString() === req.user
+    );
+    const userInReturningJourney = journey.returningPassengers.find(
+      (user) => user.passenger.toString() === req.user
+    );
+    const user = userInDepartingJourney || userInReturningJourney;
+    if (user && type === "ticket") {
+      const responseData = {
+        provider: journey.serviceProvider.businessName,
+        bus: journey.bus.busNumber,
+        date: journey.date,
+        status: journey.status,
 
-    res.status(200).json({ journey });
+        departure: user.departureAddress,
+        destination: user.destinationAddress,
+        departureLatLng: user.departureLatLng,
+        destinationLatLng: user.destinationLatLng,
+      };
+      res.status(200).json(responseData);
+    } else res.status(200).json({ journey });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     res.status(500).send("Server Error");
   }
 };

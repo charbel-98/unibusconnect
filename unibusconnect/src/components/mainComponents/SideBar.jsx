@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import Portal from "../../UI/Portal";
 import NavParentItem from "../sideBarComponents/NavParentItem";
-import { BusFront } from "react-bootstrap-icons";
+import { BusFront, GeoAltFill } from "react-bootstrap-icons";
 import NavItem from "../sideBarComponents/NavItem";
 import {
   BellFill,
@@ -26,20 +26,20 @@ const navItems = [
     path: "/",
     isLogout: false,
   },
-  {
-    title: "Offers",
-    icon: <Percent className="me-3" />,
+  // {
+  //   title: "Offers",
+  //   icon: <Percent className="me-3" />,
 
-    isParentItem: false,
-    path: "/",
-    isLogout: false,
-  },
+  //   isParentItem: false,
+  //   path: "/",
+  //   isLogout: false,
+  // },
   {
     title: "Notifications",
     icon: <BellFill className="me-3" />,
 
     isParentItem: false,
-    path: "/notification",
+    path: "/notifications",
     isLogout: false,
   },
   {
@@ -56,14 +56,14 @@ const navItems = [
 
     isParentItem: true,
   },
-  {
-    title: "Payment",
-    icon: <CreditCardFill className="me-3" />,
+  // {
+  //   title: "Payment",
+  //   icon: <CreditCardFill className="me-3" />,
 
-    isParentItem: false,
-    path: "/",
-    isLogout: false,
-  },
+  //   isParentItem: false,
+  //   path: "/",
+  //   isLogout: false,
+  // },
   {
     title: "Profile",
     icon: <PersonFill className="me-3" />,
@@ -72,18 +72,18 @@ const navItems = [
   },
   {
     title: "Default Location",
-    icon: <BellFill className="me-3" />,
+    icon: <GeoAltFill className="me-3" />,
     isParentItem: false,
     path: "/default-location",
     isLogout: false,
     warning: true,
   },
-  {
-    title: "Admin",
-    icon: <PersonFill className="me-3" />,
+  // {
+  //   title: "Admin",
+  //   icon: <PersonFill className="me-3" />,
 
-    isParentItem: true,
-  },
+  //   isParentItem: true,
+  // },
   {
     title: "Contact US",
     icon: <ChatRightDotsFill className="me-3" />,
@@ -101,28 +101,26 @@ const navItems = [
     isLogout: true,
   },
 ];
+export const Content = () =>
+  navItems.map(({ title, icon, isParentItem, path, isLogout, warning }, i) => {
+    const defaultLocation = useSelector(
+      (state) => state?.auth?.user?.defaultLocation
+    );
+    navItems[5].warning = !defaultLocation?.lat || !defaultLocation?.lng;
+    return isParentItem ? (
+      <NavParentItem title={title} icon={icon} key={i} />
+    ) : (
+      <NavItem
+        class={warning ? "notify" : ""}
+        title={title}
+        icon={icon}
+        path={path}
+        isLogout={isLogout}
+        key={i}
+      />
+    );
+  });
 function SideBar() {
-  const content = navItems.map(
-    ({ title, icon, isParentItem, path, isLogout, warning }, i) => {
-      const defaultLocation = useSelector(
-        (state) => state?.auth?.user?.defaultLocation
-      );
-      navItems[7].warning = !defaultLocation?.lat || !defaultLocation?.lng;
-      return isParentItem ? (
-        <NavParentItem title={title} icon={icon} i={i} />
-      ) : (
-        <NavItem
-          class={warning ? "notify" : ""}
-          title={title}
-          i={i}
-          icon={icon}
-          path={path}
-          isLogout={isLogout}
-        />
-      );
-    }
-  );
-
   return (
     <>
       {createPortal(<Portal></Portal>, document.getElementById("portal"))}
@@ -147,7 +145,7 @@ function SideBar() {
                 <ul role="menu" aria-level="1" className="second-nav">
                   <SideBarHeader></SideBarHeader>
 
-                  {content}
+                  <Content />
                 </ul>
               </div>
             </div>

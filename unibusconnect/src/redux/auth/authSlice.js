@@ -45,8 +45,20 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.status = action.payload.status;
     },
-    setLocation: (state, action) => {
-      state.user = { ...state.user, defaultLocation: action.payload.location };
+    setDefaultLocation: (state, action) => {
+      state.user = {
+        ...state.user,
+        defaultLocation: action.payload.location,
+        defaultAddress: action.payload.defaultAddress,
+      };
+    },
+    updateUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        name: action.payload.name,
+        email: action.payload.email,
+        mobile: action.payload.mobile,
+      };
     },
   },
 
@@ -112,4 +124,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth, setLocation } = authSlice.actions;
+export const { setAuth, setDefaultLocation, updateUser } = authSlice.actions;

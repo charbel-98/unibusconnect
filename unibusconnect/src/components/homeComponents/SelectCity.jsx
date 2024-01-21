@@ -36,9 +36,15 @@ function SelectCity({
         citiesOptions &&
         universitiesOptions && [...citiesOptions, ...universitiesOptions]
       );
-    } else if (homeToUni === true) {
+    } else if (
+      homeToUni === true ||
+      JSON.parse(localStorage?.getItem("filter"))?.isDeparting
+    ) {
       return citiesOptions;
-    } else if (homeToUni === false) {
+    } else if (
+      homeToUni === false ||
+      !JSON.parse(localStorage?.getItem("filter"))?.isDeparting
+    ) {
       return universitiesOptions;
     }
   };

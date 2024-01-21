@@ -3,8 +3,8 @@ import FromToTextBox from "../components/journeysComponents/FromToTextBox";
 import JourneyInstance from "../components/journeysComponents/JourneyInstance";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import JourneyInstanceSkeleton from "../UI/skeleton-components/JourneyInstanceSkeleton";
 export const Journeys = () => {
   const axiosPrivate = useAxiosPrivate();
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +19,7 @@ export const Journeys = () => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
+    const currentDate = new Date();
     setIsLoading(true);
     const getJourneys = async () => {
       try {
@@ -27,6 +28,7 @@ export const Journeys = () => {
             from,
             to,
             date,
+            currentDate,
           },
           signal: controller.signal,
         });
@@ -52,10 +54,12 @@ export const Journeys = () => {
     <div className="osahan-listing p-0 m-0 row border-top">
       <FromToTextBox from={from} to={to}></FromToTextBox>
       {/* {load the journey for going to university ot coming back based on the existance of the from in the cities array} */}
+      {isLoading && <JourneyInstanceSkeleton cards={8} />}
       {!isLoading &&
-        journeys?.map((journey) => {
+        journeys?.map((journey, i) => {
           return (
             <JourneyInstance
+              key={i}
               nbPassengers={
                 isDeparting
                   ? journey.departingPassengers.length

@@ -8,10 +8,7 @@ function NavParentItem(props) {
   const { openNestedSideBar } = useSelector((state) => state.sideBar);
   const dispatch = useDispatch();
   return (
-    <li
-      key={props.i}
-      className={`nav-parent ${openNestedSideBar.open ? "level-open" : ""}`}
-    >
+    <li className={`nav-parent ${openNestedSideBar.open ? "level-open" : ""}`}>
       <input
         type="checkbox"
         id="hc-nav-1-1-0"

@@ -3,7 +3,7 @@ export const navParentItems = {
     {
       title: "Lost Item",
       id: "c1",
-      path: "/",
+      path: "/reports/lost-item",
     },
     {
       title: "Driver Issue",

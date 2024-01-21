@@ -90,6 +90,7 @@ const login = async (req, res) => {
       mobile: user.mobile,
       defaultLocation: user.defaultLocation,
       id: user._id,
+      defaultAddress: user.defaultAddress,
     },
   });
 };

@@ -1,50 +1,60 @@
-import { useState } from "react";
+import { set } from "date-fns";
+import { useEffect, useState } from "react";
 
-function SeatGroup({ char, isPair }) {
-  const [isActive1, setIsActive1] = useState(false);
+function SeatGroup({
+  char
+}) {
 
-  const [isActive2, setIsActive2] = useState(false);
-
-  console.log(isActive1);
   return (
-    <div
-      className="btn-group btn-group-toggle d-block mb-1"
-      data-toggle="buttons"
-    >
-      <label
-        className={`btn check-seat btn-success small btn-sm rounded ${
-          isPair && "me-2"
-        } mb-2 ${isActive1 ? "active" : ""}`}
-        onChange={() => {
-          setIsActive1((prev) => !prev);
-        }}
+    <div className="d-flex">
+      <div
+        className="btn-group-toggle d-flex mb-1 gap-2"
+        data-toggle="buttons"
       >
-        <input
-          type="checkbox"
-          name={`${char.toLowerCase()}+1`}
-          autocomplete="off"
-        />
-        {isPair ? char + "1" : char + "3"}
-      </label>
-      {isPair && (
         <label
-          className={`btn check-seat btn-success small btn-sm rounded me-2 mb-2 ${
-            isActive2 ? "active" : ""
-          }`}
-          onChange={() => {
-            setIsActive2((prev) => !prev);
-          }}
+          className={`btn check-seat btn-success small btn-sm rounded mb-2`}
         >
-          {" "}
           <input
-            type="checkbox"
-            name={`${char.toLowerCase()}+2`}
-            autocomplete="off"
+            type="radio"
+            name={"seat"}
+            value={`${char}1`}
+            autoComplete="off"
+          />
+          {char + "1"}
+        </label>
+
+        <label
+          className={`btn check-seat btn-success small btn-sm rounded mb-2`}
+        >
+          <input
+            type="radio"
+            name={"seat"}
+            value={`${char}2`}
+            autoComplete="off"
           />
           {char + "2"}
         </label>
-      )}
+      </div>
+
+      <div
+        className="btn-group-toggle d-flex mb-1 gap-2"
+        data-toggle="buttons"
+        style={{ marginLeft: "auto" }}
+      >
+        <label
+          className={`btn check-seat btn-success small btn-sm rounded mb-2`}
+        >
+          <input
+            type="radio"
+            name={"seat"}
+            value={`${char}3`}
+            autoComplete="off"
+          />
+          {char + "3"}
+        </label>
+      </div>
     </div>
+
   );
 }
 export default SeatGroup;
