@@ -66,7 +66,7 @@ body.hc-nav-open {
   height: 100%;
 }
 
-.hc-offcanvas-nav .nav-wrapper-0>.nav-content {
+.hc-offcanvas-nav .nav-wrapper-0 > .nav-content {
   overflow: hidden;
   overflow-x: hidden;
   overflow-y: auto;
@@ -84,7 +84,7 @@ body.hc-nav-open {
   display: block;
 }
 
-.hc-offcanvas-nav li.level-open>.nav-wrapper {
+.hc-offcanvas-nav li.level-open > .nav-wrapper {
   visibility: visible;
 }
 
@@ -146,7 +146,7 @@ body.hc-nav-open {
   max-height: 100vh;
 }
 
-.hc-offcanvas-nav.nav-levels-expand .nav-wrapper.nav-wrapper-0>.nav-content {
+.hc-offcanvas-nav.nav-levels-expand .nav-wrapper.nav-wrapper-0 > .nav-content {
   overflow: scroll;
   overflow-x: visible;
   overflow-y: auto;
@@ -162,7 +162,7 @@ body.hc-nav-open {
   transition: height 0s ease 0.4s;
 }
 
-.hc-offcanvas-nav.nav-levels-expand .level-open>.nav-wrapper {
+.hc-offcanvas-nav.nav-levels-expand .level-open > .nav-wrapper {
   max-height: none;
   overflow: visible;
   visibility: visible;
@@ -193,7 +193,7 @@ body.hc-nav-open {
   position: static;
 }
 
-.hc-offcanvas-nav.nav-levels-overlap ul li.level-open>.nav-wrapper {
+.hc-offcanvas-nav.nav-levels-overlap ul li.level-open > .nav-wrapper {
   visibility: visible;
   transform: translate3d(0, 0, 0);
   transition: transform 0.4s ease;
@@ -377,7 +377,10 @@ body.hc-nav-open {
   background: #edf1f4;
 }
 
-.hc-offcanvas-nav ul:first-of-type:not(:first-child)>li:first-child:not(.nav-back):not(.nav-close)>a {
+.hc-offcanvas-nav
+  ul:first-of-type:not(:first-child)
+  > li:first-child:not(.nav-back):not(.nav-close)
+  > a {
   border-top: 1px solid #edf1f4;
   margin-top: -1px;
 }
@@ -561,8 +564,16 @@ body.hc-nav-open {
   background: #2f649a;
 }
 
-.hc-offcanvas-nav.nav-levels-expand .nav-container li.level-open>.nav-item .nav-next::before,
-.hc-offcanvas-nav.nav-levels-none .nav-container li.level-open>.nav-item .nav-next::before {
+.hc-offcanvas-nav.nav-levels-expand
+  .nav-container
+  li.level-open
+  > .nav-item
+  .nav-next::before,
+.hc-offcanvas-nav.nav-levels-none
+  .nav-container
+  li.level-open
+  > .nav-item
+  .nav-next::before {
   margin-top: 2px;
   transform: translate(-50%, -50%) rotate(45deg);
 }
@@ -658,7 +669,7 @@ main .button.active {
   background: #dab977;
 }
 
-.hc-offcanvas-nav .nav-wrapper-0>.nav-content {
+.hc-offcanvas-nav .nav-wrapper-0 > .nav-content {
   padding-bottom: 63px;
 }
 
@@ -700,7 +711,7 @@ main .button.active {
   border: 1px solid #edf1f4;
 }
 
-.hc-offcanvas-nav li.add>.nav-item-wrapper a::before {
+.hc-offcanvas-nav li.add > .nav-item-wrapper a::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -726,7 +737,7 @@ main .button.active {
   content: "add";
 }
 
-.hc-offcanvas-nav li.new>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.new > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -752,7 +763,7 @@ main .button.active {
   content: "fiber_new";
 }
 
-.hc-offcanvas-nav li.cryptocurrency>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.cryptocurrency > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -778,7 +789,7 @@ main .button.active {
   content: "local_atm";
 }
 
-.hc-offcanvas-nav li.devices>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.devices > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -804,7 +815,7 @@ main .button.active {
   content: "devices";
 }
 
-.hc-offcanvas-nav li.mobile>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.mobile > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -830,7 +841,7 @@ main .button.active {
   content: "phone_android";
 }
 
-.hc-offcanvas-nav li.television>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.television > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -856,7 +867,7 @@ main .button.active {
   content: "desktop_windows";
 }
 
-.hc-offcanvas-nav li.camera>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.camera > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -882,7 +893,7 @@ main .button.active {
   content: "camera_alt";
 }
 
-.hc-offcanvas-nav li.magazines>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.magazines > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -908,7 +919,7 @@ main .button.active {
   content: "import_contacts";
 }
 
-.hc-offcanvas-nav li.store>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.store > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -934,7 +945,7 @@ main .button.active {
   content: "store";
 }
 
-.hc-offcanvas-nav li.collections>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.collections > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -960,7 +971,7 @@ main .button.active {
   content: "collections";
 }
 
-.hc-offcanvas-nav li.nolink>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.nolink > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -986,7 +997,7 @@ main .button.active {
   content: "format_clear";
 }
 
-.hc-offcanvas-nav li.disabled>.nav-item-wrapper .nav-item::before {
+.hc-offcanvas-nav li.disabled > .nav-item-wrapper .nav-item::before {
   font-family: material icons;
   font-weight: 400;
   font-style: normal;
@@ -1018,8 +1029,8 @@ main .button.active {
   border-top: none;
 }
 
-.hc-offcanvas-nav.nav-position-top .nav-wrapper-0>.nav-content,
-.hc-offcanvas-nav.nav-position-bottom .nav-wrapper-0>.nav-content {
+.hc-offcanvas-nav.nav-position-top .nav-wrapper-0 > .nav-content,
+.hc-offcanvas-nav.nav-position-bottom .nav-wrapper-0 > .nav-content {
   padding-bottom: 0;
 }
 

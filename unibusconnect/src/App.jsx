@@ -76,16 +76,16 @@ function App() {
       <Routes>
         {/*?public routes */}
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/" element={<Root />}>
-          <Route path="signup" element={<Auth isSignUp={true} />} />
-          <Route path="login" element={<Auth isSingUp={false} />} />
-          <Route exact path="/login/success" component={LoginSuccess} />
-          <Route path="/login/error">
-            Error loging in. Please try again later!
-          </Route>
-          {/*protected routes */}
-          <Route element={status !== "loading" && <PersistLogin />}>
-            <Route element={<RequireAuth />}>
+        <Route path="/signup" element={<Auth isSignUp={true} />} />
+        <Route path="/login" element={<Auth isSingUp={false} />} />
+        <Route exact path="/login/success" component={LoginSuccess} />
+        <Route path="/login/error">
+          Error loging in. Please try again later!
+        </Route>
+        {/*protected routes */}
+        <Route element={status !== "loading" && <PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<Root />}>
               <Route index element={<Home />} />
             </Route>
             <Route element={<RequireAuth />}>

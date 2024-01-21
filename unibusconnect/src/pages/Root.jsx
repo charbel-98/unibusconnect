@@ -38,31 +38,33 @@ const Root = () => {
       {!screen.medium && <MainNavigation screen={screen}></MainNavigation>}
 
       <main className={`d-sm-block d-md-flex w-100`}>
-        {screen.medium && (<nav
-          role="navigation"
-          className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open me-3`}
-          aria-hidden="true"
-          aria-labelledby="hc-nav-1"
-          style={{
-            visibility: "visible",
-          }}
-        >
-          <div className="nav-container">
-            <div
-              className="nav-wrapper nav-wrapper-0"
-              data-level="0"
-              data-index="0"
-            >
-              <div className="nav-content">
-                <ul role="menu" aria-level="1" className="second-nav">
-                  <SideBarHeader></SideBarHeader>
+        {screen.medium && (
+          <nav
+            role="navigation"
+            className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open me-3`}
+            aria-hidden="true"
+            aria-labelledby="hc-nav-1"
+            style={{
+              visibility: "visible",
+            }}
+          >
+            <div className="nav-container">
+              <div
+                className="nav-wrapper nav-wrapper-0"
+                data-level="0"
+                data-index="0"
+              >
+                <div className="nav-content">
+                  <ul role="menu" aria-level="1" className="second-nav">
+                    <SideBarHeader></SideBarHeader>
 
-                  <Content />
-                </ul>
+                    <Content />
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        </nav>)}
+          </nav>
+        )}
 
         <Outlet></Outlet>
 
