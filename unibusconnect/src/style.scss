@@ -1,20 +1,3 @@
-// custom.scss
-
-// Import Bootstrap source files
-@import "~bootstrap/scss/bootstrap";
-
-// Override Bootstrap breakpoints
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  custom-md: 769px,
-  // Custom 'md' breakpoint starting at 769px
-  lg: 992px,
-  xl: 1200px,
-);
-
-// Include the rest of your custom styles if needed
-
 .form-control {
   display: block;
   width: 100%;
