@@ -201,8 +201,8 @@ const Home = () => {
             </form>
           </div>
         </div>
-        <div className="p-3 bg-warning">
-          <div className="row m-0">
+        <div className="p-2 bg-warning d-flex justify-content-center align-items-center">
+          <div className="row m-0 w-100">
             <Ad title={"Safe and Hygenic"} img={hygeneImg}></Ad>
             <Ad title={"Best Customer Support"} img={customerSupportImg} />
             <Ad title={"Live Track your Journey"} img={liveTrackingImg} />

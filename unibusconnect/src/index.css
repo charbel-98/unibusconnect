@@ -5,6 +5,27 @@ body {
   font-size: 13px;
 }
 
+main>div {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+
+  >div {
+    flex: 1 1 500px;
+  }
+}
+
+@media (width >= 768px) {
+  main>div {
+    gap: 10px;
+    padding: 10px;
+
+    >div {
+      border-radius: 10px;
+    }
+  }
+}
+
 .shadow-sm {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
@@ -123,27 +144,19 @@ body {
   transform: translate3d(0, 790px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-left li.level-open>.nav-wrapper {
   transform: translate3d(-40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-right li.level-open>.nav-wrapper {
   transform: translate3d(40px, 0, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-top li.level-open>.nav-wrapper {
   transform: translate3d(0, -40px, 0);
 }
 
-.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom
-  li.level-open
-  > .nav-wrapper {
+.hc-offcanvas-nav.hc-nav-1.nav-levels-overlap.nav-position-bottom li.level-open>.nav-wrapper {
   transform: translate3d(0, 40px, 0);
 }
 
@@ -178,7 +191,7 @@ small {
   font-size: 10px;
 }
 
-div.star-rating > * {
+div.star-rating>* {
   margin-right: 3px;
 }
 
@@ -189,7 +202,7 @@ div.star-rating > * {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
+.nav-pills .show>.nav-link {
   color: #fff;
   background-color: #dd3444;
 }
@@ -242,7 +255,7 @@ input {
 }
 
 .btn-success:not(:disabled):not(.disabled).active,
-.show > .btn-success.dropdown-toggle {
+.show>.btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
@@ -254,12 +267,12 @@ input {
   border-color: #1b6d2d;
 }
 
-.btn-group-vertical > .btn.active,
-.btn-group-vertical > .btn:active,
-.btn-group-vertical > .btn:focus,
-.btn-group > .btn.active,
-.btn-group > .btn:active,
-.btn-group > .btn:focus {
+.btn-group-vertical>.btn.active,
+.btn-group-vertical>.btn:active,
+.btn-group-vertical>.btn:focus,
+.btn-group>.btn.active,
+.btn-group>.btn:active,
+.btn-group>.btn:focus {
   z-index: 1;
 }
 
@@ -296,10 +309,10 @@ input {
     inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
-.btn-group-toggle > .btn input[type="checkbox"],
-.btn-group-toggle > .btn input[type="radio"],
-.btn-group-toggle > .btn-group > .btn input[type="checkbox"],
-.btn-group-toggle > .btn-group > .btn input[type="radio"] {
+.btn-group-toggle>.btn input[type="checkbox"],
+.btn-group-toggle>.btn input[type="radio"],
+.btn-group-toggle>.btn-group>.btn input[type="checkbox"],
+.btn-group-toggle>.btn-group>.btn input[type="radio"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -464,12 +477,12 @@ div.modal-dialog {
   overflow-y: scroll;
 }
 
-#notifications > div {
+#notifications>div {
   width: 90%;
   height: 30px;
 }
 
-#notifications > div:last-child {
+#notifications>div:last-child {
   height: auto;
 }
 
@@ -640,13 +653,13 @@ textarea {
 
 .ads-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 10px;
   width: 100%;
   padding: 10px 0;
 }
 
-.ads-container > .ads-card {
+.ads-container>.ads-card {
   display: flex;
   gap: 5px;
   padding: 10px 5px;

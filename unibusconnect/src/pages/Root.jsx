@@ -35,12 +35,12 @@ const Root = () => {
   return (
     <>
       <div id="notifications" className="notifications"></div>
+      {!screen.medium && <MainNavigation screen={screen}></MainNavigation>}
 
-      <main className="">
-        <nav
+      <main className={`d-sm-block d-md-flex w-100`}>
+        {screen.medium && (<nav
           role="navigation"
-          className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open
-    }`}
+          className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open me-3`}
           aria-hidden="true"
           aria-labelledby="hc-nav-1"
           style={{
@@ -62,8 +62,8 @@ const Root = () => {
               </div>
             </div>
           </div>
-        </nav>
-        {/* <MainNavigation screen={screen}></MainNavigation> */}
+        </nav>)}
+
         <Outlet></Outlet>
 
         {(location.pathname === "/" ||
