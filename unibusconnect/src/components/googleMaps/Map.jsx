@@ -19,6 +19,8 @@ const Map = ({
   withDirection,
   universityLat,
   universityLng,
+  setDefaultLocationCallback,
+  isRequestPending,
 }) => {
   //home and university states for the map
   //home is for the user to set
@@ -174,6 +176,15 @@ const Map = ({
             </button>
           </div>
         )}
+        <div className="unibus-btn  p-3">
+          <button
+            onClick={setDefaultLocationCallback}
+            className="btn btn-danger  osahanbus-btn rounded-1"
+            disabled={isRequestPending} // Disable the button while a request is pending
+          >
+            {isRequestPending ? "Setting..." : "Set Your Default Location"}
+          </button>
+        </div>
         {withDirection && directions && (
           <DirectionsRenderer
             directions={directions}

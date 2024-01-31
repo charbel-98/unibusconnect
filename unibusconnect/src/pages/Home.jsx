@@ -145,7 +145,7 @@ const Home = () => {
   };
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <div className="osahan-verification padding-bt ">
+      <div className="osahan-verification padding-bt home">
         <div className="bg-danger pt-md-5 px-3 pb-3">
           <div className="bg-white rounded-1 p-3">
             <form onSubmit={journeysSearchHandler}>

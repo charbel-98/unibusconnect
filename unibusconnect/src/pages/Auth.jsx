@@ -1,5 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "../UI/Button";
+import logo from "../img/busLogo.png";
+
 import FormInput from "../components/authComponents/FormInput";
 import Or from "../components/authComponents/Or";
 import PasswordStrengthBar from "react-password-strength-bar";
@@ -128,8 +130,13 @@ const SignUp = ({ isSignUp }) => {
   };
 
   return (
-    <div className="osahan-signup">
-      <div className="p-3">
+    <div className="auth">
+      <div className="authForm">
+        <img src={logo} className="w-25 mb-2" />
+
+        <h1 className="fs-3 mb-4">
+          {isSignUp ? "Sign up now!" : "Login to your account"}
+        </h1>
         <form onSubmit={submitHandler}>
           {isSignUp && (
             <FormInput
@@ -209,7 +216,7 @@ const SignUp = ({ isSignUp }) => {
             </>
           )}
 
-          <Button type="submit" classes="bg-danger text-light">
+          <Button type="submit" classes="bg-danger form-group text-light">
             {isSignUp ? "CREATE AN ACCOUNT" : "LOG IN"}
           </Button>
           <p className="text-muted text-center small">
@@ -229,6 +236,12 @@ const SignUp = ({ isSignUp }) => {
             </p>
           </div>
         )}
+      </div>
+      <div className="auth-D-filler">
+        <h5 className="text-grad">Welcome Back!</h5>
+        <h4 className="">
+          You're one step away from connecting to your campus.
+        </h4>
       </div>
     </div>
   );

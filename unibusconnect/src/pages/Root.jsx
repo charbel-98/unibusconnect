@@ -5,7 +5,7 @@ import SideBar from "../components/mainComponents/SideBar";
 import { useEffect, useState } from "react";
 import SideBarHeader from "../components/sideBarComponents/SideBarHeader";
 import { Content } from "../components/mainComponents/SideBar";
-import "../demo.css";
+import "../sidebar.css";
 
 const Root = () => {
   const location = useLocation();

@@ -18,7 +18,7 @@ function OAuth({ platform }) {
   return (
     <button
       onClick={redirectToGoogleSSO}
-      className={`btn btn-block rounded-1 ${platform}-btn py-auto osahanbus-social my-2`}
+      className={`btn  rounded-1 ${platform}-btn py-auto form-group osahanbus-social my-2`}
     >
       {platform === "facebook" ? (
         <Facebook size={18} className=" me-2" />

@@ -67,16 +67,11 @@ export default function DefaultLocation() {
   }, [dispatch]);
   return (
     <>
-      <Map withDirection={false} />
-      <div className="fixed-bottom view-seatbt p-3">
-        <button
-          onClick={setDefaultLocationCallback}
-          className="btn btn-danger btn-block osahanbus-btn rounded-1"
-          disabled={isRequestPending} // Disable the button while a request is pending
-        >
-          {isRequestPending ? "Setting..." : "Set Your Default Location"}
-        </button>
-      </div>
+      <Map
+        withDirection={false}
+        setDefaultLocationCallback={setDefaultLocationCallback}
+        isRequestPending={isRequestPending}
+      ></Map>
     </>
   );
 }
