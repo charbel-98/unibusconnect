@@ -16,7 +16,7 @@ const FormInput = ({
 }) => {
   return (
     <div className="form-group mb-3 ">
-      <label className="text-muted f-10 mb-1" htmlFor={id}>
+      <label className=" fs-6 mb-1" htmlFor={id}>
         {label}
       </label>
       <input

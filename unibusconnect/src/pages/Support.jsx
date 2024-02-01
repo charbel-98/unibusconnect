@@ -2,7 +2,7 @@ import { Whatsapp, Messenger } from "react-bootstrap-icons";
 const Support = () => {
   return (
     <div className="px-3 py-4">
-      <p className="text-muted small">
+      <p className="text-muted small w-100">
         We are here to help you with any information and problems through our
         contact center
       </p>

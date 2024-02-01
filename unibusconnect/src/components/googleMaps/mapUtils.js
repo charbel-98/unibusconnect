@@ -35,9 +35,8 @@ export const fetchDirections = (
 };
 
 export const scrollToBottom = (withDirection) => {
-  withDirection &&
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth",
+  });
 };

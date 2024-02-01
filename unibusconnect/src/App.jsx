@@ -76,8 +76,8 @@ function App() {
       <Routes>
         {/*?public routes */}
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/signup" element={<Auth isSignUp={true} />} />
-        <Route path="/login" element={<Auth isSingUp={false} />} />
+        <Route path="signup" element={<Auth isSignUp={true} />} />
+        <Route path="login" element={<Auth isSingUp={false} />} />
         <Route exact path="/login/success" component={LoginSuccess} />
         <Route path="/login/error">
           Error loging in. Please try again later!
@@ -86,38 +86,40 @@ function App() {
         <Route element={status !== "loading" && <PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Root />}>
-              <Route index element={<Home />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="journeys" element={<Journeys />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="journeys/:id" element={<JourneyDetails />} />
-            </Route>
+              <Route element={<RequireAuth />}>
+                <Route index element={<Home />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="journeys" element={<Journeys />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="journeys/:id" element={<JourneyDetails />} />
+              </Route>
 
-            <Route element={<RequireAuth />}>
-              <Route path="tickets" element={<Tickets />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="tickets/:id" element={<TicketDetails />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="Profile" element={<Profile />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="default-location" element={<DefaultLocation />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="notifications" element={<Notification />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="support" element={<Support />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="reports/lost-item" element={<History />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="reports/lost-item/:id" element={<LostItem />} />
+              <Route element={<RequireAuth />}>
+                <Route path="tickets" element={<Tickets />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="tickets/:id" element={<TicketDetails />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="Profile" element={<Profile />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="default-location" element={<DefaultLocation />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="notifications" element={<Notification />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="support" element={<Support />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="reports/lost-item" element={<History />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="reports/lost-item/:id" element={<LostItem />} />
+              </Route>
             </Route>
           </Route>
         </Route>
