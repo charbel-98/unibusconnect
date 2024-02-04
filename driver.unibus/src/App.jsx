@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import useAuth from "./hooks/useAuth.js";
 import io from "socket.io-client";
 import createNotification from "./utils/createNotification.js";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   // const user = useAuth();
@@ -33,13 +34,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/*protected routes */}
-        <Route /* element={<PersistLogin />} */ >
-          <Route /* element={<RequireAuth />} */ >
-
+        <Route /* element={<PersistLogin />} */>
+          <Route /* element={<RequireAuth />} */>
             <Route path="/" element={<Root />}>
               <Route index element={<Home />} />
             </Route>
-
           </Route>
         </Route>
         {/*  */}
