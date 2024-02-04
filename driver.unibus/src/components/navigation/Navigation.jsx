@@ -1,9 +1,11 @@
-import { createPortal } from "react-dom";
-import Portal from "../../UI/Portal";
-import { GeoAltFill } from "react-bootstrap-icons";
-import NavItem from "../sideBarComponents/NavItem";
+import NavigationHeader from "./nav-components/NavigationHeader";
+import NavItem from "./nav-components/NavItem";
+import { navParentItems } from "./nav-components/sideBarData";
+import { useSelector } from "react-redux";
+import NavParentItem from "./nav-components/NavParentItem";
 import {
   BellFill,
+  GeoAltFill,
   BoxArrowLeft,
   ChatRightDotsFill,
   CreditCardFill,
@@ -13,10 +15,6 @@ import {
   PersonFill,
   TicketPerforatedFill,
 } from "react-bootstrap-icons";
-import SideBarHeader from "../sideBarComponents/SideBarHeader";
-import { useSelector } from "react-redux";
-import { navParentItems } from "../sideBarComponents/sideBarData";
-
 const navItems = [
   {
     title: "Home",
@@ -101,45 +99,20 @@ const navItems = [
     isLogout: true,
   },
 ];
-export const Content = () =>
+
+export const NavItems = () =>
   navItems.map(({ title, icon, isParentItem, path, isLogout, warning }, i) => {
     const defaultLocation = useSelector(
       (state) => state?.auth?.user?.defaultLocation
     );
     navItems[5].warning = !defaultLocation?.lat || !defaultLocation?.lng;
     return isParentItem ? (
-      // <NavParentItem title={title} icon={icon} key={i} />
-      <details key={i}>
-        <summary
-          className="nav-item d-flex align-items-center"
-          role="menu-item"
-        >
-          {icon} {title}
-          <span className="ms-auto">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-chevron-down"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fillRule="evenodd"
-                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 
-              10.293l5.646-5.647a.5.5 0 1 1 
-              .708.708l-6 6a.5.5 0 0 1-.708 
-              0l-6-6a.5.5 0 0 1 0-.708z"
-              />
-            </svg>
-          </span>
-        </summary>
-        <ul className="ps-4">
-          {navParentItems[title].map(({ title, id, path }, j) => (
-            <NavItem title={title} path={path} icon={icon} key={j} />
-          ))}
-        </ul>
-      </details>
+      <NavParentItem
+        key={i}
+        title={title}
+        _title={navParentItems[title]}
+        icon={icon}
+      ></NavParentItem>
     ) : (
       <NavItem
         class={warning ? "notify" : ""}
@@ -151,7 +124,8 @@ export const Content = () =>
       />
     );
   });
-export function Navigation() {
+
+function Navigation() {
   return (
     <nav
       role="navigation"
@@ -170,9 +144,9 @@ export function Navigation() {
         >
           <div className="nav-content">
             <ul role="menu" aria-level="1" className="second-nav">
-              <SideBarHeader></SideBarHeader>
+              <NavigationHeader></NavigationHeader>
 
-              <Content />
+              <NavItems />
             </ul>
           </div>
         </div>
@@ -180,12 +154,4 @@ export function Navigation() {
     </nav>
   );
 }
-function SideBar() {
-  return (
-    <>
-      {createPortal(<Portal></Portal>, document.getElementById("portal"))}
-      {createPortal(<Navigation />, document.getElementById("sideBar"))}
-    </>
-  );
-}
-export default SideBar;
+export default Navigation;

@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Navigation from "../components/navigation/Navigation";
 import "../sidebar.css";
 
 const Root = () => {
@@ -33,9 +34,7 @@ const Root = () => {
       {/* {!screen.medium && <MainNavigation screen={screen}></MainNavigation>} */}
 
       <main className={`d-sm-block d-md-flex w-100`}>
-        
-        
-        {/* sideBar */}
+        {screen.medium && <Navigation></Navigation>}
 
         <Outlet></Outlet>
       </main>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { navParentItems } from "../components/sideBarComponents/sideBarData";
+import { navParentItems } from "../components/navigation/nav-components/sideBarData";
 const initialState = {
   openSideBar: false,
   openNestedSideBar: {

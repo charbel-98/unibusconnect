@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import placeHolder from "../../img/profilePlaceHolder.png";
-function SideBarHeader() {
+import placeHolder from "../../../img/profilePlaceHolder.png";
+function NavigationHeader() {
   const user = useSelector((state) => state.auth.user);
   return (
     <li key={"h1"}>
@@ -28,4 +28,4 @@ function SideBarHeader() {
     </li>
   );
 }
-export default SideBarHeader;
+export default NavigationHeader;

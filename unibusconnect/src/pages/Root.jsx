@@ -1,10 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
-import MainNavigation from "../components/mainComponents/MainNavigation";
+import MobileNavigation from "../components/navigation/mobile-nav/MobileNav";
 import BottomNavigator from "../components/homeComponents/BottomNavigator";
-import SideBar from "../components/mainComponents/SideBar";
 import { useEffect, useState } from "react";
-import SideBarHeader from "../components/sideBarComponents/SideBarHeader";
-import { Content, Navigation } from "../components/mainComponents/SideBar";
+import Navigation from "../components/navigation/Navigation";
 import "../sidebar.css";
 
 const Root = () => {
@@ -35,7 +33,7 @@ const Root = () => {
   return (
     <>
       <div id="notifications" className="notifications"></div>
-      {!screen.medium && <MainNavigation screen={screen}></MainNavigation>}
+      {!screen.medium && <MobileNavigation screen={screen}></MobileNavigation>}
 
       <main className={`d-sm-block d-md-flex w-100`}>
         {screen.medium && <Navigation></Navigation>}

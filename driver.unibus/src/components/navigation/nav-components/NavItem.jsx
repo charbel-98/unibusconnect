@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/auth/authSlice";
-import { close } from "../../redux/sideBarSlice";
+import { logout } from "../../../redux/auth/authSlice";
+import { close } from "../../../redux/sideBarSlice";
 function NavItem(props) {
   const dispatch = useDispatch();
   const logoutHandler = () => {

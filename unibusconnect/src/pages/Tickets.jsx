@@ -119,7 +119,7 @@ const Tickets = () => {
   }, []);
   return (
     <>
-      <div className="your-ticket border-top row m-0 p-3">
+      <div className=" your-ticket border-top row m-0 p-3">
         {isLoading && <TicketsSkeleton cards={3} />}
         {(tickets.length > 0 &&
           !isLoading &&

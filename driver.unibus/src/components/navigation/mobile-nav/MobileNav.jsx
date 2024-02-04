@@ -1,14 +1,14 @@
 import { List, ArrowLeftCircle } from "react-bootstrap-icons";
-import logo from "../../img/busLogo.png";
-import profilePlaceholder from "../../img/profilePlaceholder.png";
+import logo from "../../../img/busLogo.png";
+import profilePlaceholder from "../../../img/profilePlaceholder.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideBar from "./SideBar";
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
-import AuthHeader from "../authComponents/AuthHeader";
-import { open } from "../../redux/sideBarSlice";
+import AuthHeader from "../../authComponents/AuthHeader";
+import { open } from "../../../redux/sideBarSlice";
 function MainNavigation({ screen }) {
   const user = useSelector((state) => state.auth.user);
   //! getting the pathname to render conditional content in the main navigation based on the path
@@ -19,8 +19,7 @@ function MainNavigation({ screen }) {
   const dispatch = useDispatch();
 
   const sidebar = openSideBar && <SideBar />;
-  const authenticationHeader = (pathname === "/login" ||
-    pathname === "/signup") && <AuthHeader title={pathname.substring(1)} />;
+
   const homeLogo = pathname === "/" && (
     <img src={logo} className="img-fluid osahan-nav-logo " />
   );
@@ -91,7 +90,6 @@ function MainNavigation({ screen }) {
   return (
     <>
       {sidebar}
-      {authenticationHeader}
       {([
         "/",
         "/journeys",
