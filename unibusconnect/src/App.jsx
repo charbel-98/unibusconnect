@@ -86,40 +86,18 @@ function App() {
         <Route element={status !== "loading" && <PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Root />}>
-              <Route element={<RequireAuth />}>
-                <Route index element={<Home />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="journeys" element={<Journeys />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="journeys/:id" element={<JourneyDetails />} />
-              </Route>
+              <Route index element={<Home />} />
+              <Route path="journeys" element={<Journeys />} />
+              <Route path="journeys/:id" element={<JourneyDetails />} />
 
-              <Route element={<RequireAuth />}>
-                <Route path="tickets" element={<Tickets />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="tickets/:id" element={<TicketDetails />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="Profile" element={<Profile />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="default-location" element={<DefaultLocation />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="notifications" element={<Notification />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="support" element={<Support />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="reports/lost-item" element={<History />} />
-              </Route>
-              <Route element={<RequireAuth />}>
-                <Route path="reports/lost-item/:id" element={<LostItem />} />
-              </Route>
+              <Route path="tickets" element={<Tickets />} />
+              <Route path="tickets/:id" element={<TicketDetails />} />
+              <Route path="Profile" element={<Profile />} />
+              <Route path="default-location" element={<DefaultLocation />} />
+              <Route path="notifications" element={<Notification />} />
+              <Route path="support" element={<Support />} />
+              <Route path="reports/lost-item" element={<History />} />
+              <Route path="reports/lost-item/:id" element={<LostItem />} />
             </Route>
           </Route>
         </Route>

@@ -1,7 +1,6 @@
 import { createPortal } from "react-dom";
 import Portal from "../../UI/Portal";
-import NavParentItem from "../sideBarComponents/NavParentItem";
-import { BusFront, GeoAltFill } from "react-bootstrap-icons";
+import { GeoAltFill } from "react-bootstrap-icons";
 import NavItem from "../sideBarComponents/NavItem";
 import {
   BellFill,
@@ -152,39 +151,40 @@ export const Content = () =>
       />
     );
   });
+export function Navigation() {
+  return (
+    <nav
+      role="navigation"
+      className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open me-3`}
+      aria-hidden="true"
+      aria-labelledby="hc-nav-1"
+      style={{
+        visibility: "visible",
+      }}
+    >
+      <div className="nav-container">
+        <div
+          className="nav-wrapper nav-wrapper-0"
+          data-level="0"
+          data-index="0"
+        >
+          <div className="nav-content">
+            <ul role="menu" aria-level="1" className="second-nav">
+              <SideBarHeader></SideBarHeader>
+
+              <Content />
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
 function SideBar() {
   return (
     <>
       {createPortal(<Portal></Portal>, document.getElementById("portal"))}
-      {createPortal(
-        <nav
-          role="navigation"
-          className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open
-    }`}
-          aria-hidden="true"
-          aria-labelledby="hc-nav-1"
-          style={{
-            visibility: "visible",
-          }}
-        >
-          <div className="nav-container">
-            <div
-              className="nav-wrapper nav-wrapper-0"
-              data-level="0"
-              data-index="0"
-            >
-              <div className="nav-content">
-                <ul role="menu" aria-level="1" className="second-nav">
-                  <SideBarHeader></SideBarHeader>
-
-                  <Content />
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>,
-        document.getElementById("sideBar")
-      )}
+      {createPortal(<Navigation />, document.getElementById("sideBar"))}
     </>
   );
 }

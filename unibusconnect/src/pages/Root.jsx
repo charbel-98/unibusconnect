@@ -4,7 +4,7 @@ import BottomNavigator from "../components/homeComponents/BottomNavigator";
 import SideBar from "../components/mainComponents/SideBar";
 import { useEffect, useState } from "react";
 import SideBarHeader from "../components/sideBarComponents/SideBarHeader";
-import { Content } from "../components/mainComponents/SideBar";
+import { Content, Navigation } from "../components/mainComponents/SideBar";
 import "../sidebar.css";
 
 const Root = () => {
@@ -38,33 +38,7 @@ const Root = () => {
       {!screen.medium && <MainNavigation screen={screen}></MainNavigation>}
 
       <main className={`d-sm-block d-md-flex w-100`}>
-        {screen.medium && (
-          <nav
-            role="navigation"
-            className={`hc-offcanvas-nav hc-nav-1 nav-levels-overlap nav-position-left disable-body touch-device nav-open me-3`}
-            aria-hidden="true"
-            aria-labelledby="hc-nav-1"
-            style={{
-              visibility: "visible",
-            }}
-          >
-            <div className="nav-container">
-              <div
-                className="nav-wrapper nav-wrapper-0"
-                data-level="0"
-                data-index="0"
-              >
-                <div className="nav-content">
-                  <ul role="menu" aria-level="1" className="second-nav">
-                    <SideBarHeader></SideBarHeader>
-
-                    <Content />
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </nav>
-        )}
+        {screen.medium && <Navigation></Navigation>}
 
         <Outlet></Outlet>
 

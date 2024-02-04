@@ -18,17 +18,8 @@ export const sideBarSlice = createSlice({
     open: (state) => {
       state.openSideBar = true;
     },
-    close: (state, both = false) => {
-      state.openNestedSideBar.open
-        ? (state.openNestedSideBar.open = false)
-        : (state.openSideBar = false);
-      both && (state.openSideBar = false);
-    },
-    openNested: (state, { payload }) => {
-      state.openNestedSideBar.open = true;
-      state.openNestedSideBar.title = payload;
-
-      state.openNestedSideBar.content = navParentItems[payload];
+    close: (state) => {
+      state.openSideBar = false;
     },
   },
 });

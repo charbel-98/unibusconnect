@@ -26,7 +26,9 @@ const History = () => {
         setIsLoading(false);
       } catch (err) {
         console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
+        if (err.response?.status == 403) {
+          navigate("/login", { state: { from: location }, replace: true });
+        }
         setIsLoading(false);
       }
     };
