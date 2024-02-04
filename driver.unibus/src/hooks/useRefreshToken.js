@@ -4,7 +4,6 @@ import useAuth from "./useAuth";
 import { setAuth } from "../redux/auth/authSlice";
 
 const useRefreshToken = (controller) => {
-  const { auth } = useAuth();
   const dispatch = useDispatch();
   const refresh = async () => {
     let response;
@@ -16,7 +15,6 @@ const useRefreshToken = (controller) => {
     } catch (error) {
       console.log(error);
     }
-    console.log(JSON.stringify(auth));
     dispatch(
       setAuth({
         accessToken: response?.data?.accessToken,

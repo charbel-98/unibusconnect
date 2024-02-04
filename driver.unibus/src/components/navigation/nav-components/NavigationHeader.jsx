@@ -16,9 +16,9 @@ function NavigationHeader() {
             className="img-fluid rounded-pill me-3 w-25 "
           />
           <div className="text-white">
-            <h6 className="mb-0">{user.name}</h6>
+            <h6 className="mb-0">{user?.name}</h6>
             <small>
-              {user?.mobile ? `+961 ${user.mobile}` : `${user.email}`}
+              {user?.mobile ? `+961 ${user?.mobile}` : `${user?.email}`}
             </small>
             <br />
             <span className="f-10 text-white-50">Version 1.32</span>
