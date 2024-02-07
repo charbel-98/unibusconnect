@@ -1,7 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navigation from "../components/navigation/Navigation";
-import "../sidebar.css";
 
 const Root = () => {
   const location = useLocation();

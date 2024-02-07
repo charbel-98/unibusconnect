@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RequireAuth from "./pages/RequireAuth";
 import PersistLogin from "./pages/PersistLogin";
@@ -9,7 +8,8 @@ import useAuth from "./hooks/useAuth.js";
 import io from "socket.io-client";
 import createNotification from "./utils/createNotification.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import "./index.css";
+import "./sidebar.css";
 function App() {
   // const user = useAuth();
 

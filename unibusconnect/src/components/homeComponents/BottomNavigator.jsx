@@ -6,19 +6,15 @@ import {
   BellFill,
   PersonFill,
 } from "react-bootstrap-icons";
-import classes from "./bottomNavigator.module.css";
 function BottomNavigator() {
   return (
     <div className="fixed-bottom p-3">
-      <div
-        className={`${classes.footerMenu}
-        } row m-0 bg-danger shadow rounded-2`}
-      >
+      <div className={"footerMenu  row m-0 bg-danger shadow rounded-2"}>
         <div className="col-3 p-0 text-center">
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? `home ${classes.active}` : "home text-white"
+              isActive ? `home ${"active"}` : "home text-white"
             }
           >
             <HouseFill size={25} />
@@ -29,7 +25,7 @@ function BottomNavigator() {
           <NavLink
             to="/tickets"
             className={({ isActive }) =>
-              isActive ? `home ${classes.active}` : "home text-white"
+              isActive ? `home ${"active"}` : "home text-white"
             }
           >
             <TicketPerforatedFill size={25} />
@@ -40,7 +36,7 @@ function BottomNavigator() {
           <NavLink
             to="/notifications"
             className={({ isActive }) =>
-              isActive ? `home ${classes.active}` : "home text-white"
+              isActive ? `home ${"active"}` : "home text-white"
             }
           >
             <BellFill size={25} />
@@ -52,7 +48,7 @@ function BottomNavigator() {
           <NavLink
             to="profile"
             className={({ isActive }) =>
-              isActive ? `home ${classes.active}` : "home text-white"
+              isActive ? `home ${"active"}` : "home text-white"
             }
           >
             <PersonFill size={25} />

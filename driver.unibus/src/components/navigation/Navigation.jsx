@@ -3,7 +3,6 @@ import NavItem from "./nav-components/NavItem";
 import { navParentItems } from "./nav-components/sideBarData";
 import { useSelector } from "react-redux";
 import NavParentItem from "./nav-components/NavParentItem";
-import "../../sidebar.css";
 import {
   BellFill,
   GeoAltFill,
