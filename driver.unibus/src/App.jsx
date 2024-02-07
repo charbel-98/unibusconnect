@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RequireAuth from "./pages/RequireAuth";
 import PersistLogin from "./pages/PersistLogin";
+import DriverLogin from "./pages/driverLogin.jsx";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
 import useAuth from "./hooks/useAuth.js";

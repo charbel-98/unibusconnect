@@ -8,7 +8,10 @@ const RequireAuth = ({ allowedRoles }) => {
   return auth ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    // <Navigate to="/login" state={{ from: location }} replace />
+    <div>
+      <h1> You are not authorized to view this page </h1>
+    </div>
   );
 };
 

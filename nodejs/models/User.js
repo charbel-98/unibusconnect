@@ -14,6 +14,11 @@ const UserSchema = new mongoose.Schema({
   refreshToken: [String],
   defaultLocation: { lat: Number || null, lng: Number || null },
   defaultAddress: { type: String || null },
+  role: {
+    type: String,
+    enum: ["client", "driver", "provider", "admin"],
+    default: "client",
+  }
 });
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

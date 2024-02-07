@@ -70,7 +70,14 @@ const login = async (req, res) => {
   user.refreshToken = [...newRefreshTokenArray, newRefreshToken];
   const result = await user.save();
   console.log(result);
-
+  // user role 
+  console.log("check user role", user.role);
+  if (user.role != "client") {
+    // redirect to admin link with parameters to get the user role
+    console.log("role", user.role);
+    res.redirect(`http://localhost:5174?accessToken=${accessToken}&refreshToken=${newRefreshToken}`);
+    return;
+  }
   // Creates Secure Cookie with refresh token
   res.cookie("jwt", newRefreshToken, {
     httpOnly: true,

@@ -32,6 +32,12 @@ router.get(
     session: false,
   }),
   (req, res) => {
+    if (req.user.role != "client") {
+      res.redirect(
+        `http://localhost:5174?accessToken=${req.user.accessToken}&refreshToken=${req.user.refreshToken}`
+      );
+      return;
+    }
     res.cookie("jwt", req.user.refreshToken, {
       httpOnly: true,
       secure: false,

@@ -36,6 +36,7 @@ app.use("/api/v1/privateNotifications", require("./routes/notifications"));
 
 //protected routes
 app.use(authenticateJWT);
+app.use("/api/v1/driverLogin", require("./routes/driverLogin"));
 app.use("/api/v1/journeys", require("./routes/journeys"));
 app.use("/api/v1/reservation", require("./routes/reservation"));
 app.use("/api/v1/regions/supported", require("./routes/regions"));
