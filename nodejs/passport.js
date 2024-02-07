@@ -40,7 +40,7 @@ passport.use(
 
           console.log("user is: ", currentUser);
           done(null, {
-            user: currentUser,
+            ...currentUser._doc,
             accessToken: newAccessToken,
             refreshToken: newRefreshToken,
           });
@@ -71,7 +71,7 @@ passport.use(
           await newUser.save();
           console.log("created new user: ", newUser);
           done(null, {
-            user: newUser,
+            ...newUser,
             accessToken: newAccessToken,
             refreshToken: newRefreshToken,
           });
