@@ -32,6 +32,7 @@ router.get(
     session: false,
   }),
   (req, res) => {
+    console.log("----------------------------->" + JSON.stringify(req.user));
     if (req.user.role != "client") {
       res.redirect(
         `http://localhost:5174?accessToken=${req.user.accessToken}&refreshToken=${req.user.refreshToken}`

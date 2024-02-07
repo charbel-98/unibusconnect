@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RequireAuth from "./pages/RequireAuth";
 import PersistLogin from "./pages/PersistLogin";
-import DriverLogin from "./pages/driverLogin.jsx";
+import DriverLogin from "./pages/DriverLogin.jsx";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
 import useAuth from "./hooks/useAuth.js";
@@ -35,14 +35,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/*protected routes */}
-        <Route /* element={<PersistLogin />} */>
-          <Route /* element={<RequireAuth />} */>
-            <Route path="/" element={<Root />}>
-              <Route index element={<Home />} />
+        <Route element={<DriverLogin />}>
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path="/" element={<Root />}>
+                <Route index element={<Home />} />
+              </Route>
             </Route>
           </Route>
         </Route>
-        {/*  */}
       </Routes>
     </BrowserRouter>
   );
