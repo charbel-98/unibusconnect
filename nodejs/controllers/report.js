@@ -2,7 +2,6 @@ const Report = require("../models/Report");
 const mongoose = require("mongoose");
 
 const newReport = async (req, res) => {
-  try {
     const { message, type, seat, id } = req.body;
     if (!message || !type || !seat || !id) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -22,9 +21,5 @@ const newReport = async (req, res) => {
     });
     await report.save();
     res.status(201).json({ message: `Your ${report.type} report submitted successfully` });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
 };
 module.exports = { newReport };

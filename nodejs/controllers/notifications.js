@@ -4,7 +4,6 @@ const UserNotification = require("../models/UserNotification");
 const mongoose = require("mongoose");
 const notification = require("../models/Notification");
 const getNotifications = async (req, res) => {
-  try {
     const { user: userId } = req;
     console.log(userId);
     // Ensure userId is provided
@@ -73,10 +72,6 @@ const getNotifications = async (req, res) => {
       //   message: "Notifications fetched successfully",
       notifications: userNotifications,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
 };
 
 module.exports = getNotifications;
