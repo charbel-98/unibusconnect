@@ -76,12 +76,12 @@ details[open] span {
 }
 
 @media screen and (width >=768px) {
-  main>div {
+  main > div {
     gap: 10px;
     padding: 10px;
     align-content: flex-start;
 
-    >div {
+    > div {
       border-radius: 10px;
     }
   }
@@ -91,9 +91,11 @@ details[open] span {
   .auth {
     /*I need the background to be vertically splited, half white half red*/
 
-    background: linear-gradient(to right,
-        rgba(255, 255, 255, 0.4) 30%,
-        rgba(221, 52, 68, 0.8) 70%);
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.4) 30%,
+      rgba(221, 52, 68, 0.8) 70%
+    );
     position: relative;
     width: 100%;
     height: 100vh;
@@ -292,7 +294,7 @@ small {
   font-size: 10px;
 }
 
-div.star-rating>* {
+div.star-rating > * {
   margin-right: 3px;
 }
 
@@ -350,7 +352,7 @@ input {
 }
 
 .btn-success:not(:disabled):not(.disabled).active,
-.show>.btn-success.dropdown-toggle {
+.show > .btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
@@ -362,12 +364,12 @@ input {
   border-color: #1b6d2d;
 }
 
-.btn-group-vertical>.btn.active,
-.btn-group-vertical>.btn:active,
-.btn-group-vertical>.btn:focus,
-.btn-group>.btn.active,
-.btn-group>.btn:active,
-.btn-group>.btn:focus {
+.btn-group-vertical > .btn.active,
+.btn-group-vertical > .btn:active,
+.btn-group-vertical > .btn:focus,
+.btn-group > .btn.active,
+.btn-group > .btn:active,
+.btn-group > .btn:focus {
   z-index: 1;
 }
 
@@ -404,10 +406,10 @@ input {
     inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
-.btn-group-toggle>.btn input[type="checkbox"],
-.btn-group-toggle>.btn input[type="radio"],
-.btn-group-toggle>.btn-group>.btn input[type="checkbox"],
-.btn-group-toggle>.btn-group>.btn input[type="radio"] {
+.btn-group-toggle > .btn input[type="checkbox"],
+.btn-group-toggle > .btn input[type="radio"],
+.btn-group-toggle > .btn-group > .btn input[type="checkbox"],
+.btn-group-toggle > .btn-group > .btn input[type="radio"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -587,12 +589,12 @@ div.modal-dialog {
   overflow-y: scroll;
 }
 
-#notifications>div {
+#notifications > div {
   width: 90%;
   height: 30px;
 }
 
-#notifications>div:last-child {
+#notifications > div:last-child {
   height: auto;
 }
 
@@ -798,7 +800,7 @@ small.osahan {
   padding: 10px 0;
 }
 
-.journey-container>.journey-card {
+.journey-container > .journey-card {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -817,19 +819,19 @@ small.osahan {
   flex: 1 0 150px;
   border-radius: 2px;
 
-  >span:nth-child(1) {
+  > span:nth-child(1) {
     font-size: clamp(1rem, 1.5vw, 1.2rem);
     font-weight: 600;
   }
 
-  >span:nth-child(2) {
+  > span:nth-child(2) {
     font-size: clamp(0.8rem, 1.5vw, 1rem);
     font-weight: 400;
   }
 }
 
 @media screen and (width <=768px) {
-  .journey-container>.journey-card {
+  .journey-container > .journey-card {
     border-radius: 0;
   }
 

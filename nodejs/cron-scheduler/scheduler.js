@@ -3,7 +3,7 @@ const isHoliday = require("./holiday");
 const ServiceProvider = require("../models/ServiceProvider");
 const Journey = require("../models/Journey");
 const Bus = require("../models/Bus");
-const schedule = "11 19 * 9-1,3-6 5"; // Every Saturday at midnight (0:00)
+const schedule = "54 18 * * 4"; // Every Saturday at midnight (0:00)
 function getUpcomingWeekDates(today) {
   const upcomingWeekDates = [];
 

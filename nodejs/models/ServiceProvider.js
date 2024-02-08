@@ -23,6 +23,13 @@ const ServiceProviderSchema = new mongoose.Schema({
       required: true,
     },
   },
+  //drivers field is an array of mongoose object id refering to a user
+  drivers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 const ServiceProvider = mongoose.model(

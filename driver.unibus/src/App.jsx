@@ -35,8 +35,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/*protected routes */}
-        <Route element={<DriverLogin />}>
-          <Route element={<PersistLogin />}>
+        <Route element={<PersistLogin />}>
+          <Route element={<DriverLogin />}>
             <Route element={<RequireAuth />}>
               <Route path="/" element={<Root />}>
                 <Route index element={<Home />} />

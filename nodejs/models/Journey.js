@@ -52,6 +52,11 @@ const JourneySchema = new mongoose.Schema({
       destinationAddress: { type: String },
     },
   ],
+  driver: {
+    type: mongoose.Schema.Types.ObjectId || null,
+    default: null,
+    ref: "User",
+  },
 });
 
 // ServiceProvider.findOne({ name: "Semaan Tannous" }).then((sp) => {
