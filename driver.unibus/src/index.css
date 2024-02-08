@@ -5,7 +5,7 @@ body {
   font-size: 13px;
 }
 
-main > div {
+/* main > div {
   flex: 1;
   display: flex;
   flex-wrap: wrap;
@@ -23,7 +23,7 @@ main > div {
       flex: 1 1 100%;
     }
   }
-}
+} */
 
 details ul {
   max-height: 0;
@@ -66,38 +66,41 @@ details[open] span {
   margin-bottom: 1rem;
   width: 100%;
 }
+
 ::placeholder {
   font-size: 0.7rem;
 }
+
 .authForm form {
   width: 100%;
 }
-@media screen and (width >= 768px) {
-  main > div {
+
+@media screen and (width >=768px) {
+  main>div {
     gap: 10px;
     padding: 10px;
     align-content: flex-start;
 
-    > div {
+    >div {
       border-radius: 10px;
     }
   }
 }
+
 @media screen and (width > 768px) {
   .auth {
     /*I need the background to be vertically splited, half white half red*/
 
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.4) 30%,
-      rgba(221, 52, 68, 0.8) 70%
-    );
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0.4) 30%,
+        rgba(221, 52, 68, 0.8) 70%);
     position: relative;
     width: 100%;
     height: 100vh;
     display: flex;
     overflow-x: hidden;
   }
+
   .authForm {
     width: 40%;
     padding: 32px;
@@ -123,7 +126,8 @@ details[open] span {
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
-@media screen and (width <= 768px) {
+
+@media screen and (width <=768px) {
   .auth {
     /*I need the background to be vertically splited, half white half red*/
 
@@ -133,6 +137,7 @@ details[open] span {
 
     overflow-x: hidden;
   }
+
   .authForm {
     width: 80%;
     margin: auto;
@@ -148,11 +153,13 @@ details[open] span {
     display: none;
   }
 }
+
 @media (width >=1024px) {
   .unibus-btn {
     width: 40%;
     margin: auto;
   }
+
   .controls {
     width: 40%;
     margin: auto;
@@ -169,6 +176,15 @@ details[open] span {
 
 .text-muted {
   color: #6c757d !important;
+}
+
+.card-muted {
+  color: #6c757d !important;
+}
+
+.card-selected {
+  border: 1px groove rgba(128, 128, 128, 0.5);
+  box-shadow: 0 0 6px rgba(128, 128, 128, 0.5) !important;
 }
 
 .small {
@@ -276,7 +292,7 @@ small {
   font-size: 10px;
 }
 
-div.star-rating > * {
+div.star-rating>* {
   margin-right: 3px;
 }
 
@@ -334,7 +350,7 @@ input {
 }
 
 .btn-success:not(:disabled):not(.disabled).active,
-.show > .btn-success.dropdown-toggle {
+.show>.btn-success.dropdown-toggle {
   color: #fff;
   background-color: #1e7e34;
   border-color: #1c7430;
@@ -346,12 +362,12 @@ input {
   border-color: #1b6d2d;
 }
 
-.btn-group-vertical > .btn.active,
-.btn-group-vertical > .btn:active,
-.btn-group-vertical > .btn:focus,
-.btn-group > .btn.active,
-.btn-group > .btn:active,
-.btn-group > .btn:focus {
+.btn-group-vertical>.btn.active,
+.btn-group-vertical>.btn:active,
+.btn-group-vertical>.btn:focus,
+.btn-group>.btn.active,
+.btn-group>.btn:active,
+.btn-group>.btn:focus {
   z-index: 1;
 }
 
@@ -388,10 +404,10 @@ input {
     inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
-.btn-group-toggle > .btn input[type="checkbox"],
-.btn-group-toggle > .btn input[type="radio"],
-.btn-group-toggle > .btn-group > .btn input[type="checkbox"],
-.btn-group-toggle > .btn-group > .btn input[type="radio"] {
+.btn-group-toggle>.btn input[type="checkbox"],
+.btn-group-toggle>.btn input[type="radio"],
+.btn-group-toggle>.btn-group>.btn input[type="checkbox"],
+.btn-group-toggle>.btn-group>.btn input[type="radio"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -433,6 +449,7 @@ input {
   align-items: center;
   font-weight: bold;
 }
+
 .unibus-btn {
   position: absolute;
   right: 0;
@@ -440,6 +457,7 @@ input {
   left: 0;
   z-index: 1030;
 }
+
 .unibus-btn button {
   width: 100%;
 
@@ -462,6 +480,7 @@ input {
   padding: 10px;
   z-index: 999;
 }
+
 .controls-btn {
   width: 100%;
   position: absolute;
@@ -568,12 +587,12 @@ div.modal-dialog {
   overflow-y: scroll;
 }
 
-#notifications > div {
+#notifications>div {
   width: 90%;
   height: 30px;
 }
 
-#notifications > div:last-child {
+#notifications>div:last-child {
   height: auto;
 }
 
@@ -725,18 +744,22 @@ textarea {
   object-fit: cover;
   border-radius: 50%;
 }
+
 a {
   text-decoration: none !important;
   color: #dd3444;
 }
+
 /*navigation styles*/
 .footerMenu .active {
   color: #ffc106 !important;
 }
+
 .footerMenu a {
   padding: 10px 2px !important;
   display: block;
 }
+
 small.osahan {
   position: absolute;
   top: 10px;
@@ -767,27 +790,53 @@ small.osahan {
   }
 }
 
-.ads-container {
+.journey-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 10px;
   width: 100%;
   padding: 10px 0;
 }
 
-.ads-container > .ads-card {
+.journey-container>.journey-card {
   display: flex;
+  flex-direction: column;
+  border-radius: 4px;
   gap: 5px;
   padding: 10px 5px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(108, 108, 108, 0.24);
+  box-shadow: 0 2px 2px rgba(108, 108, 108, 0.24);
 }
 
-.ads-card h2 {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  font-weight: 600;
+.journey-card-header span {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: bold;
 }
+
+.mini-card {
+  flex: 1 0 150px;
+  border-radius: 2px;
+
+  >span:nth-child(1) {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+  }
+
+  >span:nth-child(2) {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    font-weight: 400;
+  }
+}
+
 @media screen and (width <=768px) {
+  .journey-container>.journey-card {
+    border-radius: 0;
+  }
+
+  .mini-card {
+    border-radius: 0;
+  }
+
   .hc-offcanvas-nav {
     position: fixed;
   }
