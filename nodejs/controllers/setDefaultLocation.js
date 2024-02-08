@@ -3,7 +3,6 @@ const NotFoundError = require("../errors/not-found-error");
 const User = require("../models/User");
 
 const setDefaultLocation = async (req, res) => {
-  try {
     const { userId, defaultLocation, defaultAddress } = req.body;
     console.log(defaultLocation, defaultAddress);
     // Ensure userId is provided
@@ -34,10 +33,6 @@ const setDefaultLocation = async (req, res) => {
       defaultLocation: user.defaultLocation,
       defaultAddress: user.defaultAddress,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
 };
 
 module.exports = setDefaultLocation;

@@ -4,9 +4,6 @@ const { BadRequestError } = require("../errors");
 const Bus = require("../models/Bus");
 const journeys = async (req, res) => {
   let io = req.app.get("io");
-  console.error("io");
-  console.error("io", io);
-  try {
     const { from, to, date, currentDate } = req.query;
     if (!from || !to || !date || !currentDate) {
       throw new BadRequestError("Missing query parameters");
@@ -41,13 +38,8 @@ const journeys = async (req, res) => {
       .exec();
     // console.log(journeys);
     res.status(200).json({ journeys });
-  } catch (err) {
-    // console.error(err);
-    res.status(500).send("Server Error");
-  }
 };
 const journeyById = async (req, res) => {
-  try {
     // console.log(req.params.id);
     const { type } = req.query;
     const journey = await Journey.findById(req.params.id)
@@ -79,9 +71,5 @@ const journeyById = async (req, res) => {
       };
       res.status(200).json(responseData);
     } else res.status(200).json({ journey });
-  } catch (err) {
-    // console.error(err);
-    res.status(500).send("Server Error");
-  }
 };
 module.exports = { journeys, journeyById };

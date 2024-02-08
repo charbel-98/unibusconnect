@@ -5,7 +5,6 @@ const UserNotification = require("../models/UserNotification");
 const { sendNotification } = require("../utils/sendNotification");
 
 async function reservation(req, res) {
-  try {
     const journeyID = req.params.id;
     const userId = req.user;
 
@@ -143,9 +142,6 @@ async function reservation(req, res) {
     res
       .status(200)
       .json({ message: "Reservation successful", status: journey.status });
-  } catch (err) {
-    console.log(err);
-  }
 }
 
 module.exports = reservation;

@@ -4,7 +4,6 @@ const Journey = require("../models/Journey");
 const ServiceProvider = require("../models/ServiceProvider");
 
 router.get("/", async (req, res) => {
-  try {
     const regions = await ServiceProvider.find(
       {},
       {
@@ -26,10 +25,6 @@ router.get("/", async (req, res) => {
     console.log("regions" + regions);
     console.log(cities, universities);
     res.status(200).json({ success: true, cities, universities });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
 });
 
 module.exports = router;

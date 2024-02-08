@@ -2,7 +2,6 @@ const User = require("../models/User");
 const { BadRequestError } = require("../errors");
 const { sendNotification } = require("../utils/sendNotification");
 const updateProfile = async (req, res) => {
-  try {
     const userID = req.user;
     const { name, email, phone } = req.body;
     if (!name && !email && !phone) {
@@ -28,9 +27,5 @@ const updateProfile = async (req, res) => {
       email: user.email,
       mobile: user.mobile,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
 };
 module.exports = updateProfile;
