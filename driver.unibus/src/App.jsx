@@ -4,12 +4,14 @@ import PersistLogin from "./pages/PersistLogin";
 import DriverLogin from "./pages/DriverLogin.jsx";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
+import JourneyDetails from "./pages/JourneyDetails";
 import useAuth from "./hooks/useAuth.js";
 import io from "socket.io-client";
 import createNotification from "./utils/createNotification.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import "./sidebar.css";
+
 function App() {
   // const user = useAuth();
 
@@ -40,6 +42,7 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="/" element={<Root />}>
                 <Route index element={<Home />} />
+                <Route path="journey/:id" element={<JourneyDetails />} />
               </Route>
             </Route>
           </Route>
