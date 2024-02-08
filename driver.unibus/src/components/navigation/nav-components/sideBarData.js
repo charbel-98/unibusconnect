@@ -1,16 +1,4 @@
 export const navParentItems = {
-  Report: [
-    {
-      title: "Lost Item",
-      id: "c1",
-      path: "/reports/lost-item",
-    },
-    {
-      title: "Driver Issue",
-      id: "c2",
-      path: "/",
-    },
-  ],
   Profile: [
     {
       title: "Profile",
@@ -21,18 +9,6 @@ export const navParentItems = {
       title: "History",
       id: "c2",
       path: "/",
-    },
-  ],
-  Admin: [
-    {
-      title: "Statistics",
-      id: "c1",
-      path: "/admin",
-    },
-    {
-      title: "My Journeys",
-      id: "c2",
-      path: "/admin/journeys",
     },
   ],
 };

@@ -24,14 +24,7 @@ const navItems = [
     path: "/",
     isLogout: false,
   },
-  // {
-  //   title: "Offers",
-  //   icon: <Percent className="me-3" />,
 
-  //   isParentItem: false,
-  //   path: "/",
-  //   isLogout: false,
-  // },
   {
     title: "Notifications",
     icon: <BellFill className="me-3" />,
@@ -40,56 +33,14 @@ const navItems = [
     path: "/notifications",
     isLogout: false,
   },
-  {
-    title: "Tickets",
-    icon: <TicketPerforatedFill className="me-3" />,
 
-    isParentItem: false,
-    path: "/tickets",
-    isLogout: false,
-  },
-  {
-    title: "Report",
-    icon: <FlagFill className="me-3" />,
-
-    isParentItem: true,
-  },
-  // {
-  //   title: "Payment",
-  //   icon: <CreditCardFill className="me-3" />,
-
-  //   isParentItem: false,
-  //   path: "/",
-  //   isLogout: false,
-  // },
   {
     title: "Profile",
     icon: <PersonFill className="me-3" />,
 
     isParentItem: true,
   },
-  {
-    title: "Default Location",
-    icon: <GeoAltFill className="me-3" />,
-    isParentItem: false,
-    path: "/default-location",
-    isLogout: false,
-    warning: true,
-  },
-  // {
-  //   title: "Admin",
-  //   icon: <PersonFill className="me-3" />,
 
-  //   isParentItem: true,
-  // },
-  {
-    title: "Contact US",
-    icon: <ChatRightDotsFill className="me-3" />,
-
-    isParentItem: false,
-    path: "/support",
-    isLogout: false,
-  },
   {
     title: "Logout",
     icon: <BoxArrowLeft className="me-3" />,
@@ -102,10 +53,6 @@ const navItems = [
 
 export const NavItems = () =>
   navItems.map(({ title, icon, isParentItem, path, isLogout, warning }, i) => {
-    const defaultLocation = useSelector(
-      (state) => state?.auth?.user?.defaultLocation
-    );
-    navItems[5].warning = !defaultLocation?.lat || !defaultLocation?.lng;
     return isParentItem ? (
       <NavParentItem
         key={i}
