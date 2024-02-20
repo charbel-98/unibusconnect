@@ -12,8 +12,8 @@ const logout = async (req, res) => {
   if (!foundUser) {
     res.clearCookie("jwt", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: false,
+      secure: process.env.MODE != 'development',
+      sameSite: process.env.MODE == 'development' ? "strict" : "none",
     });
     return res.sendStatus(201);
   }
@@ -25,7 +25,11 @@ const logout = async (req, res) => {
   const result = await foundUser.save();
   console.log(result);
 
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "strict", secure: false });
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: process.env.MODE != 'development',
+    sameSite: process.env.MODE == 'development' ? "strict" : "none",
+  });
   res.sendStatus(204);
 };
 module.exports = logout;

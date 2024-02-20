@@ -41,8 +41,8 @@ router.get(
     }
     res.cookie("jwt", req.user.refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: process.env.MODE != 'development',
+      sameSite: process.env.MODE == 'development' ? "strict" : "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
 

@@ -4,6 +4,7 @@ const {
   ForbiddenError,
   UnauthenticatedError,
 } = require("../errors/forbidden-error");
+const jwtSign = require("../utils/jwtSign");
 const refreshToken = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies.jwt) {
@@ -12,7 +13,11 @@ const refreshToken = async (req, res) => {
 
   const refreshToken = cookies.jwt;
   console.log(`refresh token available at refresh: ${refreshToken}`);
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "strict", secure: false });
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: process.env.MODE != 'development',
+    sameSite: process.env.MODE == 'development' ? "strict" : "none",
+  });
   const foundUser = await User.findOne({ refreshToken: refreshToken }).exec();
 
   //detect reuse of refresh token
@@ -48,21 +53,9 @@ const refreshToken = async (req, res) => {
     }
     // Refresh token was still valid
 
-    const accessToken = jwt.sign(
-      {
-        userID: decoded.userID,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "15min" }
-    );
+    const accessToken = jwtSign({ userID: foundUser._id, role: foundUser.role }, "15min");
 
-    const newRefreshToken = jwt.sign(
-      {
-        userID: foundUser._id,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const newRefreshToken = jwtSign({ userID: foundUser._id, role: foundUser.role }, "1d");
     // Saving refreshToken with current user
     foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
     const result = await foundUser.save();
@@ -70,8 +63,8 @@ const refreshToken = async (req, res) => {
     // Creates Secure Cookie with refresh token
     res.cookie("jwt", newRefreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: process.env.MODE != 'development',
+      sameSite: process.env.MODE == 'development' ? "strict" : "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
 

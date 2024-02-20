@@ -12,7 +12,7 @@ const JourneyDetails = () => {
         </h3>
       </div>
 
-      <div className="d-flex align-items-center justify-content-between gap-1 flex-wrap">
+      <div className="d-flex align-items-center justify-content-between gap-md-1 flex-wrap">
         <div className="d-flex flex-column justify-content-center bg-light gap-2 border mini-card card-1">
           <h5 className="border-bottom p-1 bg-warning">
             <b>from</b>

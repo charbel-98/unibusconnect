@@ -9,7 +9,7 @@ const authenticateJWT = (req, res, next) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) return res.sendStatus(403); //invalid token
     req.user = decoded.userID;
-
+    req.role = decoded.role;
     next();
   });
 };

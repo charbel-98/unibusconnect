@@ -2,6 +2,7 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const jwtSign = require("../utils/jwtSign");
 require("dotenv").config();
 
 const login = async (req, res) => {
@@ -24,21 +25,9 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("invalid credentials");
   }
   //jwt logic goes here
-  const accessToken = jwt.sign(
-    {
-      userID: user._id,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: "15min" }
-  );
+  const accessToken = jwtSign({ userID: user._id, role: user.role }, "15min");
   console.log("user ID: " + user._id);
-  const newRefreshToken = jwt.sign(
-    { userID: user._id },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1d",
-    }
-  );
+  const newRefreshToken = jwtSign({ userID: user._id, role: user.role }, "1d");
   let newRefreshTokenArray = !cookies?.jwt
     ? user.refreshToken
     : user.refreshToken.filter((rt) => rt !== cookies.jwt);
@@ -61,8 +50,8 @@ const login = async (req, res) => {
 
     res.clearCookie("jwt", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: false,
+      secure: process.env.MODE != 'development',
+      sameSite: process.env.MODE == 'development' ? "strict" : "none",
     });
   }
 
@@ -81,8 +70,8 @@ const login = async (req, res) => {
   // Creates Secure Cookie with refresh token
   res.cookie("jwt", newRefreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "strict",
+    secure: process.env.MODE != 'development',
+    sameSite: process.env.MODE == 'development' ? "strict" : "none",
     maxAge: 24 * 60 * 60 * 1000,
   });
 
