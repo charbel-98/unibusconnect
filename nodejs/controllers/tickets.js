@@ -1,10 +1,11 @@
+const { NotFoundError, ForbiddenError } = require("../errors");
 const Journey = require("../models/Journey");
 const getTickets = async (req, res) => {
   const userId = req.user;
   const currentDate = new Date();
   const ticketsData = [];
   const history = req.query.history;
-  if (!userId) res.status(403).json({ message: "forbidden access token" });
+  if (!userId) throw new ForbiddenError("forbidden access token");
   let journeys;
   if (!history) {
     journeys = await Journey.find({
@@ -24,7 +25,7 @@ const getTickets = async (req, res) => {
       date: { $lt: currentDate },
     }).populate("serviceProvider");
   }
-  if (!journeys) res.status(404).json({ message: "no tickets found" });
+  if (!journeys) throw new NotFoundError("no tickets found");
   for (let journey of journeys) {
     const ticket = {
       journeyID: journey._id,

@@ -7,7 +7,7 @@ const {
 const refreshToken = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies.jwt) {
-    return res.status(403).json({ message: "invalid refresh token" });
+    throw new ForbiddenError("invalid refresh token");
   }
 
   const refreshToken = cookies.jwt;
@@ -19,7 +19,7 @@ const refreshToken = async (req, res) => {
   if (!foundUser) {
     jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
-        return res.status(403).json({ message: "invalid refresh token1" });
+        throw new ForbiddenError("invalid refresh token");
       }
       console.log("attempted refresh token reuse at refreshToken!");
       console.log(decoded);
@@ -29,7 +29,7 @@ const refreshToken = async (req, res) => {
       const result = await hackedUser.save();
       console.log(result);
     });
-    return res.status(403).json({ message: "refresh token reuse detected" });
+    throw new ForbiddenError("refresh token reuse detected");
   }
   const newRefreshTokenArray = foundUser.refreshToken.filter(
     (rt) => rt !== refreshToken
@@ -44,7 +44,7 @@ const refreshToken = async (req, res) => {
     }
     console.log(decoded);
     if (err || foundUser._id.toString() !== decoded.userID) {
-      return res.status(403).json({ message: "invalid refresh token" });
+      throw new ForbiddenError("invalid refresh token");
     }
     // Refresh token was still valid
 

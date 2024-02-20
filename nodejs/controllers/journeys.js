@@ -34,7 +34,7 @@ const findUserJourneys = async (from, to, date, currentDate) => {
   })
     .populate("bus serviceProvider")
     .exec();
-  return journeys;
+  return journeys._doc;
 };
 const findDriverJourneys = async (req, res, date) => {
   const driver = req.user;
@@ -54,12 +54,6 @@ const findDriverJourneys = async (req, res, date) => {
   //remove some fields from the response
   const response = [];
   journeys.forEach((journey) => {
-    // journey.departingPassengers = journey.departingPassengers.length;
-    // journey.returningPassengers = journey.returningPassengers.length;
-    // journey.bus = journey.bus.busID;
-    // journey.serviceProvider = undefined;
-    // journey.date = undefined;
-    // journey.status = undefined;
     response.push({
       _id: journey._id,
       bus: journey.bus.busNumber,
@@ -99,8 +93,7 @@ const journeyById = async (req, res) => {
     .exec();
 
   if (!journey) {
-    res.status(404).json({ message: "Journey not found" });
-    return;
+    throw new NotFoundError("Journey not found");
   }
   const userInDepartingJourney = journey.departingPassengers.find(
     (user) => user.passenger.toString() === req.user

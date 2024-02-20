@@ -59,10 +59,7 @@ const Home = () => {
               arrivalTime={journey.arrivingToUniversity}
               busSeats={journey.busSeats}
               highlighted={journey?.driver === driverID}
-              muted={
-                (journey?.driver !== null || journey?.driver !== undefined) &&
-                journey?.driver !== driverID
-              }
+              muted={journey.driver && journey?.driver !== driverID}
             />
           ))}
         {/* card */}
