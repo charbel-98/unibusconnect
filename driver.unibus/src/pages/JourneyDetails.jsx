@@ -11,7 +11,7 @@ const JourneyDetails = () => {
         <h3><b>Journey Detail</b></h3>
       </div>
 
-      <div className="d-flex align-items-center justify-content-between gap-1 flex-wrap">
+      <div className="d-flex align-items-center justify-content-between gap-md-1 flex-wrap">
         <div className="d-flex flex-column justify-content-center bg-light gap-2 border mini-card card-1">
           <h5 className="border-bottom p-1"><b>from</b></h5>
           <h6 className="p-1 ms-auto">Arde, Tripoli, Zgharta</h6>

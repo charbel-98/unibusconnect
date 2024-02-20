@@ -3,6 +3,8 @@ const passport = require("passport");
 const User = require("./models/User");
 const { login } = require("./controllers/auth");
 const jwt = require("jsonwebtoken");
+const jwtSign = require("./utils/jwtSign");
+
 require("dotenv").config();
 passport.use(
   new GoogleStrategy(
@@ -21,20 +23,8 @@ passport.use(
         if (currentUser) {
           currentUser.refreshToken = [];
           await currentUser.save();
-          const newRefreshToken = jwt.sign(
-            { userID: currentUser._id },
-            process.env.JWT_SECRET,
-            {
-              expiresIn: "1d",
-            }
-          );
-          const newAccessToken = jwt.sign(
-            {
-              userID: currentUser._id,
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "10s" }
-          );
+          const newRefreshToken = jwtSign({ userID: currentUser._id, role: currentUser.role }, "1d");
+          const newAccessToken = jwtSign({ userID: currentUser._id, role: currentUser.role }, "15min");
           currentUser.refreshToken = [newRefreshToken];
           await currentUser.save();
 
@@ -53,20 +43,8 @@ passport.use(
             avatar: profile.photos[0].value,
           });
           await newUser.save();
-          const newRefreshToken = jwt.sign(
-            { userID: newUser._id },
-            process.env.JWT_SECRET,
-            {
-              expiresIn: "1d",
-            }
-          );
-          const newAccessToken = jwt.sign(
-            {
-              userID: newUser._id,
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "10s" }
-          );
+          const newRefreshToken = jwtSign({ userID: newUser._id, role: newUser.role }, "1d");
+          const newAccessToken = jwtSign({ userID: newUser._id, role: newUser.role }, "15min");
           newUser.refreshToken = newRefreshToken;
           await newUser.save();
           console.log("created new user: ", newUser);
