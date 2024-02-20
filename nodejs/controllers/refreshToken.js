@@ -15,8 +15,8 @@ const refreshToken = async (req, res) => {
   console.log(`refresh token available at refresh: ${refreshToken}`);
   res.clearCookie("jwt", {
     httpOnly: true,
-    secure: process.env.mode != 'development',
-    sameSite: process.env.mode == 'development' ? "strict" : "none",
+    secure: process.env.MODE != 'development',
+    sameSite: process.env.MODE == 'development' ? "strict" : "none",
   });
   const foundUser = await User.findOne({ refreshToken: refreshToken }).exec();
 
@@ -63,8 +63,8 @@ const refreshToken = async (req, res) => {
     // Creates Secure Cookie with refresh token
     res.cookie("jwt", newRefreshToken, {
       httpOnly: true,
-      secure: process.env.mode != 'development',
-      sameSite: process.env.mode == 'development' ? "strict" : "none",
+      secure: process.env.MODE != 'development',
+      sameSite: process.env.MODE == 'development' ? "strict" : "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
 

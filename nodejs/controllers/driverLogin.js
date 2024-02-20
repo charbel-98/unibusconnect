@@ -11,8 +11,8 @@ const driverLogin = async (req, res) => {
     if (!userData) return res.status(403).json({ message: "You are not authorized to access this route" });
     res.cookie("jwt", refreshToken, {
         httpOnly: true,
-        secure: process.env.mode != 'development',
-        sameSite: process.env.mode == 'development' ? "strict" : "none",
+        secure: process.env.MODE != 'development',
+        sameSite: process.env.MODE == 'development' ? "strict" : "none",
         maxAge: 24 * 60 * 60 * 1000,
     });
     res.status(200).json({ accessToken, user: userData });

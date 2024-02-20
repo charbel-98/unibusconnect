@@ -12,8 +12,8 @@ const logout = async (req, res) => {
   if (!foundUser) {
     res.clearCookie("jwt", {
       httpOnly: true,
-      secure: process.env.mode != 'development',
-      sameSite: process.env.mode == 'development' ? "strict" : "none",
+      secure: process.env.MODE != 'development',
+      sameSite: process.env.MODE == 'development' ? "strict" : "none",
     });
     return res.sendStatus(201);
   }
@@ -27,8 +27,8 @@ const logout = async (req, res) => {
 
   res.clearCookie("jwt", {
     httpOnly: true,
-    secure: process.env.mode != 'development',
-    sameSite: process.env.mode == 'development' ? "strict" : "none",
+    secure: process.env.MODE != 'development',
+    sameSite: process.env.MODE == 'development' ? "strict" : "none",
   });
   res.sendStatus(204);
 };
