@@ -11,6 +11,7 @@ import { getCenter, fetchDirections, scrollToBottom } from "./mapUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { setLocation, setAddress } from "../../redux/locationSlice";
 import { GeoAltFill } from "react-bootstrap-icons";
+import {useLocation, useRoutes} from "react-router-dom";
 
 const MAPS_LIBRARIES = ["places"];
 
@@ -22,6 +23,8 @@ const Map = ({
   setDefaultLocationCallback,
   isRequestPending,
 }) => {
+const {pathname} = useLocation()
+  console.log(pathname);
   //home and university states for the map
   //home is for the user to set
   //he can share jis current location or choose one by clicking on the map or from the input
@@ -46,7 +49,7 @@ const Map = ({
   const [directions, setDirections] = useState();
   //load the script
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDlXmTnz1ntfdhkloeT7HZ2jtJ0fWQPgos",
+    googleMapsApiKey: "AIzaSyDIENGy8cf94G9oUQlJk1FlteyVwmIDehs",
     libraries: MAPS_LIBRARIES,
   });
   //getting whethere the user is going to or from the university
@@ -176,29 +179,32 @@ const Map = ({
             </button>
           </div>
         )}
-        <div className="unibus-btn  p-3">
-          <button
-            onClick={setDefaultLocationCallback}
-            className="btn btn-danger  osahanbus-btn rounded-1"
-            disabled={isRequestPending} // Disable the button while a request is pending
-          >
-            {isRequestPending ? "Setting..." : "Set Your Default Location"}
-          </button>
-        </div>
+        { pathname === '/default-location' && (
+            <div className="unibus-btn  p-3">
+              <button
+                  onClick={setDefaultLocationCallback}
+                  className="btn btn-danger  osahanbus-btn rounded-1"
+                  disabled={isRequestPending} // Disable the button while a request is pending
+              >
+                {isRequestPending ? "Setting..." : "Set Your Default Location"}
+              </button>
+            </div>
+        )}
+
         {withDirection && directions && (
-          <DirectionsRenderer
-            directions={directions}
-            options={{
-              polylineOptions: {
-                zIndex: 50,
-                strokeColor: "#d9534f",
-                strokeWeight: 5,
-              },
-            }}
-          />
+            <DirectionsRenderer
+                directions={directions}
+                options={{
+                  polylineOptions: {
+                    zIndex: 50,
+                    strokeColor: "#d9534f",
+                    strokeWeight: 5,
+                  },
+                }}
+            />
         )}
         {(!currentLocationIsNull ||
-          (defaultLocation?.lat && defaultLocation?.lng)) && (
+            (defaultLocation?.lat && defaultLocation?.lng)) && (
           <Marker position={center}></Marker>
         )}
         {withDirection && (

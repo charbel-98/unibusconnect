@@ -5,7 +5,7 @@ function DetailsButton({ active, title, icon, id, onClick }) {
     <li className="nav-item" role="presentation">
       <button
         id={id}
-        className={`nav-link ${active ? "active" : "text-danger"}`}
+        className={`nav-link ${active ? 'bg-danger text-white' : "text-danger"}`}
         onClick={onClick}
       >
         {icon} {title}
@@ -17,7 +17,7 @@ function DetailsButton({ active, title, icon, id, onClick }) {
 function ActionButtons({ activeButton, onClick }) {
   return (
     <ul
-      className="nav nav-pills mb-0 nav-justified bg-white px-3 py-2 border-top border-bottom"
+      className="nav nav-pills w-100 mb-0 nav-justified bg-white px-3 py-2 border-top border-bottom"
       id="pills-tab"
       role="tablist"
     >

@@ -7,7 +7,10 @@ const setDefaultLocation = async (req, res) => {
     const { userId, defaultLocation, defaultAddress } = req.body;
     console.log(defaultLocation, defaultAddress);
     // Ensure userId is provided
-    const split_address = defaultAddress.split(",");
+    const split_address = defaultAddress?.split(",");
+    if(!split_address || split_address.length < 3) {
+        throw new BadRequestError("Address is invalid");
+    }
     const address =
       split_address[0].trim() === split_address[1].trim()
         ? split_address[0] + ", " + split_address[2]

@@ -64,7 +64,7 @@ const Profile = () => {
 
   return (
     <div className="px-3 pt-3 pb-5">
-      <form onSubmit={submitHandler}>
+      <form className={'w-100'} onSubmit={submitHandler}>
         <div className="d-flex justify-content-center rounded-2 mb-4">
           <div className="form-profile w-100">
             <div className="image-section text-center mb-3 position-relative">
