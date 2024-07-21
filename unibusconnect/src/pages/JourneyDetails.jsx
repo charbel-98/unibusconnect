@@ -32,6 +32,7 @@ const JourneyDetails = () => {
     setActive,
     setShowModal,
     currentLocation,
+    address,
     defaultLocation,
     defaultAddress,
     reserve,

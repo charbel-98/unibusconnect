@@ -4,6 +4,7 @@ export const modal_Data = (
   setActive,
   setShowModal,
   currentLocation,
+  address,
   defaultLocation,
   defaultAddress,
   reserve,
@@ -105,7 +106,7 @@ export const modal_Data = (
         class: "btn text-light bg-danger",
         function: () => {
           setShowModal(false);
-          reserve(currentLocation, defaultAddress);
+          reserve(currentLocation, address);
         },
       },
     ],
